@@ -1,0 +1,35 @@
+<div class="character-list">
+  <mat-card class="example-form">
+    <form class="example-form" [formGroup]="characterForm" (ngSubmit)="add()" novalidate>
+        <div class="form-group">
+            <mat-form-field color="accent" class="example-full-width">
+                <input matInput class="form-control" formControlName="characterName" placeholder="Add new character: ">
+                <mat-error *ngIf="this.characterForm.invalid">Name cannot be empty</mat-error>
+            </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary" type="submit" [disabled] = "this.characterForm.invalid">Add</button>
+    </form>
+  </mat-card>
+  
+  <mat-table #table [dataSource]="characters">
+    <ng-container matColumnDef="id" >
+      <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+      <mat-cell *matCellDef="let character"> <a class="table-link" routerLink="/dashboard/detail/{{ character.id }}"> {{character.id}} </a> </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let character" > <a class="table-link" routerLink="/dashboard/detail/{{ character.id }}"> {{character.name}} </a> </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let character" >
+             <button mat-raised-button color="warn" (click)="delete(character)" >Delete</button> 
+        </mat-cell>
+    </ng-container> 
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="click(row)"></mat-row>
+  </mat-table>
+</div>

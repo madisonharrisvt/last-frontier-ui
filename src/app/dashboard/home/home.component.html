@@ -1,0 +1,7 @@
+<mat-list>
+  <mat-list-item>{{homeDetails?.message}}</mat-list-item>
+  <mat-list-item><strong>Name: </strong> {{homeDetails?.firstName}} {{homeDetails?.lastName}}</mat-list-item>
+  <mat-list-item *ngIf="homeDetails?.location"><strong>Location: </strong> {{homeDetails?.location}}</mat-list-item>
+
+  <app-character-search></app-character-search>
+</mat-list>

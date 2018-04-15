@@ -1,0 +1,17 @@
+<div layout="row" layout-align="center center">
+    <mat-card class="example-form">
+        <mat-card-header>
+            <mat-card-title>{{ character?.name | uppercase }} Details</mat-card-title>
+            <mat-card-subtitle>id: {{ character?.id }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <form class="example-form" [formGroup]="characterForm" (ngSubmit)="save()" novalidate>
+            <div class="form-group">
+                <mat-form-field color="accent" class="example-full-width">
+                    <input matInput class="form-control" formControlName="characterName" placeholder="Edit Name: {{ character?.name }}">
+                </mat-form-field>
+            </div>
+            <button mat-raised-button color="primary" type="submit">Save</button>
+        </form>
+    </mat-card>
+</div>
