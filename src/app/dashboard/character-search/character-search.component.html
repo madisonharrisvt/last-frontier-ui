@@ -1,0 +1,12 @@
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input #searchBox type="text" placeholder="Search..." aria-label="Number" matInput [formControl]="searchControl" [matAutocomplete]="auto" (keyup)="search(searchBox.value)">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let character of characters$ | async" [value]="character">
+          <a class="table-link" routerLink="/dashboard/detail/{{character.id}}">
+            {{ character.name }}
+          </a>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
