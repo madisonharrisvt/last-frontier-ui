@@ -19,7 +19,8 @@ export const routing: ModuleWithProviders = RouterModule.forChild([
        { path: 'home',  component: HomeComponent },
        { path: 'settings',  component: SettingsComponent },
        { path: 'characters', component: CharactersComponent },
-       { path: 'detail/:id', component: CharacterDetailComponent} 
+       { path: 'detail/:id', component: CharacterDetailComponent },
+       { path: 'detail/new', component: CharacterDetailComponent } 
       ]       
     }  
 ]);

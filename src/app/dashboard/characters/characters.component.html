@@ -1,14 +1,6 @@
 <div class="character-list">
   <mat-card class="example-form">
-    <form class="example-form" [formGroup]="characterForm" (ngSubmit)="add()" novalidate>
-        <div class="form-group">
-            <mat-form-field color="accent" class="example-full-width">
-                <input matInput class="form-control" formControlName="characterName" placeholder="Add new character: ">
-                <mat-error *ngIf="this.characterForm.invalid">Name cannot be empty</mat-error>
-            </mat-form-field>
-        </div>
-        <button mat-raised-button color="primary" type="submit" [disabled] = "this.characterForm.invalid">Add</button>
-    </form>
+      <button mat-raised-button color="primary" routerLink="/dashboard/detail/new">Add Character</button>
   </mat-card>
   
   <mat-table #table [dataSource]="characters">

@@ -31,6 +31,7 @@ export class LoginFormComponent implements OnInit {
       })
     });
   }
+
   login() {
     this.errors='';
     this.userService.login(this.loginForm.value.email, this.loginForm.value.password)
