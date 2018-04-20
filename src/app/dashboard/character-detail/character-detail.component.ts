@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 
 import { CharacterService }  from '../services/character.service';
 import { Character } from '../models/character.interface';
+import { Skill } from '../models/skill.interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -19,71 +20,71 @@ export class CharacterDetailComponent implements OnInit {
   chosenSkills = [];
 
   species = [
-    { value: "human-0", viewValue: "Human" },
-    { value: "halfbreed-1", viewValue: "Halfbreed" },
-    { value: "augmented-2", viewValue: "Augmented" },
-    { value: "highborne-3", viewValue: "Highborne" },
-    { value: "muk'taa-4", viewValue: "Muk'Taa" },
-    { value: "picean-5", viewValue: "Piscen" }
+    { value: 0, viewValue: "Human" },
+    { value: 1, viewValue: "Halfbreed" },
+    { value: 2, viewValue: "Augmented" },
+    { value: 3, viewValue: "Highborne" },
+    { value: 4, viewValue: "Muk'Taa" },
+    { value: 5, viewValue: "Piscen" }
   ];
 
   stressResponses = [
-    { value: "hot-headed-0", viewValue: "Hot Headed" },
-    { value: "hypochondriac-1", viewValue: "Hypochondriac" },
-    { value: "delusional-2", viewValue: "Delusional" },
-    { value: "skittish-3", viewValue: "Skittish" },
-    { value: "haughty-4", viewValue: "Haughty" },
-    { value: "martyr-5", viewValue: "Martyr" }
+    { value: 0, viewValue: "Hot Headed" },
+    { value: 1, viewValue: "Hypochondriac" },
+    { value: 2, viewValue: "Delusional" },
+    { value: 3, viewValue: "Skittish" },
+    { value: 4, viewValue: "Haughty" },
+    { value: 5, viewValue: "Martyr" }
   ];
 
   occupations = [
-    { value: "doctor-0", viewValue: "Doctor" },
-    { value: "socialite-1", viewValue: "Socialite" },
-    { value: "soldier-2", viewValue: "Soldier" },
-    { value: "engineer-3", viewValue: "Engineer" },
-    { value: "prospector-4", viewValue: "Prospector" }
+    { value: 0, viewValue: "Doctor" },
+    { value: 1, viewValue: "Socialite" },
+    { value: 2, viewValue: "Soldier" },
+    { value: 3, viewValue: "Engineer" },
+    { value: 4, viewValue: "Prospector" }
   ];
 
   sideGigs = [
-    { value: "doctor-0", viewValue: "Doctor" },
-    { value: "socialite-1", viewValue: "Socialite" },
-    { value: "soldier-2", viewValue: "Soldier" },
-    { value: "engineer-3", viewValue: "Engineer" },
-    { value: "prospector-4", viewValue: "Prospector" }
+    { value: 0, viewValue: "Doctor" },
+    { value: 1, viewValue: "Socialite" },
+    { value: 2, viewValue: "Soldier" },
+    { value: 3, viewValue: "Engineer" },
+    { value: 4, viewValue: "Prospector" }
   ];
 
   statuses = [
-    { value: "active-0", viewValue: "Active" },
-    { value: "dead-1", viewValue: "Dead" },
-    { value: "retired-2", viewValue: "Retired" },
+    { value: 0, viewValue: "Active" },
+    { value: 1, viewValue: "Dead" },
+    { value: 2, viewValue: "Retired" },
   ];
 
   skills = [
-    { value: "firearms-0", viewValue: "Firearms" },
-    { value: "emergency-first-aide-1", viewValue: "Emergency First Aide" },
-    { value: "frontier-medicine-2", viewValue: "Frontier Medicine" },
-    { value: "harvest-3", viewValue: "Harvest" },
-    { value: "vat-cultures-4", viewValue: "Vat Cultures" },
-    { value: "mangle-arm-5", viewValue: "Mangle Arm" },
-    { value: "recharge-6", viewValue: "Recharge" },
-    { value: "psychological-counseling-7", viewValue: "Psychological Counseling " },
-    { value: "mixology-8", viewValue: "Mixology" },
-    { value: "data-mining-9", viewValue: "Data Mining" },
-    { value: "intimidate-10", viewValue: "Intimidate" },
-    { value: "nanomachine-transference-11", viewValue: "Nanomachine Transference" },
-    { value: "disarm-12", viewValue: "Disarm" },
-    { value: "protect-13", viewValue: "Protect" },
-    { value: "mangle-leg-14", viewValue: "Mangle Leg" },
-    { value: "repair-15", viewValue: "Repair" },
-    { value: "fabricate-16", viewValue: "Fabricate" },
-    { value: "hacking-17", viewValue: "Hacking" },
-    { value: "break-armor-18", viewValue: "Break Armor" },
-    { value: "detect-19", viewValue: "Detect" },
-    { value: "mining-20", viewValue: "Mining" },
-    { value: "refining-21", viewValue: "Refining" },
-    { value: "trip-22", viewValue: "Trip" },
-    { value: "camouflage-23", viewValue: "Camouflage" },
-    { value: "forecasting-24", viewValue: "Forecasting" },
+    { value: 0, viewValue: "Firearms" },
+    { value: 1, viewValue: "Emergency First Aide" },
+    { value: 2, viewValue: "Frontier Medicine" },
+    { value: 3, viewValue: "Harvest" },
+    { value: 4, viewValue: "Vat Cultures" },
+    { value: 5, viewValue: "Mangle Arm" },
+    { value: 6, viewValue: "Recharge" },
+    { value: 7, viewValue: "Psychological Counseling " },
+    { value: 8, viewValue: "Mixology" },
+    { value: 9, viewValue: "Data Mining" },
+    { value: 10, viewValue: "Intimidate" },
+    { value: 11, viewValue: "Nanomachine Transference" },
+    { value: 12, viewValue: "Disarm" },
+    { value: 13, viewValue: "Protect" },
+    { value: 14, viewValue: "Mangle Leg" },
+    { value: 15, viewValue: "Repair" },
+    { value: 16, viewValue: "Fabricate" },
+    { value: 17, viewValue: "Hacking" },
+    { value: 18, viewValue: "Break Armor" },
+    { value: 19, viewValue: "Detect" },
+    { value: 20, viewValue: "Mining" },
+    { value: 21, viewValue: "Refining" },
+    { value: 22, viewValue: "Trip" },
+    { value: 23, viewValue: "Camouflage" },
+    { value: 24, viewValue: "Forecasting" },
   ];
 
   characterForm: FormGroup;
@@ -130,7 +131,37 @@ export class CharacterDetailComponent implements OnInit {
 
   save() {
     if(this.character !== null) {
+
       this.character.name = this.characterForm.value.name;
+      this.character.accumulatedXP = this.characterForm.value.accumulatedXP;
+      this.character.availableXP = this.characterForm.value.accumulatedXP;
+      this.character.species = this.characterForm.value.species;
+      this.character.stressResponse = this.characterForm.value.stressResponse;
+      this.character.hStatus = this.characterForm.value.hStatus;
+      this.character.cloneStatus = this.characterForm.value.cloneStatus;
+      this.character.occupation = this.characterForm.value.occupation;
+      this.character.sideGig = this.characterForm.value.sideGig;
+      this.character.status = this.characterForm.value.status;
+      this.character.torsoHealth = this.characterForm.value.torsoHealth;
+      this.character.rightArmHealth = this.characterForm.value.rightArmHealth;
+      this.character.leftArmHealth = this.characterForm.value.leftArmHealth;
+      this.character.rightLegHealth = this.characterForm.value.rightLegHealth;
+      this.character.leftLegHealth = this.characterForm.value.leftLegHealth;
+
+      /*var skills: Skill[];
+
+      for (let skill of this.chosenSkills) {
+        var skillToAdd: Skill = {
+          name: skill.viewValue,
+          masteryLvl: skill.viewValue
+        };
+
+        skills.push(skillToAdd);
+      }
+
+      this.character.skills = skills;
+      */
+     
       this.characterService.updateCharacter(this.character)
       .subscribe(() => this.goBack());
     }
