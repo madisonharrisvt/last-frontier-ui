@@ -6,6 +6,7 @@ import { CharacterService }  from '../services/character.service';
 import { Character } from '../models/character.interface';
 import { Skill } from '../models/skill.interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { nextTick } from 'q';
 
 @Component({
   selector: 'app-character-detail',
@@ -16,8 +17,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class CharacterDetailComponent implements OnInit {
   
   character: Character;
-
-  chosenSkills = [];
 
   species = [
     { value: 0, viewValue: "Human" },
@@ -97,23 +96,25 @@ export class CharacterDetailComponent implements OnInit {
 
   ngOnInit() {
     this.characterForm = new FormGroup( {
-      name: new FormControl('', {         updateOn: 'change'       }),
-      species: new FormControl('', {         updateOn: 'change'       }),
-      stressResponse: new FormControl('', {         updateOn: 'change'       }),
-      hStatus: new FormControl('', {         updateOn: 'change'       }),
-      cloneStatus: new FormControl('', {         updateOn: 'change'       }),
-      occupation: new FormControl('', {         updateOn: 'change'       }),
-      sideGig: new FormControl('', {         updateOn: 'change'       }),
-      accumulatedXP: new FormControl('', {         updateOn: 'change'       }),
-      availableXP: new FormControl('', {         updateOn: 'change'       }),
-      status: new FormControl('', {         updateOn: 'change'       }),
-      torso: new FormControl('', {         updateOn: 'change'       }),
-      rightArm: new FormControl('', {         updateOn: 'change'       }),
-      leftArm: new FormControl('', {         updateOn: 'change'       }),
-      rightLeg: new FormControl('', {         updateOn: 'change'       }),
-      leftLeg: new FormControl('', {         updateOn: 'change'       })
+      name: new FormControl('', {   
+        validators: [Validators.required]     
+      }),
+      species: new FormControl(),
+      stressResponse: new FormControl(),
+      hStatus: new FormControl(),
+      cloneStatus: new FormControl(),
+      occupation: new FormControl(),
+      sideGig: new FormControl(),
+      accumulatedXP: new FormControl(),
+      availableXP: new FormControl(),
+      status: new FormControl(),
+      torso: new FormControl(),
+      rightArm: new FormControl(),
+      leftArm: new FormControl(),
+      rightLeg: new FormControl(),
+      leftLeg: new FormControl()
     })
-    this.getCharacter();
+  this.getCharacter();
   }
 
   getCharacter(): void {
@@ -121,7 +122,10 @@ export class CharacterDetailComponent implements OnInit {
     if(this.route.snapshot.paramMap.get('id') !== null) {
       const id = this.route.snapshot.paramMap.get('id');
       this.characterService.getCharacter(id)
-        .subscribe(character => this.character = character);
+        .subscribe(character => {
+          this.character = character;
+          this.characterForm.get('name').setValue(this.character.name);
+        });
     }
   }
 
@@ -148,19 +152,20 @@ export class CharacterDetailComponent implements OnInit {
       this.character.rightLegHealth = this.characterForm.value.rightLegHealth;
       this.character.leftLegHealth = this.characterForm.value.leftLegHealth;
 
-      /*var skills: Skill[];
+      var skills: Skill[] = [];
 
-      for (let skill of this.chosenSkills) {
+      for (let skill of this.getSkills()) {
+        var id = skill['id'].split('skill')[1];
+
         var skillToAdd: Skill = {
-          name: skill.viewValue,
-          masteryLvl: skill.viewValue
+          name: skill['value'],
+          masteryLvl: this.characterForm.controls['mastery' + id].value
         };
 
         skills.push(skillToAdd);
       }
 
       this.character.skills = skills;
-      */
      
       this.characterService.updateCharacter(this.character)
       .subscribe(() => this.goBack());
@@ -168,11 +173,62 @@ export class CharacterDetailComponent implements OnInit {
   }
 
   addSkill() {
-    this.chosenSkills.push({ value: "firearms-0", viewValue: "Firearms" });
+    var maxSkillIndex = this.getMaxSkillIndex();
+    var skill = 'skill' + (this.getSkills() != null ? maxSkillIndex : 0);
+    this.characterForm.addControl(skill, new FormControl());
+
+    var masteryLvl = 'mastery' + (this.getSkills() != null ? maxSkillIndex : 0);
+    this.characterForm.addControl(masteryLvl, new FormControl());
+    this.characterForm.controls[masteryLvl].setValue(1);
+  }
+
+  getSkills(): Array<Object> {
+    var chosenSkills = [];
+    var formControls = this.characterForm.controls;
+
+    for (let key of Object.keys(formControls)) {
+      if(key.includes('skill')) {
+        var skillToAdd = formControls[key];
+        skillToAdd['id'] = key;
+        chosenSkills.push(skillToAdd);
+      }
+    }
+    return chosenSkills;
+  }
+
+  getSkillMasteries() {
+    var chosenSkillMastery: Array<Object> = [];
+    var formControls = this.characterForm.controls;
+
+    for (let key of Object.keys(formControls)) {
+      if(key.includes('mastery')) {
+        var masteryToAdd = formControls[key];
+        masteryToAdd['id'] = key;
+        chosenSkillMastery.push(masteryToAdd);
+      }
+    }
+    return chosenSkillMastery;
+  }
+
+  getMaxSkillIndex(): number {
+    var maxIndex = 0;
+    var formControls = this.characterForm.controls;
+
+    for (let key of Object.keys(formControls)) {
+      if(key.includes('skill')) {
+        var skillIndex = +(key.split('skill')[1]) + 1;
+        if (+skillIndex > maxIndex) {
+          maxIndex = +skillIndex;
+        }
+      }
+    }
+    return maxIndex;
   }
 
   deleteSkill(skill) {
-    var index = this.chosenSkills.indexOf(skill);
-    this.chosenSkills.splice(index,1);
+    var id = skill['id'].split('skill')[1];
+
+    this.characterForm.removeControl(skill['id']);
+    this.characterForm.removeControl('mastery' + id); 
   }
 }

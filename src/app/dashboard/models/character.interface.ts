@@ -12,7 +12,7 @@ export class Character {
     occupation: number;
     sideGig: number;
     status: number;
-    //skills: Skill[];
+    skills: Skill[];
     torsoHealth: number;
     rightArmHealth: number;
     leftArmHealth: number;
