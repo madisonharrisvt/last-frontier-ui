@@ -1,4 +1,4 @@
 export class Skill {
-    name: number;
-    masteryLvl: string;
+    id: number;
+    masteryLvl: number;
 }
