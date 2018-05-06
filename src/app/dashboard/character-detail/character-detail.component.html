@@ -1,17 +1,119 @@
 <div layout="row" layout-align="center center">
     <mat-card class="example-form">
-        <mat-card-header>
-            <mat-card-title>{{ character?.name | uppercase }} Details</mat-card-title>
-            <mat-card-subtitle>id: {{ character?.id }}</mat-card-subtitle>
-        </mat-card-header>
+        <br/>
+        <h2>Character Sheet</h2>
 
-        <form class="example-form" [formGroup]="characterForm" (ngSubmit)="save()" novalidate>
+        <form class="example-form" [formGroup]="characterForm" novalidate>
             <div class="form-group">
-                <mat-form-field color="accent" class="example-full-width">
-                    <input matInput class="form-control" formControlName="characterName" placeholder="Edit Name: {{ character?.name }}">
+                
+                <mat-form-field color="accent">
+                    <input matInput class="form-control" formControlName="accumulatedXP" type="number" step="any" placeholder="Accumulated Experience Points"/>
                 </mat-form-field>
+
+                <mat-form-field color="accent">
+                    <input matInput class="form-control" formControlName="availableXP" type="number" step="any" placeholder="Available Experience Points"/>
+                </mat-form-field>
+
+                <mat-form-field color="accent">
+                    <input matInput class="form-control" formControlName="name" placeholder="Name" required/>
+                    <mat-error *ngIf="this.characterForm.invalid">Character name is required</mat-error>
+                </mat-form-field>
+                
+                <mat-form-field color="accent">
+                    <mat-select class="form-control" formControlName="status" placeholder="Status">
+                        <mat-option *ngFor="let status of statuses" [value]="status.value">
+                        {{ status.viewValue }}
+                        </mat-option>
+                    </mat-select> 
+                </mat-form-field>
+                
+                <mat-form-field color="accent">
+                    <mat-select class="form-control" formControlName="species" placeholder="Species">
+                        <mat-option *ngFor="let type of species" [value]="type.value">
+                        {{ type.viewValue }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field color="accent">
+                    <mat-select class="form-control" formControlName="stressResponse" placeholder="Psy Profile">
+                        <mat-option *ngFor="let stressResponse of stressResponses" [value]="stressResponse.value">
+                        {{ stressResponse.viewValue }}
+                        </mat-option>
+                    </mat-select> 
+                </mat-form-field>
+
+                <mat-form-field color="accent">
+                    <input matInput class="form-control" formControlName="hStatus" value="" placeholder="H. Status"/>
+                </mat-form-field>
+
+                <mat-checkbox formControlName="cloneStatus">Clone Status</mat-checkbox>
+
+                <br/>
+
+                <mat-form-field color="accent">
+                    <mat-select class="form-control" formControlName="occupation" placeholder="Occupation">
+                        <mat-option *ngFor="let occupation of occupations" [value]="occupation.value">
+                        {{ occupation.viewValue }}
+                        </mat-option>
+                    </mat-select> 
+                </mat-form-field>
+
+                <mat-form-field color="accent">
+                    <mat-select class="form-control" formControlName="sideGig" placeholder="Side Gig">
+                        <mat-option *ngFor="let sideGig of sideGigs" [value]="sideGig.value">
+                        {{ sideGig.viewValue }}
+                        </mat-option>
+                    </mat-select> 
+                </mat-form-field>
+
+                <mat-divider class="divider"></mat-divider>
+
+                <h2 class="title">Skills</h2>
+
+                <div *ngFor="let index of getSkillIndices()">
+                    <mat-form-field color="accent">
+                        <mat-select placeholder="Skill Name" [formControlName]="'skill' + index" required>
+                            <mat-option *ngFor="let skill of skills" [value]="skill.value">
+                                {{ skill.viewValue }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field color="accent">
+                        <input matInput [formControlName]="'mastery' + index" type="number" placeholder="Mastery Level" required/>
+                    </mat-form-field>
+                    <button mat-button color="warn" (click)="deleteSkill(index)">Delete</button>
+                </div>
+
+                <button mat-raised-button color="accent" (click)="addSkill()" >Add Skill</button>
+
+                <mat-divider class="divider"></mat-divider>
+
+                <h2 class="title">Damage Report</h2>
+
+                <mat-form-field color="accent">
+                    <input matInput class="form-control" formControlName="torso" type="number" placeholder="Torso Health"/>
+                </mat-form-field>
+
+                <mat-form-field color="accent">
+                    <input matInput class="form-control" formControlName="rightArm" type="number" placeholder="Right Arm Health"/>
+                </mat-form-field>
+
+                <mat-form-field color="accent">
+                    <input matInput class="form-control" formControlName="leftArm" type="number" placeholder="Left Arm Health"/>
+                </mat-form-field>
+
+                <mat-form-field color="accent">
+                    <input matInput class="form-control" formControlName="rightLeg" type="number" placeholder="Right Leg Health"/>
+                </mat-form-field>
+
+                <mat-form-field color="accent">
+                    <input matInput class="form-control" formControlName="leftLeg" type="number" placeholder="Left Leg Health"/>
+                </mat-form-field>
+
             </div>
-            <button mat-raised-button color="primary" type="submit">Save</button>
+            <button mat-raised-button color="primary" type="submit" (click)="save()" [disabled] = "this.characterForm.invalid" >Save</button>
+
         </form>
     </mat-card>
 </div>

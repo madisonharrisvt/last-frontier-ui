@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Character } from '../models/character.interface';
 import { CharacterService } from '../services/character.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 import { Router } from '@angular/router';
 
@@ -16,17 +17,9 @@ export class CharactersComponent implements OnInit {
   characters: Character[];
   displayedColumns = ['id', 'name', 'actions'];
 
-  characterForm: FormGroup;
-
-  constructor(private characterService: CharacterService, private router: Router) { }
+  constructor(private characterService: CharacterService, private router: Router, public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.characterForm = new FormGroup( {
-      characterName: new FormControl('', {
-        validators: Validators.nullValidator,
-        updateOn: 'submit'
-      })
-    })
     this.getCharacters();
   }
 
@@ -43,18 +36,4 @@ export class CharactersComponent implements OnInit {
     this.characters = this.characters.filter(c => c !== character);
     this.characterService.deleteCharacter(character).subscribe();
   }
-
-  add() {
-    //this.character.name = this.characterForm.value.characterName;
-    // this.characterForm.value.characterName.trim();
-    const name =  this.characterForm.value.characterName.trim();
-    if(!name) {return}
-    this.characterService.addCharacter({ name } as Character)
-      .subscribe(character => {
-        if (character) {
-          this.router.navigate([`/dashboard/detail/${character.id}`]);             
-       }
-      });
-  }
-
 }

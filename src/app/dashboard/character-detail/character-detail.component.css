@@ -3,7 +3,20 @@
     max-width: 500px;
     width: 100%;
   }
-  
-  .example-full-width {
-    width: 100%;
-  }
+
+.example-full-width {
+  width: 100%;
+}
+
+.title {
+  margin-top: 1em;
+}
+
+.divider {
+  margin-top: 1em;
+}
+.chip-warning {
+  margin-top: 1em;
+  width: 100%;
+  text-align: center;
+}
