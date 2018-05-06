@@ -140,7 +140,7 @@ export class CharacterDetailComponent implements OnInit {
           this.characterForm.get('leftLeg').setValue(character.leftLegHealth);
 
           for(let skill of character.skills) {
-            this.initializeSkills(skill.id, skill.masteryLvl);
+            this.initializeSkills(skill.nameValue, skill.masteryLevel);
           }
       });
     }
@@ -151,64 +151,71 @@ export class CharacterDetailComponent implements OnInit {
   }
 
   save() {
-    if(this.character !== null) {
-
-      this.character.name = this.characterForm.value.name;
-      this.character.accumulatedXP = this.characterForm.value.accumulatedXP;
-      this.character.availableXP = this.characterForm.value.availableXP;
-      this.character.species = this.characterForm.value.species;
-      this.character.stressResponse = this.characterForm.value.stressResponse;
-      this.character.hStatus = this.characterForm.value.hStatus;
-      this.character.cloneStatus = this.characterForm.value.cloneStatus;
-      this.character.occupation = this.characterForm.value.occupation;
-      this.character.sideGig = this.characterForm.value.sideGig;
-      this.character.status = this.characterForm.value.status;
-      this.character.torsoHealth = this.characterForm.value.torso;
-      this.character.rightArmHealth = this.characterForm.value.rightArm;
-      this.character.leftArmHealth = this.characterForm.value.leftArm;
-      this.character.rightLegHealth = this.characterForm.value.rightLeg;
-      this.character.leftLegHealth = this.characterForm.value.leftLeg;
-
-      var skills: Skill[] = [];
-
-      for (let skill of this.getSkills()) {
-        var id = skill['id'].split('skill')[1];
-
-        var skillToAdd: Skill = {
-          id: skill['value'],
-          masteryLvl: this.characterForm.controls['mastery' + id].value
-        };
-
-        skills.push(skillToAdd);
-      }
-
-      this.character.skills = skills;
-     
-      this.characterService.updateCharacter(this.character)
-      .subscribe(() => this.goBack());
+    if(this.character == null) {
+      this.character = new Character();
+      this.character.id = this.newGuid();
     }
+    this.character.name = this.characterForm.value.name;
+    this.character.accumulatedXP = this.characterForm.value.accumulatedXP;
+    this.character.availableXP = this.characterForm.value.availableXP;
+    this.character.species = this.characterForm.value.species;
+    this.character.stressResponse = this.characterForm.value.stressResponse;
+    this.character.hStatus = this.characterForm.value.hStatus;
+    this.character.cloneStatus = this.characterForm.value.cloneStatus;
+    this.character.occupation = this.characterForm.value.occupation;
+    this.character.sideGig = this.characterForm.value.sideGig;
+    this.character.status = this.characterForm.value.status;
+    this.character.torsoHealth = this.characterForm.value.torso;
+    this.character.rightArmHealth = this.characterForm.value.rightArm;
+    this.character.leftArmHealth = this.characterForm.value.leftArm;
+    this.character.rightLegHealth = this.characterForm.value.rightLeg;
+    this.character.leftLegHealth = this.characterForm.value.leftLeg;
+
+    var skills: Skill[] = [];
+
+    for (let index of this.getSkillIndices()) {
+
+      var skillToAdd: Skill = {
+        skillId: this.newGuid(),
+        nameValue: this.characterForm.controls['skill' + index].value,
+        masteryLevel: this.characterForm.controls['mastery' + index].value,
+        characterId: this.character.id
+      };
+
+      skills.push(skillToAdd);
+    }
+
+    this.character.skills = skills;
+    
+    this.characterService.updateCharacter(this.character)
+    .subscribe(() => this.goBack());
   }
 
   addSkill() {
     var maxSkillIndex = this.getMaxSkillIndex();
-    var skill = 'skill' + (this.getSkills() != null ? maxSkillIndex : 0);
-    this.characterForm.addControl(skill, new FormControl());
+    var skill = 'skill' + (this.getSkillIndices() != null ? maxSkillIndex : 0);
+    var masteryLvl = 'mastery' + (this.getSkillIndices() != null ? maxSkillIndex : 0);
 
-    var masteryLvl = 'mastery' + (this.getSkills() != null ? maxSkillIndex : 0);
+    this.characterForm.addControl(skill, 
+      new FormControl('', {
+        validators: [Validators.required]     
+      })
+    );
     this.characterForm.addControl(masteryLvl, 
       new FormControl('', {
         validators: [Validators.required]     
       })
     );
+
     this.characterForm.controls[masteryLvl].setValue(1);
   }
 
   initializeSkills(id, masteryLvl) {
     var maxSkillIndex = this.getMaxSkillIndex();
-    var skillControlName = 'skill' + (this.getSkills() != null ? maxSkillIndex : 0);
+    var skillControlName = 'skill' + (this.getSkillIndices() != null ? maxSkillIndex : 0);
     this.characterForm.addControl(skillControlName, new FormControl());
 
-    var masteryLvlControlName = 'mastery' + (this.getSkills() != null ? maxSkillIndex : 0);
+    var masteryLvlControlName = 'mastery' + (this.getSkillIndices() != null ? maxSkillIndex : 0);
     this.characterForm.addControl(masteryLvlControlName, 
       new FormControl('', {
         validators: [Validators.required]     
@@ -218,18 +225,17 @@ export class CharacterDetailComponent implements OnInit {
     this.characterForm.controls[masteryLvlControlName].setValue(masteryLvl);
   }
 
-  getSkills(): Array<Object> {
-    var chosenSkills = [];
+  getSkillIndices(): Array<number> {
+    var skillIndices = [];
     var formControls = this.characterForm.controls;
 
     for (let key of Object.keys(formControls)) {
       if(key.includes('skill')) {
-        var skillToAdd = formControls[key];
-        skillToAdd['id'] = key;
-        chosenSkills.push(skillToAdd);
+        var index = key.split('skill')[1];
+        skillIndices.push(index);
       }
     }
-    return chosenSkills;
+    return skillIndices;
   }
 
   getSkillMasteries() {
@@ -261,10 +267,15 @@ export class CharacterDetailComponent implements OnInit {
     return maxIndex;
   }
 
-  deleteSkill(skill) {
-    var id = skill['id'].split('skill')[1];
+  deleteSkill(skillIndex) {
+    this.characterForm.removeControl('skill' + skillIndex);
+    this.characterForm.removeControl('mastery' + skillIndex); 
+  }
 
-    this.characterForm.removeControl(skill['id']);
-    this.characterForm.removeControl('mastery' + id); 
+  newGuid(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+    });
   }
 }
