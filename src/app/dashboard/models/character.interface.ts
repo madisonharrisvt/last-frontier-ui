@@ -1,7 +1,7 @@
 import { Skill } from '../models/skill.interface';
 
 export class Character {
-    id: string;
+    id: number;
     name: string;
     accumulatedXP: number;
     availableXP: number;

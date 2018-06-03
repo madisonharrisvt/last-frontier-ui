@@ -3,8 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { CharacterService }  from '../services/character.service';
+
 import { Character } from '../models/character.interface';
 import { Skill } from '../models/skill.interface';
+import { CharacterMetadata } from '../models/character.metadata.interface';
+import { Metadata } from '../models/metadata.interface';
+
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { nextTick } from 'q';
 
@@ -15,76 +19,9 @@ import { nextTick } from 'q';
 })
 
 export class CharacterDetailComponent implements OnInit {
-  
+
   character: Character;
-
-  species = [
-    { value: 0, viewValue: "Human" },
-    { value: 1, viewValue: "Halfbreed" },
-    { value: 2, viewValue: "Augmented" },
-    { value: 3, viewValue: "Highborne" },
-    { value: 4, viewValue: "Muk'Taa" },
-    { value: 5, viewValue: "Piscen" }
-  ];
-
-  stressResponses = [
-    { value: 0, viewValue: "Hot Headed" },
-    { value: 1, viewValue: "Hypochondriac" },
-    { value: 2, viewValue: "Delusional" },
-    { value: 3, viewValue: "Skittish" },
-    { value: 4, viewValue: "Haughty" },
-    { value: 5, viewValue: "Martyr" }
-  ];
-
-  occupations = [
-    { value: 0, viewValue: "Doctor" },
-    { value: 1, viewValue: "Socialite" },
-    { value: 2, viewValue: "Soldier" },
-    { value: 3, viewValue: "Engineer" },
-    { value: 4, viewValue: "Prospector" }
-  ];
-
-  sideGigs = [
-    { value: 0, viewValue: "Doctor" },
-    { value: 1, viewValue: "Socialite" },
-    { value: 2, viewValue: "Soldier" },
-    { value: 3, viewValue: "Engineer" },
-    { value: 4, viewValue: "Prospector" }
-  ];
-
-  statuses = [
-    { value: 0, viewValue: "Active" },
-    { value: 1, viewValue: "Dead" },
-    { value: 2, viewValue: "Retired" },
-  ];
-
-  skills = [
-    { value: 0, viewValue: "Firearms" },
-    { value: 1, viewValue: "Emergency First Aide" },
-    { value: 2, viewValue: "Frontier Medicine" },
-    { value: 3, viewValue: "Harvest" },
-    { value: 4, viewValue: "Vat Cultures" },
-    { value: 5, viewValue: "Mangle Arm" },
-    { value: 6, viewValue: "Recharge" },
-    { value: 7, viewValue: "Psychological Counseling " },
-    { value: 8, viewValue: "Mixology" },
-    { value: 9, viewValue: "Data Mining" },
-    { value: 10, viewValue: "Intimidate" },
-    { value: 11, viewValue: "Nanomachine Transference" },
-    { value: 12, viewValue: "Disarm" },
-    { value: 13, viewValue: "Protect" },
-    { value: 14, viewValue: "Mangle Leg" },
-    { value: 15, viewValue: "Repair" },
-    { value: 16, viewValue: "Fabricate" },
-    { value: 17, viewValue: "Hacking" },
-    { value: 18, viewValue: "Break Armor" },
-    { value: 19, viewValue: "Detect" },
-    { value: 20, viewValue: "Mining" },
-    { value: 21, viewValue: "Refining" },
-    { value: 22, viewValue: "Trip" },
-    { value: 23, viewValue: "Camouflage" },
-    { value: 24, viewValue: "Forecasting" },
-  ];
+  characterMetadata = new CharacterMetadata();
 
   characterForm: FormGroup;
 
@@ -96,8 +33,8 @@ export class CharacterDetailComponent implements OnInit {
 
   ngOnInit() {
     this.characterForm = new FormGroup( {
-      name: new FormControl('', {   
-        validators: [Validators.required]     
+      name: new FormControl('', {
+        validators: [Validators.required]
       }),
       species: new FormControl(),
       stressResponse: new FormControl(),
@@ -118,7 +55,10 @@ export class CharacterDetailComponent implements OnInit {
   }
 
   getCharacter(): void {
-    if(this.route.snapshot.paramMap.get('id') !== null) {
+    var occupationId = 0;
+
+    if(this.route.snapshot.paramMap.get('id') !== 'new' &&
+        this.route.snapshot.paramMap.get('id') !== null) {
       const id = this.route.snapshot.paramMap.get('id');
       this.characterService.getCharacter(id)
         .subscribe(character => {
@@ -139,11 +79,31 @@ export class CharacterDetailComponent implements OnInit {
           this.characterForm.get('rightLeg').setValue(character.rightLegHealth);
           this.characterForm.get('leftLeg').setValue(character.leftLegHealth);
 
+          occupationId = character.occupation;
+
           for(let skill of character.skills) {
-            this.initializeSkills(skill.nameValue, skill.masteryLevel);
+            this.initializeSkills(skill.skillId, skill.masteryLevel);
           }
+
+          this.characterService.getCharacterMetadata(occupationId)
+            .subscribe(characterMetadata => {
+              this.characterMetadata = characterMetadata;
+            });
       });
+    } else {
+        this.characterForm.get('status').setValue(1);
+        this.characterForm.get('cloneStatus').setValue(0);
+        this.characterForm.get('torso').setValue(10);
+        this.characterForm.get('rightArm').setValue(10);
+        this.characterForm.get('leftArm').setValue(10);
+        this.characterForm.get('rightLeg').setValue(10);
+        this.characterForm.get('leftLeg').setValue(10);
     }
+
+    this.characterService.getCharacterMetadata(occupationId)
+      .subscribe(characterMetadata => {
+        this.characterMetadata = characterMetadata;
+      });
   }
 
   goBack(): void {
@@ -153,7 +113,6 @@ export class CharacterDetailComponent implements OnInit {
   save() {
     if(this.character == null) {
       this.character = new Character();
-      this.character.id = this.newGuid();
     }
     this.character.name = this.characterForm.value.name;
     this.character.accumulatedXP = this.characterForm.value.accumulatedXP;
@@ -176,8 +135,7 @@ export class CharacterDetailComponent implements OnInit {
     for (let index of this.getSkillIndices()) {
 
       var skillToAdd: Skill = {
-        skillId: this.newGuid(),
-        nameValue: this.characterForm.controls['skill' + index].value,
+        skillId: this.characterForm.controls['skill' + index].value,
         masteryLevel: this.characterForm.controls['mastery' + index].value,
         characterId: this.character.id
       };
@@ -186,7 +144,7 @@ export class CharacterDetailComponent implements OnInit {
     }
 
     this.character.skills = skills;
-    
+
     this.characterService.updateCharacter(this.character)
     .subscribe(() => this.goBack());
   }
@@ -196,14 +154,14 @@ export class CharacterDetailComponent implements OnInit {
     var skill = 'skill' + (this.getSkillIndices() != null ? maxSkillIndex : 0);
     var masteryLvl = 'mastery' + (this.getSkillIndices() != null ? maxSkillIndex : 0);
 
-    this.characterForm.addControl(skill, 
+    this.characterForm.addControl(skill,
       new FormControl('', {
-        validators: [Validators.required]     
+        validators: [Validators.required]
       })
     );
-    this.characterForm.addControl(masteryLvl, 
+    this.characterForm.addControl(masteryLvl,
       new FormControl('', {
-        validators: [Validators.required]     
+        validators: [Validators.required]
       })
     );
 
@@ -216,9 +174,9 @@ export class CharacterDetailComponent implements OnInit {
     this.characterForm.addControl(skillControlName, new FormControl());
 
     var masteryLvlControlName = 'mastery' + (this.getSkillIndices() != null ? maxSkillIndex : 0);
-    this.characterForm.addControl(masteryLvlControlName, 
+    this.characterForm.addControl(masteryLvlControlName,
       new FormControl('', {
-        validators: [Validators.required]     
+        validators: [Validators.required]
       })
     );
     this.characterForm.controls[skillControlName].setValue(id);
@@ -269,13 +227,24 @@ export class CharacterDetailComponent implements OnInit {
 
   deleteSkill(skillIndex) {
     this.characterForm.removeControl('skill' + skillIndex);
-    this.characterForm.removeControl('mastery' + skillIndex); 
+    this.characterForm.removeControl('mastery' + skillIndex);
   }
 
-  newGuid(): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-      return v.toString(16);
-    });
+  addCloneModifiers() {
+    var currentTorsoHealth = this.characterForm.value.torso;
+
+    if(this.characterForm.value.cloneStatus) {
+      this.characterForm.get('torso').setValue(currentTorsoHealth + 1);
+    } else {
+      this.characterForm.get('torso').setValue(currentTorsoHealth - 1)
+    }
   }
+
+  updateAvailableSideGigs() {
+    var chosenOccupation = this.characterForm.value.occupation;
+    this.characterService.getSideGigs(chosenOccupation)
+      .subscribe(sideGigs => {
+        this.characterMetadata.sideGigs = sideGigs;
+      });
+    }
 }
