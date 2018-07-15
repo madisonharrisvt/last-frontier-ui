@@ -7,10 +7,8 @@ import { CharacterService }  from '../services/character.service';
 import { Character } from '../models/character.interface';
 import { Skill } from '../models/skill.interface';
 import { CharacterMetadata } from '../models/character.metadata.interface';
-import { Metadata } from '../models/metadata.interface';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { nextTick } from 'q';
 
 @Component({
   selector: 'app-character-detail',
@@ -50,7 +48,7 @@ export class CharacterDetailComponent implements OnInit {
       leftArm: new FormControl(),
       rightLeg: new FormControl(),
       leftLeg: new FormControl()
-    })
+    });
   this.getCharacter();
   }
 

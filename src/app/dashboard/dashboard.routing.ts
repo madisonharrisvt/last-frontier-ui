@@ -9,6 +9,7 @@ import { CharacterDetailComponent } from './character-detail/character-detail.co
 import { UserListComponent } from './user-management/user-list/user-list.component';
 
 import { AuthGuard } from '../auth.guard';
+import { UserDetailComponent } from './user-management/user-detail/user-detail.component';
 
 export const routing: ModuleWithProviders = RouterModule.forChild([
   {
@@ -22,6 +23,8 @@ export const routing: ModuleWithProviders = RouterModule.forChild([
        { path: 'characters', component: CharactersComponent },
        { path: 'detail/:id', component: CharacterDetailComponent },
        { path: 'detail/new', component: CharacterDetailComponent },
+       { path: 'user-detail/:id', component: UserDetailComponent },
+       { path: 'user-detail/new', component: UserDetailComponent },
        { path: 'user-list', component: UserListComponent } 
       ]       
     }  

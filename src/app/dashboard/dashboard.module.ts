@@ -31,6 +31,7 @@ import { CharactersComponent } from './characters/characters.component';
 import { CharacterDetailComponent } from './character-detail/character-detail.component';
 import { CharacterSearchComponent } from './character-search/character-search.component';
 import { UserListComponent } from './user-management/user-list/user-list.component';
+import { UserDetailComponent } from './user-management/user-detail/user-detail.component';
 
 
 @NgModule({
@@ -75,7 +76,7 @@ import { UserListComponent } from './user-management/user-list/user-list.compone
     MatToolbarModule,
     MatTooltipModule
   ],
-  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent],
+  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent],
   exports:      [ 
     MatAutocompleteModule,
     MatButtonModule,

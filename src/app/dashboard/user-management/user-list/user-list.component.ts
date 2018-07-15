@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UserManagementService }  from '../../services/user.management.service';
+import { Router } from '@angular/router';
+import { User } from '../../models/user.interface';
 
 @Component({
   selector: 'app-user-list',
@@ -9,10 +11,11 @@ import { UserManagementService }  from '../../services/user.management.service';
 })
 export class UserListComponent implements OnInit {
 
-  users: Object;
+  users: User[];
   displayedColumns = ['userName', 'firstName', 'lastName'];
+  testString = "help";
 
-  constructor(private userManagementService: UserManagementService) { }
+  constructor(private userManagementService: UserManagementService, private router: Router) { }
 
   ngOnInit() {
     this.getUsers();
@@ -21,6 +24,11 @@ export class UserListComponent implements OnInit {
   getUsers() {
     this.userManagementService.getCharacters()
       .subscribe(users => this.users = users);
+  }
+
+  test() {
+    this.userManagementService.getResponse()
+      .subscribe(testString => this.testString = testString);
   }
 
 }

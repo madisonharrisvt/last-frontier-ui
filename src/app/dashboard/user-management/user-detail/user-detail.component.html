@@ -1,0 +1,29 @@
+<div layout="row" layout-align="center center">
+  <mat-card>
+    <br />
+    <h2>User Details</h2>
+
+    <form [formGroup]="userForm" novalidate>
+      <div class="form-group">
+        <mat-form-field color="accent">
+          <input matInput class="form-control" formControlName="firstName" type="text" placeholder="First Name">
+        </mat-form-field>
+
+        <mat-form-field color="accent">
+          <input matInput class="form-control" formControlName="lastName" type="text" placeholder="Last Name">
+        </mat-form-field>
+
+        <mat-form-field color="accent">
+          <input matInput class="form-control" formControlName="email" type="text" placeholder="Email">
+        </mat-form-field>
+
+        <mat-form-field color="accent">
+          <input matInput class="form-control" formControlName="emailConfirmed" type="text" placeholder="Email Confirmed" [disabled]="true">
+        </mat-form-field>
+      </div>
+
+      <button mat-raised-button color="primary" (click)="save()" [disabled] = "this.userFOrm.invalid" >Save</button>
+
+    </form>
+  </mat-card>
+</div>
