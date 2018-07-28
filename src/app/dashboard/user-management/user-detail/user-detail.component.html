@@ -1,7 +1,8 @@
 <div layout="row" layout-align="center center">
   <mat-card>
     <br />
-    <h2>User Details</h2>
+    <h2>Player Details</h2>
+    <p>Player {{ this.player.id }}</p>
 
     <form [formGroup]="userForm" novalidate>
       <div class="form-group">
@@ -22,7 +23,7 @@
         </mat-form-field>
       </div>
 
-      <button mat-raised-button color="primary" (click)="save()" [disabled] = "this.userFOrm.invalid" >Save</button>
+      <button mat-raised-button color="primary" (click)="save()" [disabled] = "this.userForm.invalid" >Save</button>
 
     </form>
   </mat-card>

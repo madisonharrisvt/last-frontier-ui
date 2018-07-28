@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../models/user.interface';
+import { Identity } from '../../models/identity.interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserManagementService } from '../../services/user.management.service';
+import { Player } from '../../models/player.interface';
 
 @Component({
   selector: 'app-user-detail',
@@ -11,7 +12,7 @@ import { UserManagementService } from '../../services/user.management.service';
 })
 export class UserDetailComponent implements OnInit {
 
-  user: User;
+  player: Player;
   userForm: FormGroup;
 
   constructor(
@@ -42,13 +43,13 @@ export class UserDetailComponent implements OnInit {
 
       const id = this.route.snapshot.paramMap.get('id');
       
-      this.userManagementService.getUser(id)
-        .subscribe(user => {
-          this.user = user;
-          this.userForm.get('firstName').setValue(user.firstName);
-          this.userForm.get('lastName').setValue(user.lastName);
-          this.userForm.get('email').setValue(user.email);
-          this.userForm.get('emailConfirmed').setValue(user.emailConfirmed);
+      this.userManagementService.getPlayer(id)
+        .subscribe(player => {
+          this.player = player;
+          this.userForm.get('firstName').setValue(player.identity.firstName);
+          this.userForm.get('lastName').setValue(player.identity.lastName);
+          this.userForm.get('email').setValue(player.identity.email);
+          this.userForm.get('emailConfirmed').setValue(player.identity.emailConfirmed);
       });
     }
   }
