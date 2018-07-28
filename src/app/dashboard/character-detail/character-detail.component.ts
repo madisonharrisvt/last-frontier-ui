@@ -108,7 +108,7 @@ export class CharacterDetailComponent implements OnInit {
     this.location.back();
   }
 
-  save() {
+  save(): void {
     if(this.character == null) {
       this.character = new Character();
     }

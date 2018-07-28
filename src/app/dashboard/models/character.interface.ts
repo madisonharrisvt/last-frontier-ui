@@ -1,4 +1,4 @@
-import { Skill } from '../models/skill.interface';
+import { Skill } from './skill.interface';
 
 export class Character {
     id: number;

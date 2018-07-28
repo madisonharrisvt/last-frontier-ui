@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UserManagementService }  from '../../services/user.management.service';
-import { Router } from '@angular/router';
 import { User } from '../../models/user.interface';
+import { MatDialog } from '@angular/material';
+import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
 
 @Component({
   selector: 'app-user-list',
@@ -14,8 +15,9 @@ export class UserListComponent implements OnInit {
   users: User[];
   displayedColumns = ['userName', 'firstName', 'lastName'];
   testString = "help";
+  email: string; 
 
-  constructor(private userManagementService: UserManagementService, private router: Router) { }
+  constructor(private userManagementService: UserManagementService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.getUsers();
@@ -26,9 +28,10 @@ export class UserListComponent implements OnInit {
       .subscribe(users => this.users = users);
   }
 
-  test() {
-    this.userManagementService.getResponse()
-      .subscribe(testString => this.testString = testString);
+  openDialog(): void {
+    const dialogRef = this.dialog.open(AddUserDialogComponent, {
+      width: '250px',
+      data: {name: this.email,}
+    });    
   }
-
 }

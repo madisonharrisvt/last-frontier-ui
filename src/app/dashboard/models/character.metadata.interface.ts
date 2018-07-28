@@ -1,4 +1,4 @@
-import { Metadata } from '../models/metadata.interface';
+import { Metadata } from './metadata.interface';
 export class CharacterMetadata {
     occupations: Array<Metadata>;
     sideGigs: Array<Metadata>;

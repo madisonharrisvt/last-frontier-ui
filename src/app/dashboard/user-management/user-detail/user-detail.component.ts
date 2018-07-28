@@ -17,7 +17,6 @@ export class UserDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userManagementService: UserManagementService,
-    //private location: Location
   ) { }
 
   ngOnInit() {
