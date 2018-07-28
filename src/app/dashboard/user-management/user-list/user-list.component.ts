@@ -28,8 +28,8 @@ export class UserListComponent implements OnInit {
       .subscribe(users => this.identities = users);
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(AddUserDialogComponent, {
+  openDialog() {
+    this.dialog.open(AddUserDialogComponent, {
       width: '250px',
       data: {name: this.email,}
     });    

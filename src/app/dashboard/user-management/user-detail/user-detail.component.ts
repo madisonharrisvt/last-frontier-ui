@@ -4,6 +4,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserManagementService } from '../../services/user.management.service';
 import { Player } from '../../models/player.interface';
+import { MatDialog } from '../../../../../node_modules/@angular/material';
+import { CharacterDetailComponent } from '../../character-detail/character-detail.component';
 
 @Component({
   selector: 'app-user-detail',
@@ -18,6 +20,7 @@ export class UserDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userManagementService: UserManagementService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -52,6 +55,13 @@ export class UserDetailComponent implements OnInit {
           this.userForm.get('emailConfirmed').setValue(player.identity.emailConfirmed);
       });
     }
+  }
+
+  openDialog() {
+    this.dialog.open(CharacterDetailComponent, {
+      width: '600px',
+      data: this.player.id
+    });    
   }
 
 }
