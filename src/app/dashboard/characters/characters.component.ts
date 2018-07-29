@@ -26,10 +26,6 @@ export class CharactersComponent implements OnInit {
       .subscribe(characters => this.characters = characters);
   }
 
-  click(row): void {
-    console.log("hiya :)");
-  }
-
   delete(character: Character): void {
     this.characters = this.characters.filter(c => c !== character);
     this.characterService.deleteCharacter(character).subscribe();
