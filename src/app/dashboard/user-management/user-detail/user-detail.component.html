@@ -2,7 +2,7 @@
   <mat-card>
     <br />
     <h2>Player Details</h2>
-    <p>Player {{ this.player.id }}</p>
+    <p>Player {{ player.id }}</p>
 
     <form [formGroup]="userForm" novalidate>
       <div class="form-group">
@@ -26,5 +26,57 @@
       <button mat-raised-button color="primary" (click)="save()" [disabled] = "this.userForm.invalid" >Save</button>
 
     </form>
+
+    <br/>
+    <button mat-raised-button color="primary" (click)="openNewCharacterDialog()">Create new character</button>
+
+    <mat-table #table [dataSource]="characters">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let character">
+          <a class="table-link" (click)="openExistingCharacterDialog(character.id)">
+            {{ character.name }}
+          </a>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="species">
+        <mat-header-cell *matHeaderCellDef> Species </mat-header-cell>
+        <mat-cell *matCellDef="let character">
+          <a class="table-link" (click)="openExistingCharacterDialog(character.id)">
+            {{ characterMetadata.species[character.species].name }}
+          </a>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="occupation">
+        <mat-header-cell *matHeaderCellDef> Occupation </mat-header-cell>
+        <mat-cell *matCellDef="let character">
+          <a class="table-link" (click)="openExistingCharacterDialog(character.id)">
+            {{ characterMetadata.occupations[character.occupation].name }}
+          </a>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="accumulatedXP">
+        <mat-header-cell *matHeaderCellDef> Total XP </mat-header-cell>
+        <mat-cell *matCellDef="let character">
+          <a class="table-link" (click)="openExistingCharacterDialog(character.id)">
+            {{ character.accumulatedXP }}
+          </a>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let character" >
+             <button mat-raised-button color="warn" (click)="delete(character)" >Delete</button> 
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
   </mat-card>
 </div>

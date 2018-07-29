@@ -2,6 +2,7 @@ import { Skill } from './skill.interface';
 
 export class Character {
     id: number;
+    playerId: number;
     name: string;
     accumulatedXP: number;
     availableXP: number;
