@@ -24,11 +24,15 @@ import { SettingsComponent } from './settings/settings.component';
 
 import { DashboardService } from './services/dashboard.service';
 import { CharacterService } from './services/character.service';
+import { UserManagementService } from './services/user.management.service';
 
 import { AuthGuard } from '../auth.guard';
 import { CharactersComponent } from './characters/characters.component';
 import { CharacterDetailComponent } from './character-detail/character-detail.component';
 import { CharacterSearchComponent } from './character-search/character-search.component';
+import { UserListComponent } from './user-management/user-list/user-list.component';
+import { UserDetailComponent } from './user-management/user-detail/user-detail.component';
+import { AddUserDialogComponent } from './user-management/add-user-dialog/add-user-dialog.component';
 
 
 @NgModule({
@@ -73,7 +77,7 @@ import { CharacterSearchComponent } from './character-search/character-search.co
     MatToolbarModule,
     MatTooltipModule
   ],
-  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent],
+  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent],
   exports:      [ 
     MatAutocompleteModule,
     MatButtonModule,
@@ -107,6 +111,6 @@ import { CharacterSearchComponent } from './character-search/character-search.co
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers:    [AuthGuard,DashboardService,CharacterService]
+  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService]
 })
 export class DashboardModule { }

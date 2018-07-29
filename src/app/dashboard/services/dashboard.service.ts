@@ -6,7 +6,7 @@ import { ConfigService } from '../../shared/utils/config.service';
 
 import {BaseService} from '../../shared/services/base.service';
 
-import { Observable } from 'rxjs/Rx'; 
+import { Observable } from 'rxjs'; 
 
 // Add the RxJS Observable operators we need in this app.
 import '../../rxjs-operators';

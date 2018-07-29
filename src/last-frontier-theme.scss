@@ -76,7 +76,7 @@ $candy-app-theme: create-wonky-theme($candy-app-primary, $candy-app-accent, $can
     margin: 0 auto;
 }
 
-app-characters {
+app-characters, app-user-list {
     width: 100%;
 }
 

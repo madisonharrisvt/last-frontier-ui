@@ -6,7 +6,7 @@
     margin: 0 auto;
 }
 
-app-characters {
+app-characters, app-user-list {
     width: 100%;
 }
 

@@ -9,7 +9,7 @@ import { ConfigService } from '../../shared/utils/config.service';
 
 import { BaseService } from '../../shared/services/base.service';
 
-import { Observable } from 'rxjs/Rx'; 
+import { Observable } from 'rxjs'; 
 import { of } from 'rxjs/observable/of';
 
 // Add the RxJS Observable operators we need in this app.
@@ -25,6 +25,8 @@ export class CharacterService extends BaseService {
   characterUrl: string = '';
   characterSearchUrl: string = '';
   characterMetadataUrl: string = '';
+  
+  httpHeader = { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` };
 
   constructor(private http: HttpClient, private configService: ConfigService) {
      super();
@@ -37,14 +39,14 @@ export class CharacterService extends BaseService {
 
   getSideGigs(occupation: number): Observable<Metadata[]> {
     let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` })
+      headers: new HttpHeaders(this.httpHeader)
     };
     return this.http.post<Metadata[]>(this.characterMetadataUrl, occupation, httpOptions);
   }
 
   getCharacterMetadata(id: number): Observable<CharacterMetadata> {
     let httpOptions = {
-      headers: new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('auth_token')}` })
+      headers: new HttpHeaders(this.httpHeader)
     };
 
     return this.http.get<CharacterMetadata>(`${this.characterMetadataUrl}/${id}`, httpOptions);
@@ -52,15 +54,15 @@ export class CharacterService extends BaseService {
 
   getCharacters(): Observable<Character[]> {
     let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` })
+      headers: new HttpHeaders(this.httpHeader)
     };
 
     return this.http.get<Character[]>(this.characterListUrl, httpOptions);
   }
 
-  getCharacter(id: string): Observable<Character> {
+  getCharacter(id: number): Observable<Character> {
     let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` })
+      headers: new HttpHeaders(this.httpHeader)
     };
 
     return this.http.get<Character>(`${this.characterUrl}/${id}`, httpOptions);
@@ -68,7 +70,7 @@ export class CharacterService extends BaseService {
 
   updateCharacter (character: Character): Observable<any> {
     let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` })
+      headers: new HttpHeaders(this.httpHeader)
     };
 
     return this.http.put(this.characterUrl, character, httpOptions);
@@ -76,7 +78,7 @@ export class CharacterService extends BaseService {
 
   searchCharacters(term: string): Observable<Character[]> {
     let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` })
+      headers: new HttpHeaders(this.httpHeader)
     };
 
     if (!term.trim()) {
@@ -88,11 +90,19 @@ export class CharacterService extends BaseService {
 
   deleteCharacter (character: Character): Observable<Character> {
     let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` })
+      headers: new HttpHeaders(this.httpHeader)
     };
 
     const url = `${this.characterUrl}/${character.id}`;
 
     return this.http.delete<Character>(url, httpOptions);
+  }
+
+  getPlayersCharacters(playerId: number): Observable<Character[]> {
+    let httpOptions = {
+      headers: new HttpHeaders(this.httpHeader)
+    };
+    const url = `${this.characterListUrl}/?playerId=${playerId}`;
+    return this.http.get<Character[]>(url, httpOptions);
   }
 }

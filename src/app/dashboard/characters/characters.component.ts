@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { Character } from '../models/character.interface';
 import { CharacterService } from '../services/character.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 import { Router } from '@angular/router';
 
@@ -17,7 +15,7 @@ export class CharactersComponent implements OnInit {
   characters: Character[];
   displayedColumns = ['id', 'name', 'actions'];
 
-  constructor(private characterService: CharacterService, private router: Router, public dialog: MatDialog) { }
+  constructor(private characterService: CharacterService, private router: Router) { }
 
   ngOnInit() {
     this.getCharacters();
@@ -26,10 +24,6 @@ export class CharactersComponent implements OnInit {
   getCharacters(): void {
     this.characterService.getCharacters()
       .subscribe(characters => this.characters = characters);
-  }
-
-  click(row): void {
-    console.log("hiya :)");
   }
 
   delete(character: Character): void {

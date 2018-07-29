@@ -1,0 +1,21 @@
+<button mat-raised-button color="primary" (click)="openDialog()" >Add New Player</button>
+<br />
+<mat-table #table [dataSource]="identities">
+  <ng-container matColumnDef="userName" >
+    <mat-header-cell *matHeaderCellDef> Username </mat-header-cell>
+    <mat-cell *matCellDef="let identity" > <a class="table-link" routerLink="/dashboard/user-detail/{{ identity.id }}"> {{identity.userName}} </a></mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="firstName">
+    <mat-header-cell *matHeaderCellDef> First Name </mat-header-cell>
+    <mat-cell *matCellDef="let identity" > <a class="table-link" routerLink="/dashboard/user-detail/{{ identity.id }}"> {{identity.firstName}} </a> </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="lastName">
+    <mat-header-cell *matHeaderCellDef> Last Name </mat-header-cell>
+    <mat-cell *matCellDef="let identity" > <a class="table-link" routerLink="/dashboard/user-detail/{{ identity.id }}"> {{identity.lastName}} </a></mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

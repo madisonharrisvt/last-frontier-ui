@@ -19,6 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
+import { AddUserDialogComponent } from './dashboard/user-management/add-user-dialog/add-user-dialog.component';
 
 import { ConfigService } from './shared/utils/config.service';
 import { UserService } from './shared/services/user.service';
@@ -35,6 +36,7 @@ import { DashboardModule }  from './dashboard/dashboard.module';
     RegistrationFormComponent,
     EmailValidator
   ],
+  entryComponents: [AddUserDialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

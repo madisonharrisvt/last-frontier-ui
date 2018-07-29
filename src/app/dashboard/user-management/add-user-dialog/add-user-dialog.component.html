@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Add New Player</h2>
+<mat-dialog-content>
+  <form [formGroup]="playerForm" novalidate> 
+      <mat-form-field>
+        <input matInput class="form-control" formControlName="email" placeholder="Email Address" required>
+      </mat-form-field>
+      <button mat-raised-button mat-dialog-close color="primary" type="submit" (click)="createPlayer()" [disabled] = "this.playerForm.invalid" >CreatePlayer</button>
+  </form>
+</mat-dialog-content>
+ 
