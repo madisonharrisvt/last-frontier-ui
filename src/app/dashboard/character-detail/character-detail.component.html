@@ -1,9 +1,9 @@
 <div layout="row" layout-align="center center">
-    <mat-card class="example-form">
+    <mat-card class="character-form">
         <br/>
         <h2>Character Sheet</h2>
 
-        <form class="example-form" [formGroup]="characterForm" novalidate>
+        <form class="character-form" [formGroup]="characterForm" novalidate>
             <div class="form-group">
                 
                 <mat-form-field color="accent">
@@ -48,8 +48,6 @@
                 </mat-form-field>
 
                 <mat-checkbox formControlName="cloneStatus" (change)="addCloneModifiers()">Clone Status</mat-checkbox>
-
-                <br/>
 
                 <mat-form-field color="accent">
                     <mat-select class="form-control" formControlName="occupation" placeholder="Occupation" (change)="updateAvailableSideGigs()">

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UserManagementService }  from '../../services/user.management.service';
-import { User } from '../../models/user.interface';
+import { Identity } from '../../models/identity.interface';
 import { MatDialog } from '@angular/material';
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
 
@@ -12,7 +12,7 @@ import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.compo
 })
 export class UserListComponent implements OnInit {
 
-  users: User[];
+  identities: Identity[];
   displayedColumns = ['userName', 'firstName', 'lastName'];
   testString = "help";
   email: string; 
@@ -25,11 +25,11 @@ export class UserListComponent implements OnInit {
 
   getUsers() {
     this.userManagementService.getCharacters()
-      .subscribe(users => this.users = users);
+      .subscribe(users => this.identities = users);
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(AddUserDialogComponent, {
+  openDialog() {
+    this.dialog.open(AddUserDialogComponent, {
       width: '250px',
       data: {name: this.email,}
     });    

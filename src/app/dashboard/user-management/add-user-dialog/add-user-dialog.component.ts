@@ -14,7 +14,7 @@ export class AddUserDialogComponent implements OnInit {
 
   newPlayer = new AddPlayerDialogData();
   playerForm: FormGroup;
-  playerId: number;
+  userId: string;
 
   constructor(
     public dialogRef: MatDialogRef<AddUserDialogComponent>,
@@ -38,9 +38,9 @@ export class AddUserDialogComponent implements OnInit {
     this.newPlayer.email = this.playerForm.value.email;
 
     this.userManagementService.createPlayerByEmail(this.newPlayer)
-      .subscribe(playerId => {
-        this.playerId = playerId;
-        this.router.navigateByUrl(`/dashboard/user-detail/${this.playerId}`);
+      .subscribe(userId => {
+        this.userId = userId;
+        this.router.navigateByUrl(`/dashboard/user-detail/${this.userId}`);
       });
   }
 
