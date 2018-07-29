@@ -10,6 +10,7 @@ import { CharacterMetadata } from '../models/character.metadata.interface';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '../../../../node_modules/@angular/material';
+import { AddCharacterDialogData } from '../models/add-character.interface';
 
 @Component({
   selector: 'app-character-detail',
@@ -29,7 +30,7 @@ export class CharacterDetailComponent implements OnInit {
     private characterService: CharacterService,
     private location: Location,
     public dialogRef: MatDialogRef<CharacterDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public playerid: number
+    @Inject(MAT_DIALOG_DATA) public addCharacterDialogData: AddCharacterDialogData
   ) { }
 
   ngOnInit() {
@@ -58,10 +59,8 @@ export class CharacterDetailComponent implements OnInit {
   getCharacter(): void {
     var occupationId = 0;
 
-    if(this.route.snapshot.paramMap.get('id') !== 'new' &&
-        this.route.snapshot.paramMap.get('id') !== null) {
-      const id = this.route.snapshot.paramMap.get('id');
-      this.characterService.getCharacter(id)
+    if(this.addCharacterDialogData.characterId !== null) {
+      this.characterService.getCharacter(this.addCharacterDialogData.characterId)
         .subscribe(character => {
           this.character = character;
           this.characterForm.get('name').setValue(character.name);
@@ -115,7 +114,7 @@ export class CharacterDetailComponent implements OnInit {
     if(this.character == null) {
       this.character = new Character();
     }
-    this.character.playerId = this.playerid;
+    this.character.playerId = this.addCharacterDialogData.playerId;
     this.character.name = this.characterForm.value.name;
     this.character.accumulatedXP = this.characterForm.value.accumulatedXP;
     this.character.availableXP = this.characterForm.value.availableXP;
