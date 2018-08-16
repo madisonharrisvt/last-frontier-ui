@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -9,8 +9,6 @@ import { Skill } from '../models/skill.interface';
 import { CharacterMetadata } from '../models/character.metadata.interface';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '../../../../node_modules/@angular/material';
-import { AddCharacterDialogData } from '../models/add-character.interface';
 
 @Component({
   selector: 'app-character-detail',
@@ -22,15 +20,15 @@ export class CharacterDetailComponent implements OnInit {
 
   character: Character;
   characterMetadata = new CharacterMetadata();
+  characterIdFromRoute: string;
+  playerIdFromRoute: string;
 
   characterForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
     private characterService: CharacterService,
-    private location: Location,
-    public dialogRef: MatDialogRef<CharacterDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public addCharacterDialogData: AddCharacterDialogData
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -58,9 +56,12 @@ export class CharacterDetailComponent implements OnInit {
 
   getCharacter(): void {
     var occupationId = 0;
+    // TODO: parse player and character id from here to pass into the CharacterService
+    this.playerIdFromRoute = this.route.snapshot.paramMap.get('id');
+    this.characterIdFromRoute = this.route.snapshot.paramMap.get('characterId');
 
-    if(this.addCharacterDialogData.characterId !== null) {
-      this.characterService.getCharacter(this.addCharacterDialogData.characterId)
+    if(this.characterIdFromRoute !== 'new' && this.characterIdFromRoute !== null) {
+      this.characterService.getCharacter(+this.characterIdFromRoute)
         .subscribe(character => {
           this.character = character;
           this.characterForm.get('name').setValue(character.name);
@@ -114,7 +115,8 @@ export class CharacterDetailComponent implements OnInit {
     if(this.character == null) {
       this.character = new Character();
     }
-    this.character.playerId = this.addCharacterDialogData.playerId;
+    this.character.playerId = +this.playerIdFromRoute;
+    this.character.id = +this.characterIdFromRoute;
     this.character.name = this.characterForm.value.name;
     this.character.accumulatedXP = this.characterForm.value.accumulatedXP;
     this.character.availableXP = this.characterForm.value.availableXP;
@@ -147,7 +149,7 @@ export class CharacterDetailComponent implements OnInit {
     this.character.skills = skills;
 
     this.characterService.updateCharacter(this.character)
-    .subscribe(() => this.dialogRef.close());
+    .subscribe(() => this.goBack());
   }
 
   addSkill() {
@@ -247,9 +249,5 @@ export class CharacterDetailComponent implements OnInit {
       .subscribe(sideGigs => {
         this.characterMetadata.sideGigs = sideGigs;
       });
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }
