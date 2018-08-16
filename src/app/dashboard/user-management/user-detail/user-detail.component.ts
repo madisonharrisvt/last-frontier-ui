@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Identity } from '../../models/identity.interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserManagementService } from '../../services/user.management.service';
 import { Player } from '../../models/player.interface';
 import { MatDialog } from '../../../../../node_modules/@angular/material';
@@ -10,8 +10,7 @@ import { Character } from '../../models/character.interface';
 import { CharacterService } from '../../services/character.service';
 import { CharacterMetadata } from '../../models/character.metadata.interface';
 import { AddCharacterDialogData } from '../../models/add-character.interface';
-
-// Name, species, primary job, total XP
+import * as decode from 'jwt-decode';
 
 @Component({
   selector: 'app-user-detail',
@@ -25,16 +24,28 @@ export class UserDetailComponent implements OnInit {
   characters: Character[];
   displayedColumns = ['name', 'species', 'occupation', 'accumulatedXP', 'actions'];
   characterMetadata = new CharacterMetadata();
+  identityId: string;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private userManagementService: UserManagementService,
     private characterService: CharacterService,
     public dialog: MatDialog
   ) { }
 
   ngOnInit() {
+    let token = localStorage.getItem('auth_token');
+    let payload = decode(token);
+    this.identityId = payload["Id"];
+
     this.userForm = new FormGroup ({
+      playerId: new FormControl( {
+        value: '', 
+        disabled: true
+      }, {
+        validators: [Validators.required]
+      }),
       firstName: new FormControl('', {
         validators: [Validators.required]
       }),
@@ -44,7 +55,10 @@ export class UserDetailComponent implements OnInit {
       email: new FormControl('', {
         validators: [Validators.required]
       }),
-      emailConfirmed: new FormControl()
+      emailConfirmed: new FormControl({
+        value: '', 
+        disabled: true
+      })
     });
 
     this.getAndSetUsersAndCharacters();
@@ -59,6 +73,7 @@ export class UserDetailComponent implements OnInit {
       this.userManagementService.getPlayer(id)
         .subscribe(player => {
           this.player = player;
+          this.userForm.get('playerId').setValue(player.id);
           this.userForm.get('firstName').setValue(player.identity.firstName);
           this.userForm.get('lastName').setValue(player.identity.lastName);
           this.userForm.get('email').setValue(player.identity.email);
@@ -96,6 +111,10 @@ export class UserDetailComponent implements OnInit {
     });    
   }
 
+  routeToCharacterDetail(characterId) {
+    this.router.navigate(['dashboard/detail', this.player.id, {characterId:characterId}])};
+
+  /*
   openExistingCharacterDialog(characterId: number) {
     var addCharacterDialogData = new AddCharacterDialogData();
     addCharacterDialogData.playerId = this.player.id;
@@ -106,5 +125,6 @@ export class UserDetailComponent implements OnInit {
       data: addCharacterDialogData
     });    
   }
+  */
 
 }

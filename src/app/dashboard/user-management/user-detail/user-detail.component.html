@@ -1,82 +1,89 @@
 <div layout="row" layout-align="center center">
-  <mat-card>
-    <br />
-    <h2>Player Details</h2>
-    <p>Player {{ player.id }}</p>
+  <br />
+  <h1>User Info</h1>
 
-    <form [formGroup]="userForm" novalidate>
-      <div class="form-group">
-        <mat-form-field color="accent">
-          <input matInput class="form-control" formControlName="firstName" type="text" placeholder="First Name">
-        </mat-form-field>
+  <form [formGroup]="userForm" novalidate>
+    <div class="form-group">
 
-        <mat-form-field color="accent">
-          <input matInput class="form-control" formControlName="lastName" type="text" placeholder="Last Name">
-        </mat-form-field>
+      <mat-form-field color="accent">
+        <input matInput class="form-control" formControlName="playerId" type="text" placeholder="Player ID">
+      </mat-form-field>
 
-        <mat-form-field color="accent">
-          <input matInput class="form-control" formControlName="email" type="text" placeholder="Email">
-        </mat-form-field>
+      <mat-form-field color="accent">
+        <input matInput class="form-control" formControlName="firstName" type="text" placeholder="First Name">
+      </mat-form-field>
 
-        <mat-form-field color="accent">
-          <input matInput class="form-control" formControlName="emailConfirmed" type="text" placeholder="Email Confirmed" [disabled]="true">
-        </mat-form-field>
-      </div>
+      <mat-form-field color="accent">
+        <input matInput class="form-control" formControlName="lastName" type="text" placeholder="Last Name">
+      </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="save()" [disabled] = "this.userForm.invalid" >Save</button>
+      <mat-form-field color="accent">
+        <input matInput class="form-control" formControlName="email" type="text" placeholder="Email">
+      </mat-form-field>
 
-    </form>
+      <mat-form-field color="accent">
+        <input matInput class="form-control" formControlName="emailConfirmed" type="text" placeholder="Email Confirmed">
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" (click)="save()" [disabled] = "this.userForm.invalid" >Save</button>
+  </form>
 
-    <br/>
-    <button mat-raised-button color="primary" (click)="openNewCharacterDialog()">Create new character</button>
+  <br />
+  <mat-divider class="divider"></mat-divider>
+  <br />
 
-    <mat-table #table [dataSource]="characters">
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let character">
-          <a class="table-link" (click)="openExistingCharacterDialog(character.id)">
-            {{ character.name }}
-          </a>
-        </mat-cell>
-      </ng-container>
+  <h1>Characters</h1>
+  <button mat-raised-button color="primary" (click)="routeToCharacterDetail(0)">Create new character</button>
 
-      <ng-container matColumnDef="species">
-        <mat-header-cell *matHeaderCellDef> Species </mat-header-cell>
-        <mat-cell *matCellDef="let character">
-          <a class="table-link" (click)="openExistingCharacterDialog(character.id)">
-            {{ characterMetadata.species[character.species].name }}
-          </a>
-        </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="occupation">
-        <mat-header-cell *matHeaderCellDef> Occupation </mat-header-cell>
-        <mat-cell *matCellDef="let character">
-          <a class="table-link" (click)="openExistingCharacterDialog(character.id)">
-            {{ characterMetadata.occupations[character.occupation].name }}
-          </a>
-        </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="accumulatedXP">
-        <mat-header-cell *matHeaderCellDef> Total XP </mat-header-cell>
-        <mat-cell *matCellDef="let character">
-          <a class="table-link" (click)="openExistingCharacterDialog(character.id)">
-            {{ character.accumulatedXP }}
-          </a>
-        </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-        <mat-cell *matCellDef="let character" >
-             <button mat-raised-button color="warn" (click)="delete(character)" >Delete</button> 
-        </mat-cell>
+  <mat-table #table [dataSource]="characters">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let character">
+        <a class="table-link" (click)="routeToCharacterDetail(character.id)">
+          {{ character.name }}
+        </a>
+      </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <ng-container matColumnDef="species">
+      <mat-header-cell *matHeaderCellDef> Species </mat-header-cell>
+      <mat-cell *matCellDef="let character">
+        <a class="table-link" routerLink="/dashboard/detail/{{ character.id }}">
+          {{ characterMetadata.species[character.species].name }}
+        </a>
+      </mat-cell>
+    </ng-container>
 
-    </mat-table>
-  </mat-card>
+    <ng-container matColumnDef="occupation">
+      <mat-header-cell *matHeaderCellDef> Occupation </mat-header-cell>
+      <mat-cell *matCellDef="let character">
+        <a class="table-link" routerLink="/dashboard/detail/{{ character.id }}">
+          {{ characterMetadata.occupations[character.occupation].name }}
+        </a>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="accumulatedXP">
+      <mat-header-cell *matHeaderCellDef> Total XP </mat-header-cell>
+      <mat-cell *matCellDef="let character">
+        <a class="table-link" routerLink="/dashboard/detail/{{ character.id }}">
+          {{ character.accumulatedXP }}
+        </a>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+      <mat-cell *matCellDef="let character" >
+            <button mat-raised-button color="warn" (click)="delete(character)" >Delete</button> 
+      </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <br />  
+  <h1>Events Attended</h1>
+  <p class="tbd">Coming soon...</p>
 </div>
