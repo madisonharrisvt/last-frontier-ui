@@ -4,17 +4,17 @@
 <mat-table #table [dataSource]="lfevents">
   <ng-container matColumnDef="title" >
     <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
-    <mat-cell *matCellDef="let lfEvent" > <a class="table-link" routerLink="/dashboard/event-detail/{{ lfEvent.id }}"> {{lfEvent.title}} </a></mat-cell>
+    <mat-cell *matCellDef="let lfevent" > <a class="table-link" routerLink="/dashboard/event-detail/{{ lfevent.id }}"> {{lfevent.title}} </a></mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="startDate">
     <mat-header-cell *matHeaderCellDef> Start Date </mat-header-cell>
-    <mat-cell *matCellDef="let lfEvent" > <a class="table-link" routerLink="/dashboard/event-detail/{{ lfEvent.id }}"> {{lfEvent.startDate}} </a> </mat-cell>
+    <mat-cell *matCellDef="let lfevent" > <a class="table-link" routerLink="/dashboard/event-detail/{{ lfevent.id }}"> {{lfevent.startDate | date }} </a> </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="endDate">
     <mat-header-cell *matHeaderCellDef> End Date </mat-header-cell>
-    <mat-cell *matCellDef="let lfEvent" > <a class="table-link" routerLink="/dashboard/event-detail/{{ lfEvent.id }}"> {{lfEvent.endDate}} </a> </mat-cell>
+    <mat-cell *matCellDef="let lfevent" > <a class="table-link" routerLink="/dashboard/event-detail/{{ lfevent.id }}"> {{lfevent.endDate | date }} </a></mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

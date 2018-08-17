@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { Event } from '../../models/event.interface';
+import { LFEvent } from '../../models/event.interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EventService } from '../../services/event.service';
+import { LfeventService } from '../../services/lfevent.service';
 
 @Component({
   selector: 'app-event-detail',
@@ -12,13 +12,13 @@ import { EventService } from '../../services/event.service';
 })
 export class EventDetailComponent implements OnInit {
 
-  event: Event;
+  event: LFEvent;
   eventForm: FormGroup;
   
   constructor(
     private route: ActivatedRoute,
     private location: Location,
-    private eventService: EventService
+    private lfeventService: LfeventService
   ) { }
 
   ngOnInit() {
@@ -43,12 +43,28 @@ export class EventDetailComponent implements OnInit {
   getAndSetEvent() {
     var eventIdFromRoute = this.route.snapshot.paramMap.get('id');
 
-    //if(eventIdFromRoute == 'new')
+    if(eventIdFromRoute !== 'new' && eventIdFromRoute !== null)
+    {
+      this.lfeventService.getEvent(+eventIdFromRoute)
+        .subscribe(event => {
+          this.event = event;
+
+          var startDate = new Date(event.startDate);
+          var endDate = new Date(event.endDate);
+
+          this.eventForm.get('title').setValue(event.title);
+          this.eventForm.get('location').setValue(event.location);
+          this.eventForm.get('startDate').setValue(startDate);
+          this.eventForm.get('endDate').setValue(endDate);
+          this.eventForm.get('description').setValue(event.description);
+          this.eventForm.get('details').setValue(event.details);
+        });
+    }
   }
 
   save() {
     if(this.event == null) {
-      this.event = new Event();
+      this.event = new LFEvent();
       this.event.id = 0;
     }
 
@@ -59,7 +75,7 @@ export class EventDetailComponent implements OnInit {
     this.event.description = this.eventForm.value.description;
     this.event.details = this.eventForm.value.details;
 
-    this.eventService.updateEvent(this.event)
+    this.lfeventService.updateEvent(this.event)
     .subscribe(() => this.goBack());
   }
 

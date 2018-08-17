@@ -3,9 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { LoginFormComponent } from './login-form/login-form.component';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
-import { RootComponent } from './dashboard/root/root.component';
-import { HomeComponent } from './dashboard/home/home.component';
-import { SettingsComponent } from './dashboard/settings/settings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },

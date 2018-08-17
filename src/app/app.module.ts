@@ -27,7 +27,7 @@ import { UserService } from './shared/services/user.service';
 import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
 import { EmailValidator } from './directives/email.validator.directive';
 import { DashboardModule }  from './dashboard/dashboard.module';
-import { EventService } from './dashboard/services/event.service';
+import { LfeventService } from './dashboard/services/lfevent.service';
 
 
 @NgModule({
@@ -114,7 +114,7 @@ import { EventService } from './dashboard/services/event.service';
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers: [ConfigService, UserService, EventService],
+  providers: [ConfigService, UserService, LfeventService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,6 @@
-export class Event {
+export class LFEvent {
     id: number;
-    title: number;
+    title: string;
     location: string;
     startDate: string;
     endDate: string;

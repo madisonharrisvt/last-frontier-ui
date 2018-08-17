@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from '../../services/event.service';
-import { Event } from '../../models/event.interface';
+import { LfeventService } from '../../services/lfevent.service';
+import { LFEvent } from '../../models/event.interface';
 
 @Component({
   selector: 'app-event-list',
@@ -9,17 +9,17 @@ import { Event } from '../../models/event.interface';
 })
 export class EventListComponent implements OnInit {
 
-  lfevents: Event[];
-  displayedColumns: ['title', 'startDate', 'endDate'];
+  lfevents: LFEvent[];
+  displayedColumns = ['title', 'startDate', 'endDate'];
 
-  constructor(private eventService: EventService) { }
+  constructor(private lfEventService: LfeventService) { }
 
   ngOnInit() {
     this.getEvents();
   }
 
   getEvents() {
-    this.eventService.getEvents()
-      .subscribe(events => this.lfevents = events);
+    this.lfEventService.getEvents()
+      .subscribe(lfevents => this.lfevents = lfevents);
   }
 }

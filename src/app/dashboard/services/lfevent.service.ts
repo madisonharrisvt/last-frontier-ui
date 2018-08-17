@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '../../../../node_modules/@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../../shared/utils/config.service';
 import { BaseService } from '../../shared/services/base.service';
-import { Event } from '../models/event.interface';
-import { Observable } from '../../../../node_modules/rxjs';
+import { LFEvent } from '../models/event.interface';
+import { Observable } from 'rxjs';
 
 @Injectable()
-export class EventService extends BaseService {
+export class LfeventService extends BaseService {
 
   baseURL = '';
   eventDetailUrl = '';
@@ -20,20 +20,28 @@ export class EventService extends BaseService {
     this.eventListUrl = `${this.baseURL}/eventlist`;
   }
 
-  getEvents(): Observable<Event[]> {
+  getEvents(): Observable<LFEvent[]> {
     let httpOptions = {
       headers: new HttpHeaders(this.httpHeader)
     };
 
-    return this.http.get<Event[]>(this.eventListUrl, httpOptions);
+    return this.http.get<LFEvent[]>(this.eventListUrl, httpOptions);
   }
 
-  updateEvent(event: Event): Observable<Event> {
+  getEvent(id: number): Observable<LFEvent> {
     let httpOptions = {
       headers: new HttpHeaders(this.httpHeader)
     };
 
-    return this.http.put<Event>(this.eventDetailUrl, event, httpOptions);
+    return this.http.get<LFEvent>(`${this.eventDetailUrl}/?eventId=${id}`, httpOptions)
+  }
+
+  updateEvent(event: LFEvent): Observable<LFEvent> {
+    let httpOptions = {
+      headers: new HttpHeaders(this.httpHeader)
+    };
+
+    return this.http.put<LFEvent>(this.eventDetailUrl, event, httpOptions);
   }
 
 }
