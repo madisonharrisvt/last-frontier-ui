@@ -8,7 +8,7 @@ import {
   MatListModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule,
   MatRadioModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSortModule,
   MatSlideToggleModule, MatSnackBarModule, MatTableModule, MatTabsModule, MatToolbarModule,
-  MatTooltipModule, MatFormFieldModule, MatExpansionModule, MatStepperModule
+  MatTooltipModule, MatFormFieldModule, MatExpansionModule, MatStepperModule, MatNativeDateModule
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -27,6 +27,7 @@ import { UserService } from './shared/services/user.service';
 import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
 import { EmailValidator } from './directives/email.validator.directive';
 import { DashboardModule }  from './dashboard/dashboard.module';
+import { EventService } from './dashboard/services/event.service';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { DashboardModule }  from './dashboard/dashboard.module';
     MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatDialogModule,
     MatDividerModule,
     MatExpansionModule,
@@ -112,7 +114,7 @@ import { DashboardModule }  from './dashboard/dashboard.module';
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers: [ConfigService, UserService],
+  providers: [ConfigService, UserService, EventService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

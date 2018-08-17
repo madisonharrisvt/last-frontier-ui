@@ -10,6 +10,8 @@ import { UserListComponent } from './user-management/user-list/user-list.compone
 
 import { AuthGuard } from '../auth.guard';
 import { UserDetailComponent } from './user-management/user-detail/user-detail.component';
+import { EventDetailComponent } from './events/event-detail/event-detail.component';
+import { EventListComponent } from './events/event-list/event-list.component';
 
 export const routing: ModuleWithProviders = RouterModule.forChild([
   {
@@ -25,7 +27,10 @@ export const routing: ModuleWithProviders = RouterModule.forChild([
        { path: 'detail/new', component: CharacterDetailComponent },
        { path: 'user-detail/:id', component: UserDetailComponent },
        { path: 'user-detail/new', component: UserDetailComponent },
-       { path: 'user-list', component: UserListComponent } 
+       { path: 'user-list', component: UserListComponent }, 
+       { path: 'event-detail/:id', component: EventDetailComponent },
+       { path: 'event-detail/new', component: EventDetailComponent },
+       { path: 'event-list', component: EventListComponent }
       ]       
     }  
 ]);
