@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Identity } from '../../models/identity.interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserManagementService } from '../../services/user.management.service';
 import { Player } from '../../models/player.interface';
-import { MatDialog } from '../../../../../node_modules/@angular/material';
+import { MatDialog } from '@angular/material';
 import { CharacterDetailComponent } from '../../character-detail/character-detail.component';
 import { Character } from '../../models/character.interface';
 import { CharacterService } from '../../services/character.service';

@@ -20,21 +20,21 @@ import { Metadata } from '../models/metadata.interface';
 
 export class CharacterService extends BaseService {
 
-  baseUrl: string = '';
-  characterListUrl: string = '';
-  characterUrl: string = '';
-  characterSearchUrl: string = '';
-  characterMetadataUrl: string = '';
+  baseUrl = '';
+  characterListUrl = '';
+  characterUrl = '';
+  characterSearchUrl = '';
+  characterMetadataUrl = '';
   
   httpHeader = { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` };
 
   constructor(private http: HttpClient, private configService: ConfigService) {
      super();
      this.baseUrl = configService.getApiURI();
-     this.characterListUrl = `${configService.getApiURI()}/characterlist`;
-     this.characterUrl = `${configService.getApiURI()}/characterdetail`;
-     this.characterSearchUrl = `${configService.getApiURI()}/charactersearch`;
-     this.characterMetadataUrl = `${configService.getApiURI()}/charactermetadata`;
+     this.characterListUrl = `${this.baseUrl}/characterlist`;
+     this.characterUrl = `${this.baseUrl}/characterdetail`;
+     this.characterSearchUrl = `${this.baseUrl}/charactersearch`;
+     this.characterMetadataUrl = `${this.baseUrl}/charactermetadata`;
   }
 
   getSideGigs(occupation: number): Observable<Metadata[]> {

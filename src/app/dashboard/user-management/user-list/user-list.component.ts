@@ -14,7 +14,6 @@ export class UserListComponent implements OnInit {
 
   identities: Identity[];
   displayedColumns = ['userName', 'firstName', 'lastName'];
-  testString = "help";
   email: string; 
 
   constructor(private userManagementService: UserManagementService, public dialog: MatDialog) { }

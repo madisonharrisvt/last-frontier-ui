@@ -33,6 +33,8 @@ import { CharacterSearchComponent } from './character-search/character-search.co
 import { UserListComponent } from './user-management/user-list/user-list.component';
 import { UserDetailComponent } from './user-management/user-detail/user-detail.component';
 import { AddUserDialogComponent } from './user-management/add-user-dialog/add-user-dialog.component';
+import { EventDetailComponent } from './events/event-detail/event-detail.component';
+import { EventListComponent } from './events/event-list/event-list.component';
 
 
 @NgModule({
@@ -77,7 +79,7 @@ import { AddUserDialogComponent } from './user-management/add-user-dialog/add-us
     MatToolbarModule,
     MatTooltipModule
   ],
-  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent],
+  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent],
   exports:      [ 
     MatAutocompleteModule,
     MatButtonModule,
