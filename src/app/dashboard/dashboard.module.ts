@@ -27,14 +27,17 @@ import { CharacterService } from './services/character.service';
 import { UserManagementService } from './services/user.management.service';
 
 import { AuthGuard } from '../auth.guard';
-import { CharactersComponent } from './characters/characters.component';
-import { CharacterDetailComponent } from './character-detail/character-detail.component';
-import { CharacterSearchComponent } from './character-search/character-search.component';
+import { CharactersComponent } from './character/characters/characters.component';
+import { CharacterDetailComponent } from './character/character-detail/character-detail.component';
+import { CharacterSearchComponent } from './character/character-search/character-search.component';
 import { UserListComponent } from './user-management/user-list/user-list.component';
 import { UserDetailComponent } from './user-management/user-detail/user-detail.component';
 import { AddUserDialogComponent } from './user-management/add-user-dialog/add-user-dialog.component';
 import { EventDetailComponent } from './events/event-detail/event-detail.component';
 import { EventListComponent } from './events/event-list/event-list.component';
+import { CharacterEventListComponent } from './character/character-event-list/character-event-list.component';
+import { CharacterEventService } from './services/character-event.service';
+import { AddCharacterToEventDialogComponent } from './events/add-character-to-event-dialog/add-character-to-event-dialog.component';
 
 
 @NgModule({
@@ -79,7 +82,7 @@ import { EventListComponent } from './events/event-list/event-list.component';
     MatToolbarModule,
     MatTooltipModule
   ],
-  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent],
+  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent],
   exports:      [ 
     MatAutocompleteModule,
     MatButtonModule,
@@ -113,6 +116,6 @@ import { EventListComponent } from './events/event-list/event-list.component';
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService]
+  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService,CharacterEventService]
 })
 export class DashboardModule { }

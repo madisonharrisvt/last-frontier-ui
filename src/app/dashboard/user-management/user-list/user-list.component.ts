@@ -4,6 +4,7 @@ import { UserManagementService }  from '../../services/user.management.service';
 import { Identity } from '../../models/identity.interface';
 import { MatDialog } from '@angular/material';
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
+import { Player } from '../../models/player.interface';
 
 @Component({
   selector: 'app-user-list',
@@ -12,7 +13,7 @@ import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.compo
 })
 export class UserListComponent implements OnInit {
 
-  identities: Identity[];
+  players: Player[]
   displayedColumns = ['userName', 'firstName', 'lastName'];
   email: string; 
 
@@ -23,8 +24,8 @@ export class UserListComponent implements OnInit {
   }
 
   getUsers() {
-    this.userManagementService.getCharacters()
-      .subscribe(users => this.identities = users);
+    this.userManagementService.getPlayers()
+      .subscribe(players => this.players = players);
   }
 
   openDialog() {

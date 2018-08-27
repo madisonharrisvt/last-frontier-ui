@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Character } from '../models/character.interface';
-import { CharacterService } from '../services/character.service';
+import { Character } from '../../models/character.interface';
+import { CharacterService } from '../../services/character.service';
 
 import { Router } from '@angular/router';
 

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserManagementService } from '../../services/user.management.service';
 import { Player } from '../../models/player.interface';
 import { MatDialog } from '@angular/material';
-import { CharacterDetailComponent } from '../../character-detail/character-detail.component';
+import { CharacterDetailComponent } from '../../character/character-detail/character-detail.component';
 import { Character } from '../../models/character.interface';
 import { CharacterService } from '../../services/character.service';
 import { CharacterMetadata } from '../../models/character.metadata.interface';
@@ -18,6 +19,7 @@ import * as decode from 'jwt-decode';
 })
 export class UserDetailComponent implements OnInit {
 
+  playerId: number;
   player: Player;
   userForm: FormGroup;
   characters: Character[];
@@ -28,6 +30,7 @@ export class UserDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private userManagementService: UserManagementService,
     private characterService: CharacterService,
     public dialog: MatDialog
@@ -67,9 +70,9 @@ export class UserDetailComponent implements OnInit {
     if(this.route.snapshot.paramMap.get('id') !== 'new' &&
         this.route.snapshot.paramMap.get('id') !== null) {
 
-      const id = this.route.snapshot.paramMap.get('id');
+      this.playerId = +this.route.snapshot.paramMap.get('id');
       
-      this.userManagementService.getPlayer(id)
+      this.userManagementService.getPlayer(this.playerId)
         .subscribe(player => {
           this.player = player;
           this.userForm.get('playerId').setValue(player.id);
@@ -88,6 +91,20 @@ export class UserDetailComponent implements OnInit {
             });
       });
     }
+  }
+
+  save() {
+    this.player.id = this.playerId;
+    this.player.identity.firstName = this.userForm.value.firstName;
+    this.player.identity.lastName = this.userForm.value.lastName;
+    this.player.identity.email = this.userForm.value.email;
+
+    this.userManagementService.updatePlayer(this.player)
+      .subscribe(() => this.goBack());
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   getCharacters() {
@@ -112,18 +129,4 @@ export class UserDetailComponent implements OnInit {
 
   routeToCharacterDetail(characterId) {
     this.router.navigate(['dashboard/detail', this.player.id, {characterId:characterId}])};
-
-  /*
-  openExistingCharacterDialog(characterId: number) {
-    var addCharacterDialogData = new AddCharacterDialogData();
-    addCharacterDialogData.playerId = this.player.id;
-    addCharacterDialogData.characterId = characterId;
-    
-    this.dialog.open(CharacterDetailComponent, {
-      width: '50%',
-      data: addCharacterDialogData
-    });    
-  }
-  */
-
 }
