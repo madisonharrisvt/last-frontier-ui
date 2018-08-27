@@ -28,6 +28,7 @@ import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
 import { EmailValidator } from './directives/email.validator.directive';
 import { DashboardModule }  from './dashboard/dashboard.module';
 import { LfeventService } from './dashboard/services/lfevent.service';
+import { AddCharacterToEventDialogComponent } from './dashboard/events/add-character-to-event-dialog/add-character-to-event-dialog.component';
 
 
 @NgModule({
@@ -37,7 +38,7 @@ import { LfeventService } from './dashboard/services/lfevent.service';
     RegistrationFormComponent,
     EmailValidator
   ],
-  entryComponents: [AddUserDialogComponent],
+  entryComponents: [AddUserDialogComponent, AddCharacterToEventDialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

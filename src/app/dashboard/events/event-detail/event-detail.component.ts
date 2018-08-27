@@ -4,6 +4,11 @@ import { LFEvent } from '../../models/event.interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LfeventService } from '../../services/lfevent.service';
+import { MatDialog, MatTableDataSource } from '../../../../../node_modules/@angular/material';
+import { CharactersComponent } from '../../character/characters/characters.component';
+import { AddCharacterToEventDialogComponent } from '../add-character-to-event-dialog/add-character-to-event-dialog.component';
+import { CharacterEvent } from '../../models/character-event.interface';
+import { CharacterEventService } from '../../services/character-event.service';
 
 @Component({
   selector: 'app-event-detail',
@@ -13,12 +18,16 @@ import { LfeventService } from '../../services/lfevent.service';
 export class EventDetailComponent implements OnInit {
 
   event: LFEvent;
+  attendingCharacters: MatTableDataSource<CharacterEvent>;
+  displayedColumns = ['playerId', 'name', 'vpToXp', 'vpToItems', 'xpBought']
   eventForm: FormGroup;
   
   constructor(
     private route: ActivatedRoute,
     private location: Location,
-    private lfeventService: LfeventService
+    private lfeventService: LfeventService,
+    private characterEventService: CharacterEventService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -58,8 +67,20 @@ export class EventDetailComponent implements OnInit {
           this.eventForm.get('endDate').setValue(endDate);
           this.eventForm.get('description').setValue(event.description);
           this.eventForm.get('details').setValue(event.details);
+
+          this.characterEventService.getEventsCharacters(event.id)
+            .subscribe(characterEvents => {
+              this.attendingCharacters = new MatTableDataSource(characterEvents);
+            });
         });
     }
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(AddCharacterToEventDialogComponent, {
+      width: '800px',
+      data: this.event
+    });
   }
 
   save() {
@@ -77,6 +98,11 @@ export class EventDetailComponent implements OnInit {
 
     this.lfeventService.updateEvent(this.event)
     .subscribe(() => this.goBack());
+  }
+
+  saveVpToItems(characterEvent: CharacterEvent) {
+    var pleaseWork = '';
+    this.characterEventService.saveCharacterEvent(characterEvent).subscribe();
   }
 
   goBack() {

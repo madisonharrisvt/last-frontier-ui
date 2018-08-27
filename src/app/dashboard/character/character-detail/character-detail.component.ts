@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { CharacterService }  from '../services/character.service';
+import { CharacterService }  from '../../services/character.service';
 
-import { Character } from '../models/character.interface';
-import { Skill } from '../models/skill.interface';
-import { CharacterMetadata } from '../models/character.metadata.interface';
+import { Character } from '../../models/character.interface';
+import { Skill } from '../../models/skill.interface';
+import { CharacterMetadata } from '../../models/character.metadata.interface';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -18,11 +18,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 export class CharacterDetailComponent implements OnInit {
 
-  character: Character;
+  character = new Character();
   characterMetadata = new CharacterMetadata();
   characterIdFromRoute: string;
   playerIdFromRoute: string;
-
   characterForm: FormGroup;
 
   constructor(
@@ -54,16 +53,17 @@ export class CharacterDetailComponent implements OnInit {
   this.getCharacter();
   }
 
-  getCharacter(): void {
+  getCharacter() {
     var occupationId = 0;
-    // TODO: parse player and character id from here to pass into the CharacterService
     this.playerIdFromRoute = this.route.snapshot.paramMap.get('id');
     this.characterIdFromRoute = this.route.snapshot.paramMap.get('characterId');
 
     if(this.characterIdFromRoute !== 'new' && this.characterIdFromRoute !== null) {
+
       this.characterService.getCharacter(+this.characterIdFromRoute)
         .subscribe(character => {
           this.character = character;
+
           this.characterForm.get('name').setValue(character.name);
           this.characterForm.get('accumulatedXP').setValue(character.accumulatedXP);
           this.characterForm.get('availableXP').setValue(character.availableXP);
@@ -90,7 +90,7 @@ export class CharacterDetailComponent implements OnInit {
             .subscribe(characterMetadata => {
               this.characterMetadata = characterMetadata;
             });
-      });
+        });
     } else {
         this.characterForm.get('status').setValue(1);
         this.characterForm.get('cloneStatus').setValue(0);
@@ -115,6 +115,8 @@ export class CharacterDetailComponent implements OnInit {
     if(this.character == null) {
       this.character = new Character();
     }
+
+    // TODO: See if I can make this less terrible
     this.character.playerId = +this.playerIdFromRoute;
     this.character.id = +this.characterIdFromRoute;
     this.character.name = this.characterForm.value.name;

@@ -31,18 +31,18 @@ export class UserManagementService extends BaseService {
     this.userDetailUrl = `${configService.getApiURI()}/userdetail`;
   }
 
-  getCharacters(): Observable<Identity[]> {
+  getPlayers(): Observable<Player[]> {
     let httpOptions = {
       headers: new HttpHeaders(this.authorizationHeader)
     };
-    return this.http.get<Identity[]>(this.userManagementUrl, httpOptions);
+    return this.http.get<Player[]>(this.userManagementUrl, httpOptions);
   }
 
-  getPlayer(id: string): Observable<Player> {
+  getPlayer(id: number): Observable<Player> {
     let httpOptions = {
       headers: new HttpHeaders(this.authorizationHeader)
     }
-    return this.http.get<Player>(`${this.userDetailUrl}/?userId=${id}`, httpOptions);
+    return this.http.get<Player>(`${this.userDetailUrl}/?playerId=${id}`, httpOptions);
   }
 
   createPlayerByEmail(newPlayer: AddPlayerDialogData): Observable<string> {
@@ -50,6 +50,13 @@ export class UserManagementService extends BaseService {
       headers: new HttpHeaders(this.authorizationHeader)
     }
     return this.http.put<string>(`${this.userManagementUrl}`, newPlayer, httpOptions);
+  }
+  
+  updatePlayer(player: Player) {
+    let httpOptions = {
+      headers: new HttpHeaders(this.authorizationHeader)
+    }
+    return this.http.put(`${this.userDetailUrl}`, player, httpOptions);
   }
 
 }

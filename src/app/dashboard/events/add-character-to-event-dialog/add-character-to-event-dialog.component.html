@@ -1,0 +1,39 @@
+<mat-card>
+    <mat-card-title>Events Attended</mat-card-title>
+
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+
+    <mat-table #table [dataSource]="filterDataSource">
+        <ng-container matColumnDef="playerId" >
+            <mat-header-cell *matHeaderCellDef> Player ID </mat-header-cell>
+            <mat-cell *matCellDef="let player" > {{player.playerId}} </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef> First Name </mat-header-cell>
+            <mat-cell *matCellDef="let player" > {{player.firstName }} </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="lastName">
+            <mat-header-cell *matHeaderCellDef> Last Name </mat-header-cell>
+            <mat-cell *matCellDef="let player" > {{player.lastName }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="characterName">
+            <mat-header-cell *matHeaderCellDef> Character Name </mat-header-cell>
+            <mat-cell *matCellDef="let player" > {{player.characterName }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let player" >
+                 <button mat-raised-button (click)="add(player)" >Add to Event</button> 
+            </mat-cell>
+        </ng-container>
+        
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</mat-card>

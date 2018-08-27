@@ -1,4 +1,5 @@
 import { Skill } from './skill.interface';
+import { CharacterEvent } from './character-event.interface';
 
 export class Character {
     id: number;
@@ -14,6 +15,7 @@ export class Character {
     sideGig: number;
     status: number;
     skills: Skill[];
+    events: CharacterEvent[];
     torsoHealth: number;
     rightArmHealth: number;
     leftArmHealth: number;

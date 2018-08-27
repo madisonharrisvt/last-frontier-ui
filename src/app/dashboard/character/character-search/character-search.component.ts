@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CharacterService } from '../services/character.service';
+import { CharacterService } from '../../services/character.service';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject }    from 'rxjs/Subject';
 import { of }         from 'rxjs/observable/of';
-import { Character } from '../models/character.interface';
+import { Character } from '../../models/character.interface';
 
 import {
   debounceTime, distinctUntilChanged, switchMap

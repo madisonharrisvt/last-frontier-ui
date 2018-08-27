@@ -67,6 +67,8 @@
 
                 <mat-divider class="divider"></mat-divider>
 
+                <br />
+                <br />
                 <h2 class="title">Skills</h2>
 
                 <div *ngFor="let index of getSkillIndices()">
@@ -85,6 +87,8 @@
 
                 <button mat-raised-button color="accent" (click)="addSkill()" >Add Skill</button>
 
+                <br />
+                <br />
                 <mat-divider class="divider"></mat-divider>
 
                 <h2 class="title">Damage Report</h2>
@@ -114,4 +118,6 @@
 
         </form>
     </mat-card>
+
+    <app-character-event-list></app-character-event-list>
 </div>

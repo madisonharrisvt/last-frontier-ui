@@ -1,0 +1,22 @@
+<mat-card>
+    <mat-card-title>Events Attended</mat-card-title>
+    <mat-table #table [dataSource]="characterEventDataSource">
+        <ng-container matColumnDef="eventId" >
+            <mat-header-cell *matHeaderCellDef> Event ID </mat-header-cell>
+            <mat-cell *matCellDef="let lfevent" > {{lfevent.eventId}} </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="vpToXp">
+            <mat-header-cell *matHeaderCellDef> VP -> XP </mat-header-cell>
+            <mat-cell *matCellDef="let lfevent" > {{lfevent.vpToXp }} </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="vpToItems">
+            <mat-header-cell *matHeaderCellDef> VP -> Items </mat-header-cell>
+            <mat-cell *matCellDef="let lfevent" > {{lfevent.vpToItems }} </mat-cell>
+        </ng-container>
+        
+        <mat-header-row *matHeaderRowDef="displayedColumnsForEvents"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsForEvents;"></mat-row>
+    </mat-table>
+</mat-card>
