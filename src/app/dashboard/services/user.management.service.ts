@@ -45,11 +45,11 @@ export class UserManagementService extends BaseService {
     return this.http.get<Player>(`${this.userDetailUrl}/?playerId=${id}`, httpOptions);
   }
 
-  createPlayerByEmail(newPlayer: AddPlayerDialogData): Observable<string> {
+  createPlayerByEmail(newPlayer: AddPlayerDialogData): Observable<number> {
     let httpOptions = {
       headers: new HttpHeaders(this.authorizationHeader)
     }
-    return this.http.put<string>(`${this.userManagementUrl}`, newPlayer, httpOptions);
+    return this.http.put<number>(`${this.userManagementUrl}`, newPlayer, httpOptions);
   }
   
   updatePlayer(player: Player) {

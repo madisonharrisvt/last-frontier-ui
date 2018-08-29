@@ -11,6 +11,7 @@ export class LfeventService extends BaseService {
   baseURL = '';
   eventDetailUrl = '';
   eventListUrl = '';
+  activeEventUrl = '';
   httpHeader = { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` };
 
   constructor(private http: HttpClient, private configService: ConfigService) { 
@@ -18,6 +19,7 @@ export class LfeventService extends BaseService {
     this.baseURL = configService.getApiURI();
     this.eventDetailUrl = `${this.baseURL}/eventdetail`;
     this.eventListUrl = `${this.baseURL}/eventlist`;
+    this.activeEventUrl = `${this.baseURL}/activeEvent`;
   }
 
   getEvents(): Observable<LFEvent[]> {
@@ -42,6 +44,14 @@ export class LfeventService extends BaseService {
     };
 
     return this.http.put<LFEvent>(this.eventDetailUrl, event, httpOptions);
+  }
+
+  getActiveEvent(): Observable<LFEvent> {
+    let httpOptions = {
+      headers: new HttpHeaders(this.httpHeader)
+    };
+
+    return this.http.get<LFEvent>(this.activeEventUrl, httpOptions);
   }
 
 }

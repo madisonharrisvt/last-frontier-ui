@@ -20,11 +20,11 @@ import * as decode from 'jwt-decode';
 export class UserDetailComponent implements OnInit {
 
   playerId: number;
-  player: Player;
+  player = new Player();
   userForm: FormGroup;
-  characters: Character[];
+  characters: Character[] = null;
   displayedColumns = ['name', 'species', 'occupation', 'accumulatedXP', 'actions'];
-  characterMetadata = new CharacterMetadata();
+  characterMetadata: CharacterMetadata = null;
   identityId: string;
 
   constructor(
@@ -48,12 +48,8 @@ export class UserDetailComponent implements OnInit {
       }, {
         validators: [Validators.required]
       }),
-      firstName: new FormControl('', {
-        validators: [Validators.required]
-      }),
-      lastName: new FormControl('', {
-        validators: [Validators.required]
-      }),
+      firstName: new FormControl(),
+      lastName: new FormControl(),
       email: new FormControl('', {
         validators: [Validators.required]
       }),
@@ -125,6 +121,24 @@ export class UserDetailComponent implements OnInit {
       width: '50%',
       data: addCharacterDialogData
     });    
+  }
+
+  getSpecies(character: Character): string {
+    var species = null; 
+    if(this.characterMetadata !== null &&
+        character.species !== null) {
+      species = this.characterMetadata.species[character.species].name
+    }
+    return species;
+  }
+
+  getOccupation(character: Character): string {
+    var occupation = null; 
+    if(this.characterMetadata !== null &&
+        character.occupation !== null) {
+      occupation = this.characterMetadata.occupations[character.occupation].name
+    }
+    return occupation;
   }
 
   routeToCharacterDetail(characterId) {
