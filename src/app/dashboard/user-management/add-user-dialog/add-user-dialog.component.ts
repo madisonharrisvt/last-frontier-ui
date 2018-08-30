@@ -14,7 +14,7 @@ export class AddUserDialogComponent implements OnInit {
 
   newPlayer = new AddPlayerDialogData();
   playerForm: FormGroup;
-  userId: string;
+  userId: number;
 
   constructor(
     public dialogRef: MatDialogRef<AddUserDialogComponent>,

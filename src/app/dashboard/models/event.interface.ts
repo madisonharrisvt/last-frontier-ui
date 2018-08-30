@@ -6,4 +6,5 @@ export class LFEvent {
     endDate: string;
     description: string;
     details: string;
+    isActiveEvent: boolean;
 }

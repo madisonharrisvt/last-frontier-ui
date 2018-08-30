@@ -38,6 +38,8 @@ import { EventListComponent } from './events/event-list/event-list.component';
 import { CharacterEventListComponent } from './character/character-event-list/character-event-list.component';
 import { CharacterEventService } from './services/character-event.service';
 import { AddCharacterToEventDialogComponent } from './events/add-character-to-event-dialog/add-character-to-event-dialog.component';
+import { CheckInComponent } from './check-in/check-in.component';
+import { CheckInService } from './services/check-in.service';
 
 
 @NgModule({
@@ -82,7 +84,7 @@ import { AddCharacterToEventDialogComponent } from './events/add-character-to-ev
     MatToolbarModule,
     MatTooltipModule
   ],
-  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent],
+  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent],
   exports:      [ 
     MatAutocompleteModule,
     MatButtonModule,
@@ -116,6 +118,6 @@ import { AddCharacterToEventDialogComponent } from './events/add-character-to-ev
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService,CharacterEventService]
+  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService,CharacterEventService,CheckInService]
 })
 export class DashboardModule { }

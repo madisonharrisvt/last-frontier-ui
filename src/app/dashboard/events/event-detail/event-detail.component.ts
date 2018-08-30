@@ -43,7 +43,8 @@ export class EventDetailComponent implements OnInit {
         validators: [Validators.required]
       }),
       description: new FormControl(),
-      details: new FormControl()
+      details: new FormControl(),
+      isActiveEvent: new FormControl()
     });
 
     this.getAndSetEvent();
@@ -67,6 +68,7 @@ export class EventDetailComponent implements OnInit {
           this.eventForm.get('endDate').setValue(endDate);
           this.eventForm.get('description').setValue(event.description);
           this.eventForm.get('details').setValue(event.details);
+          this.eventForm.get('isActiveEvent').setValue(event.isActiveEvent);
 
           this.characterEventService.getEventsCharacters(event.id)
             .subscribe(characterEvents => {
@@ -95,6 +97,7 @@ export class EventDetailComponent implements OnInit {
     this.event.endDate = this.eventForm.value.endDate;
     this.event.description = this.eventForm.value.description;
     this.event.details = this.eventForm.value.details;
+    this.event.isActiveEvent = this.eventForm.value.isActiveEvent;
 
     this.lfeventService.updateEvent(this.event)
     .subscribe(() => this.goBack());

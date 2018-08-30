@@ -35,6 +35,8 @@
         <textarea matInput class="form-control" formControlName="details" placeholder="Details"></textarea>
       </mat-form-field>
 
+      <mat-checkbox formControlName="isActiveEvent">Is this event active?</mat-checkbox>
+
     </div>
     <button mat-raised-button color="primary" type="submit" (click)="save()" [disabled] = "this.eventForm.invalid" >Save</button>
   </form>
