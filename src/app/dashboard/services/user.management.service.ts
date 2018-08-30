@@ -59,4 +59,12 @@ export class UserManagementService extends BaseService {
     return this.http.put(`${this.userDetailUrl}`, player, httpOptions);
   }
 
+  deletePlayer(player: Player) {
+    let httpOptions = {
+      headers: new HttpHeaders(this.authorizationHeader)
+    };
+    const url = `${this.userDetailUrl}/${player.id}`;
+    return this.http.delete(url, httpOptions);
+  }
+
 }

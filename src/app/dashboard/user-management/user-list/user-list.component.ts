@@ -14,7 +14,7 @@ import { Player } from '../../models/player.interface';
 export class UserListComponent implements OnInit {
 
   players: Player[]
-  displayedColumns = ['userName', 'firstName', 'lastName'];
+  displayedColumns = ['userName', 'firstName', 'lastName', 'actions'];
   email: string; 
 
   constructor(private userManagementService: UserManagementService, public dialog: MatDialog) { }
@@ -33,5 +33,10 @@ export class UserListComponent implements OnInit {
       width: '250px',
       data: {name: this.email,}
     });    
+  }
+
+  delete(player: Player): void {
+    this.players = this.players.filter(p => p !== player);
+    this.userManagementService.deletePlayer(player).subscribe();
   }
 }

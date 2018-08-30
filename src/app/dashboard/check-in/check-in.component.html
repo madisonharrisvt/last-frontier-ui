@@ -1,7 +1,5 @@
 <h2 mat-dialog-title>Check-In for "{{ this.activeEvent.title }}"</h2>
-
 <form [formGroup]="checkInForm" novalidate> 
-
     <mat-form-field>
       <input matInput class="form-control" formControlName="email" placeholder="Email Address" required>
     </mat-form-field>
@@ -13,4 +11,5 @@
     <br />
     <br />
     <button mat-raised-button color="primary" type="submit" (click)="checkIn()" [disabled] = "this.checkInForm.invalid" >Check In</button>
+    <mat-spinner *ngIf="this.isLoading" style="margin:0 auto; opacity: 0.5;"></mat-spinner>
 </form>

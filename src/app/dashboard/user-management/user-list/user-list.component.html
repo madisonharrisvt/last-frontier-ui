@@ -16,6 +16,13 @@
     <mat-cell *matCellDef="let player" > <a class="table-link" routerLink="/dashboard/user-detail/{{ player.id }}"> {{player.identity.lastName}} </a></mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+    <mat-cell *matCellDef="let player" >
+         <button mat-raised-button color="warn" (click)="delete(player)" >Delete</button> 
+    </mat-cell>
+  </ng-container>
+
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>

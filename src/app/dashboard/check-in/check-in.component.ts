@@ -9,6 +9,7 @@ import { CharacterService } from '../services/character.service';
 import { Character } from '../models/character.interface';
 import { Skill } from '../models/skill.interface';
 import { CheckInService } from '../services/check-in.service';
+import { CheckInData } from '../models/check-in-data.interface';
 
 @Component({
   selector: 'app-check-in',
@@ -17,10 +18,11 @@ import { CheckInService } from '../services/check-in.service';
 })
 export class CheckInComponent implements OnInit {
 
-  newPlayer = new AddPlayerDialogData();
+  checkInData = new CheckInData();
   newCharacter = new Character();
   activeEvent = new LFEvent();
   checkInForm: FormGroup;
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -49,10 +51,22 @@ export class CheckInComponent implements OnInit {
   }
 
   checkIn() {
-    this.newPlayer.email = this.checkInForm.value.email;
+    this.isLoading = true;
+    var skills: Skill[] = [];
     this.newCharacter.name = this.checkInForm.value.characterName;
+    this.newCharacter.skills = skills;
 
-    this.checkInService.createPlayerByEmail(this.newPlayer)
+    this.checkInData.newPlayerEmail = this.checkInForm.value.email;
+    this.checkInData.newCharacter = this.newCharacter; 
+    this.checkInData.event = this.activeEvent;
+
+    this.checkInService.checkIn(this.checkInData)
+      .subscribe(playerId => {
+        this.isLoading = false;
+        this.router.navigateByUrl(`/dashboard/user-detail/${playerId}`);
+      });
+
+    /*this.checkInService.createPlayerByEmail(this.newPlayer)
       .subscribe(playerId => {
         var skills: Skill[] = [];
 
@@ -62,7 +76,7 @@ export class CheckInComponent implements OnInit {
           .subscribe(() => {
             this.router.navigateByUrl(`/dashboard/user-detail/${this.newCharacter.playerId}`);
           });
-      });
+      });*/
   }
 
 }
