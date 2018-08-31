@@ -40,8 +40,9 @@ import { CharacterEventService } from './services/character-event.service';
 import { AddCharacterToEventDialogComponent } from './events/add-character-to-event-dialog/add-character-to-event-dialog.component';
 import { CheckInComponent } from './check-in/check-in.component';
 import { CheckInService } from './services/check-in.service';
-import { NpcShiftsComponent } from './npc-shifts/npc-shifts.component';
+import { NpcShiftsComponent } from './npc/npc-shifts/npc-shifts.component';
 import { NpcShiftService } from './services/npc-shift.service';
+import { AllNpcShiftsComponent } from './npc/all-npc-shifts/all-npc-shifts.component';
 
 
 @NgModule({
@@ -86,7 +87,7 @@ import { NpcShiftService } from './services/npc-shift.service';
     MatToolbarModule,
     MatTooltipModule
   ],
-  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent],
+  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent, AllNpcShiftsComponent],
   exports:      [ 
     MatAutocompleteModule,
     MatButtonModule,

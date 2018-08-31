@@ -11,7 +11,7 @@ import { Skill } from '../models/skill.interface';
 import { CheckInService } from '../services/check-in.service';
 import { CheckInData } from '../models/check-in-data.interface';
 import { MatDialog } from '@angular/material';
-import { NpcShiftsComponent } from '../npc-shifts/npc-shifts.component';
+import { NpcShiftsComponent } from '../npc/npc-shifts/npc-shifts.component';
 
 @Component({
   selector: 'app-check-in',
@@ -67,7 +67,6 @@ export class CheckInComponent implements OnInit {
       .subscribe(playerId => {
         this.openDialog(playerId);
         this.isLoading = false;
-        //this.router.navigateByUrl(`/dashboard/user-detail/${playerId}`);
       });
   }
   

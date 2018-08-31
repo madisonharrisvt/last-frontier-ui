@@ -1,4 +1,5 @@
 import { LFEvent } from "./event.interface";
+import { Player } from "./player.interface";
 
 export class NpcShift {
     id: number;
@@ -7,4 +8,6 @@ export class NpcShift {
     eventId: number;
     event: LFEvent;
     npcCount: number;
+    players: Player[];
+    playerEmails: string;
 }

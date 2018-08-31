@@ -28,7 +28,7 @@ import { EmailValidator } from './directives/email.validator.directive';
 import { DashboardModule }  from './dashboard/dashboard.module';
 import { LfeventService } from './dashboard/services/lfevent.service';
 import { AddCharacterToEventDialogComponent } from './dashboard/events/add-character-to-event-dialog/add-character-to-event-dialog.component';
-import { NpcShiftsComponent } from './dashboard/npc-shifts/npc-shifts.component';
+import { NpcShiftsComponent } from './dashboard/npc/npc-shifts/npc-shifts.component';
 
 
 @NgModule({

@@ -12,6 +12,7 @@
         <!-- <mat-list-item *ngIf="this.role === 'Admin'" routerLinkActive="active" routerLink="/dashboard/characters" role="listitem">Characters</mat-list-item> -->
         <mat-list-item *ngIf="this.role === 'Admin'" routerLinkActive="active" routerLink="/dashboard/user-list" role="listitem">User Management</mat-list-item>
         <mat-list-item routerLinkActive="active" routerLink="/dashboard/check-in" role="listitem"> Check-In </mat-list-item>
+        <mat-list-item *ngIf="this.role === 'Admin'" routerLinkActive="active" routerLink="/dashboard/npc-shifts" role="listitem">NPC Shifts</mat-list-item>
       </mat-nav-list>
   </mat-sidenav>
   <div class="example-container mat-elevation-z8">

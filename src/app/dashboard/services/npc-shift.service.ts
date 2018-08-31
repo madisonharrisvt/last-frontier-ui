@@ -10,6 +10,7 @@ export class NpcShiftService extends BaseService {
 
   baseUrl = '';
   npcShiftUrl = '';
+  playerNpcShiftUrl = '';
   
   authorizationHeader = { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` };
 
@@ -32,5 +33,4 @@ export class NpcShiftService extends BaseService {
     }
     return this.http.put(`${this.npcShiftUrl}`, playerNpcShift, httpOptions);
   }
-
 }
