@@ -40,6 +40,8 @@ import { CharacterEventService } from './services/character-event.service';
 import { AddCharacterToEventDialogComponent } from './events/add-character-to-event-dialog/add-character-to-event-dialog.component';
 import { CheckInComponent } from './check-in/check-in.component';
 import { CheckInService } from './services/check-in.service';
+import { NpcShiftsComponent } from './npc-shifts/npc-shifts.component';
+import { NpcShiftService } from './services/npc-shift.service';
 
 
 @NgModule({
@@ -84,7 +86,7 @@ import { CheckInService } from './services/check-in.service';
     MatToolbarModule,
     MatTooltipModule
   ],
-  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent],
+  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent],
   exports:      [ 
     MatAutocompleteModule,
     MatButtonModule,
@@ -118,6 +120,6 @@ import { CheckInService } from './services/check-in.service';
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService,CharacterEventService,CheckInService]
+  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService,CharacterEventService,CheckInService, NpcShiftService]
 })
 export class DashboardModule { }

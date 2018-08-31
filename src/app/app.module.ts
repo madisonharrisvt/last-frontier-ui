@@ -24,11 +24,11 @@ import { AddUserDialogComponent } from './dashboard/user-management/add-user-dia
 import { ConfigService } from './shared/utils/config.service';
 import { UserService } from './shared/services/user.service';
 
-import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
 import { EmailValidator } from './directives/email.validator.directive';
 import { DashboardModule }  from './dashboard/dashboard.module';
 import { LfeventService } from './dashboard/services/lfevent.service';
 import { AddCharacterToEventDialogComponent } from './dashboard/events/add-character-to-event-dialog/add-character-to-event-dialog.component';
+import { NpcShiftsComponent } from './dashboard/npc-shifts/npc-shifts.component';
 
 
 @NgModule({
@@ -38,7 +38,7 @@ import { AddCharacterToEventDialogComponent } from './dashboard/events/add-chara
     RegistrationFormComponent,
     EmailValidator
   ],
-  entryComponents: [AddUserDialogComponent, AddCharacterToEventDialogComponent],
+  entryComponents: [AddUserDialogComponent, AddCharacterToEventDialogComponent, NpcShiftsComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
