@@ -1,0 +1,24 @@
+<mat-table class="full-width" #table [dataSource]="npcShifts">
+  <ng-container matColumnDef="startDateTime" >
+    <mat-header-cell *matHeaderCellDef > Shift Start </mat-header-cell>
+    <mat-cell *matCellDef="let shift" > {{shift.startDateTime | date : "short"}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="endDateTime">
+    <mat-header-cell *matHeaderCellDef> Shift End </mat-header-cell>
+    <mat-cell *matCellDef="let shift" > {{shift.endDateTime | date : "short"}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="npcCount">
+    <mat-header-cell *matHeaderCellDef> NPCs </mat-header-cell>
+    <mat-cell *matCellDef="let shift" > {{shift.npcCount}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="players">
+    <mat-header-cell *matHeaderCellDef> Players </mat-header-cell>
+    <mat-cell *matCellDef="let shift" > {{shift.playerEmails}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns; sticky : true"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

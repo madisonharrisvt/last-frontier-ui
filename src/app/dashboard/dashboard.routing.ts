@@ -13,6 +13,7 @@ import { UserDetailComponent } from './user-management/user-detail/user-detail.c
 import { EventDetailComponent } from './events/event-detail/event-detail.component';
 import { EventListComponent } from './events/event-list/event-list.component';
 import { CheckInComponent } from './check-in/check-in.component';
+import { AllNpcShiftsComponent } from './npc/all-npc-shifts/all-npc-shifts.component';
 
 export const routing: ModuleWithProviders = RouterModule.forChild([
   {
@@ -32,7 +33,8 @@ export const routing: ModuleWithProviders = RouterModule.forChild([
        { path: 'event-detail/:id', component: EventDetailComponent },
        { path: 'event-detail/new', component: EventDetailComponent },
        { path: 'event-list', component: EventListComponent },
-       { path: 'check-in', component: CheckInComponent }
+       { path: 'check-in', component: CheckInComponent },
+       { path: 'npc-shifts', component: AllNpcShiftsComponent }
       ]       
     }  
 ]);

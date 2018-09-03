@@ -6,11 +6,11 @@ import { ConfigService } from '../utils/config.service';
 
 import { BaseService } from './base.service';
 
-import { Observable } from 'rxjs';
-import { BehaviorSubject } from 'rxjs';
-
+import { Observable ,  BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 // Add the RxJS Observable operators we need in this app.
 import '../../rxjs-operators';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable()
 
@@ -23,8 +23,9 @@ export class UserService extends BaseService {
     authNavStatus$ = this._authNavStatusSource.asObservable();
     
     private loggedIn = false;
+    authorizationHeader = { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` };
 
-    constructor(private http: Http, private configService: ConfigService) {
+    constructor(private http: HttpClient, private configService: ConfigService) {
         super();
         this.loggedIn = !!localStorage.getItem('auth_token');
         this._authNavStatusSource.next(this.loggedIn);
@@ -38,30 +39,29 @@ export class UserService extends BaseService {
         lastName: string,
         location: string
     ): Observable<UserRegistration> {
-        let body = JSON.stringify({ email, password, firstName, lastName, location });
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        let authToken = localStorage.getItem('auth_token');
-        headers.append('Authorization', `Bearer ${authToken}`);
-        let options = new RequestOptions({ headers: headers});
+        let httpOptions = {
+            headers: new HttpHeaders(this.authorizationHeader)
+          }
 
-        return this.http.post(this.baseUrl + "/accounts", body, options)
-            .map(res => true)
-            .catch(this.handleError);
+        let body = JSON.stringify({ email, password, firstName, lastName, location });
+
+        return this.http.post<UserRegistration>(this.baseUrl + "/accounts", body, httpOptions)
     }
 
     login(userName, password) {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-
-        return this.http.post(this.baseUrl + "/auth/login", JSON.stringify({userName, password}), { headers })
-            .map(res => res.json())
-            .map(res =>  {
-                localStorage.setItem('auth_token', res.auth_token);
-                this.loggedIn = true;
-                this._authNavStatusSource.next(true);
-                return true;
-            })
-            .catch(this.handleError);
+        let httpOptions = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+        }
+        return this.http.post(this.baseUrl + "/auth/login", JSON.stringify({userName, password}), httpOptions)
+            .pipe(
+                map(res =>   {
+                    localStorage.setItem('auth_token', res["auth_token"]);
+                    this.loggedIn = true;
+                    this._authNavStatusSource.next(true);
+                    return true;
+                }),
+                catchError(this.handleError)
+            );
     }
 
     logout() {

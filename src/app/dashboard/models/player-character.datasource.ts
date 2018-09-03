@@ -1,5 +1,5 @@
 import { DataSource } from "@angular/cdk/table";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { PlayerCharacter } from "./player-character.interface";
 
 export class PlayerCharacterDataSource extends DataSource<PlayerCharacter> {
@@ -9,7 +9,7 @@ export class PlayerCharacterDataSource extends DataSource<PlayerCharacter> {
     }
 
     connect(): Observable<PlayerCharacter[]> {
-        return Observable.of(this.playerCharacters);
+        return of(this.playerCharacters);
       }
     
     disconnect() {}

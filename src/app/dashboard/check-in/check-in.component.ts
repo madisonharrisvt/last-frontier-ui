@@ -10,6 +10,8 @@ import { Character } from '../models/character.interface';
 import { Skill } from '../models/skill.interface';
 import { CheckInService } from '../services/check-in.service';
 import { CheckInData } from '../models/check-in-data.interface';
+import { MatDialog } from '@angular/material';
+import { NpcShiftsComponent } from '../npc/npc-shifts/npc-shifts.component';
 
 @Component({
   selector: 'app-check-in',
@@ -29,7 +31,8 @@ export class CheckInComponent implements OnInit {
     private lfeventService: LfeventService,
     private characterService: CharacterService,
     private userManagementService: UserManagementService,
-    private checkInService: CheckInService
+    private checkInService: CheckInService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -62,21 +65,18 @@ export class CheckInComponent implements OnInit {
 
     this.checkInService.checkIn(this.checkInData)
       .subscribe(playerId => {
+        this.openDialog(playerId);
         this.isLoading = false;
-        this.router.navigateByUrl(`/dashboard/user-detail/${playerId}`);
       });
-
-    /*this.checkInService.createPlayerByEmail(this.newPlayer)
-      .subscribe(playerId => {
-        var skills: Skill[] = [];
-
-        this.newCharacter.playerId = playerId;
-        this.newCharacter.skills = skills;
-        this.characterService.updateCharacter(this.newCharacter)
-          .subscribe(() => {
-            this.router.navigateByUrl(`/dashboard/user-detail/${this.newCharacter.playerId}`);
-          });
-      });*/
   }
-
+  
+  openDialog(playerId: number) {
+    const dialogRef = this.dialog.open(NpcShiftsComponent, {
+      width: '800px',
+      data: playerId
+    });
+    
+    dialogRef.afterClosed()
+      .subscribe(() => this.router.navigateByUrl(`/dashboard/user-detail/${playerId}`));
+  }
 }

@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CharacterService } from '../../services/character.service';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject }    from 'rxjs/Subject';
-import { of }         from 'rxjs/observable/of';
+import { Observable ,  Subject ,  of } from 'rxjs';
 import { Character } from '../../models/character.interface';
 
 import {
