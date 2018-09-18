@@ -29,6 +29,8 @@ import { DashboardModule }  from './dashboard/dashboard.module';
 import { LfeventService } from './dashboard/services/lfevent.service';
 import { AddCharacterToEventDialogComponent } from './dashboard/events/add-character-to-event-dialog/add-character-to-event-dialog.component';
 import { NpcShiftsComponent } from './dashboard/npc/npc-shifts/npc-shifts.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { NpcShiftsComponent } from './dashboard/npc/npc-shifts/npc-shifts.compon
     AppComponent,
     LoginFormComponent,
     RegistrationFormComponent,
-    EmailValidator
+    EmailValidator,
+    ForgotPasswordComponent,
+    PasswordResetComponent
   ],
   entryComponents: [AddUserDialogComponent, AddCharacterToEventDialogComponent, NpcShiftsComponent],
   imports: [
