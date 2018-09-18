@@ -1,30 +1,32 @@
 
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import {throwError as observableThrowError,  Observable, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export abstract class BaseService {
     
     constructor() { }
 
-    protected handleError(error: any) {
-        var applicationError = error.headers.get('Application-Error');
+    protected handleError(error: HttpErrorResponse) {
+        if (error.error instanceof ErrorEvent) {
+          // A client-side or network error occurred. Handle it accordingly.
+          return throwError(`An error occurred: ${error.error.message}`);
+        } else {
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong,
+          var errorString = '';
 
-        // either applicationError in header or model error in body
-        if(applicationError) {
-            return observableThrowError(applicationError);
+          if(error.status == 400) {
+            var errors = error.error;
+            var errorKeys = Object.keys(errors);
+            errorKeys.forEach(key => {
+              errorString = errorString + ' ' + errors[key];
+          });
+          } else {
+              errorString = `Backend returned code ${error.status}, ` +
+              `body was: ${error.error}`;
+          }
+          
+          return throwError(errorString);
         }
-
-        var modelStateErrors: string = '';
-        var serverError = error.json();
-
-        if(!serverError.type) {
-            for (var key in serverError) {
-                if (serverError[key])
-                    modelStateErrors += serverError[key] + '\n';
-            }
-        }
-
-        modelStateErrors = modelStateErrors = '' ? null : modelStateErrors;
-
-        return observableThrowError(modelStateErrors || 'Server error');
-    }
+      };
 }

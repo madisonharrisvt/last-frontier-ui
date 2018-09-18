@@ -26,6 +26,7 @@ export class UserDetailComponent implements OnInit {
   displayedColumns = ['name', 'species', 'occupation', 'accumulatedXP', 'actions'];
   characterMetadata: CharacterMetadata = null;
   identityId: string;
+  role = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -69,13 +70,15 @@ export class UserDetailComponent implements OnInit {
       this.playerId = +this.route.snapshot.paramMap.get('id');
       
       this.userManagementService.getPlayer(this.playerId)
-        .subscribe(player => {
-          this.player = player;
-          this.userForm.get('playerId').setValue(player.id);
-          this.userForm.get('firstName').setValue(player.identity.firstName);
-          this.userForm.get('lastName').setValue(player.identity.lastName);
-          this.userForm.get('email').setValue(player.identity.email);
-          this.userForm.get('emailConfirmed').setValue(player.identity.emailConfirmed);
+        .subscribe(response => {
+          this.role = response["role"];
+          this.player.id = response["Id"];
+          this.player.identity = response["Identity"];
+          this.userForm.get('playerId').setValue(response["Id"]);
+          this.userForm.get('firstName').setValue(response["Identity"]["FirstName"]);
+          this.userForm.get('lastName').setValue(response["Identity"]["LastName"]);
+          this.userForm.get('email').setValue(response["Identity"]["Email"]);
+          this.userForm.get('emailConfirmed').setValue(response["Identity"]["EmailConfirmed"]);
 
           this.characterService.getPlayersCharacters(this.player.id)
             .subscribe(characters => {
@@ -142,5 +145,18 @@ export class UserDetailComponent implements OnInit {
   }
 
   routeToCharacterDetail(characterId) {
-    this.router.navigate(['dashboard/detail', this.player.id, {characterId:characterId}])};
+    this.router.navigate(['dashboard/detail', this.player.id, {characterId:characterId}])
+  };
+
+  promoteToAdmin() {
+    var email = this.player.identity["Email"];
+    this.userManagementService.addUserToRole(email, "Admin")
+      .subscribe(() => this.role = "Admin");
+  }
+
+  promoteToStaff() {
+    var email = this.player.identity["Email"];
+    this.userManagementService.addUserToRole(email, "Staff")
+      .subscribe(() => this.role = "Staff");
+  }
 }

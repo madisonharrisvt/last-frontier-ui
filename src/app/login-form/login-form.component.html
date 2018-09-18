@@ -16,5 +16,6 @@
         </div>
         <button mat-raised-button color="primary" type="submit" [disabled] = "this.loginForm.invalid">Login</button>
     </form>
+    <div class="error" *ngIf="requestFailure">Error: {{ errors }}</div>
     <a class="white-link" routerLink="/forgot-password" >Forgot Password?</a>
 </mat-card>
