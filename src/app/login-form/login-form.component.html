@@ -1,4 +1,4 @@
-<mat-card class="example-form">
+<mat-card class="login-form">
     <h2>Last Frontier Login</h2>
     <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
         <div class="form-group">
@@ -16,4 +16,5 @@
         </div>
         <button mat-raised-button color="primary" type="submit" [disabled] = "this.loginForm.invalid">Login</button>
     </form>
+    <a class="white-link" routerLink="/forgot-password" >Forgot Password?</a>
 </mat-card>

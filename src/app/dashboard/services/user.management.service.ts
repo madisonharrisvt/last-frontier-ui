@@ -21,6 +21,7 @@ export class UserManagementService extends BaseService {
   baseUrl: string = '';
   userManagementUrl = '';
   userDetailUrl = '';
+  
   authorizationHeader = { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` };
 
   constructor(private http: HttpClient, private configService: ConfigService) {
@@ -65,5 +66,4 @@ export class UserManagementService extends BaseService {
     const url = `${this.userDetailUrl}/${player.id}`;
     return this.http.delete(url, httpOptions);
   }
-
 }

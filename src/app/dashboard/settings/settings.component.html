@@ -1,3 +1,10 @@
-<p>
-  settings works!
-</p>
+<form [formGroup]="ForgotPasswordForm" novalidate>
+  <div class="form-group">
+
+    <mat-form-field color="accent">
+      <input matInput class="form-control" formControlName="email" type="text" placeholder="Email">
+    </mat-form-field>
+
+  </div>
+  <button mat-raised-button color="primary" (click)="resetPassword()" [disabled] = "this.ForgotPasswordForm.invalid" >Save</button>
+</form>
