@@ -16,3 +16,8 @@
 .white-link {
   color: #FFF;
 }
+
+.error {
+  font-size: 12px;
+  color: #ff0e00;
+}

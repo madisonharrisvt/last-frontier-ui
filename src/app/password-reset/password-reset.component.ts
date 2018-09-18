@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../shared/services/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { PasswordResetValidator } from '../shared/utils/password.reset.validator';
 
 @Component({
   selector: 'app-password-reset',
@@ -11,9 +12,11 @@ import { ActivatedRoute } from '@angular/router';
 export class PasswordResetComponent implements OnInit {
 
   password = '';
-  ResetPasswordForm: FormGroup;
+  resetPasswordForm: FormGroup;
   resetSuccess = false;
   isLoading = false;
+  hide = true;
+  error = '';
 
   constructor(
     private userService: UserService,
@@ -21,15 +24,20 @@ export class PasswordResetComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.ResetPasswordForm = new FormGroup({
+    this.resetPasswordForm = new FormGroup({
       password: new FormControl( '', {
         validators: [Validators.required]
+      }),
+      confirmPassword: new FormControl( '', {
+        validators: [Validators.required]
       })
-    });
+    }, {
+        validators: PasswordResetValidator.validate 
+      });
   }
 
   resetPassword() {
-    this.password = this.ResetPasswordForm.value.password;
+    this.password = this.resetPasswordForm.value.password;
     var email = this.route.snapshot.paramMap.get('email');
     var token = this.route.snapshot.paramMap.get('token');
 
@@ -38,7 +46,7 @@ export class PasswordResetComponent implements OnInit {
       .subscribe(() => {
         this.resetSuccess = true;
         this.isLoading = false
-      });
+      }, error => this.error = error);
   }
 
 }

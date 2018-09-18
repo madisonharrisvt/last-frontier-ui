@@ -28,6 +28,11 @@
     <button mat-raised-button color="primary" (click)="save()" [disabled] = "this.userForm.invalid" >Save</button>
   </form>
 
+  <p class="inline-spacing">Current role: {{ role }}</p>
+  <button class="inline-spacing" mat-raised-button color="warn" (click)="promoteToStaff()" >Promote User to Staff</button>
+  <button class="inline-spacing" mat-raised-button color="warn" (click)="promoteToAdmin()" >Promote User to Admin</button>
+  <br />
+
   <br />
   <mat-divider class="divider"></mat-divider>
   <br />

@@ -21,14 +21,16 @@ export class UserManagementService extends BaseService {
   baseUrl: string = '';
   userManagementUrl = '';
   userDetailUrl = '';
+  roleUrl = '';
   
-  authorizationHeader = { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` };
+  authorizationHeader = { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}`, 'Content-Type': 'application/json' };
 
   constructor(private http: HttpClient, private configService: ConfigService) {
     super();
     this.baseUrl = configService.getApiURI();
     this.userManagementUrl = `${configService.getApiURI()}/usermanagement`;
     this.userDetailUrl = `${configService.getApiURI()}/userdetail`;
+    this.roleUrl = `${configService.getApiURI()}/role`;
   }
 
   getPlayers(): Observable<Player[]> {
@@ -38,11 +40,11 @@ export class UserManagementService extends BaseService {
     return this.http.get<Player[]>(this.userManagementUrl, httpOptions);
   }
 
-  getPlayer(id: number): Observable<Player> {
+  getPlayer(id: number): Observable<Object> {
     let httpOptions = {
       headers: new HttpHeaders(this.authorizationHeader)
     }
-    return this.http.get<Player>(`${this.userDetailUrl}/?playerId=${id}`, httpOptions);
+    return this.http.get<Object>(`${this.userDetailUrl}/?playerId=${id}`, httpOptions);
   }
 
   createPlayerByEmail(newPlayer: AddPlayerDialogData): Observable<number> {
@@ -66,4 +68,16 @@ export class UserManagementService extends BaseService {
     const url = `${this.userDetailUrl}/${player.id}`;
     return this.http.delete(url, httpOptions);
   }
+
+  addUserToRole(email: string, role: string) {
+    let httpOptions = {
+      headers: new HttpHeaders(this.authorizationHeader)
+    };
+
+    let body = JSON.stringify({ email, role});
+
+    return this.http.put(`${this.roleUrl}`, body, httpOptions);
+
+  }
+
 }
