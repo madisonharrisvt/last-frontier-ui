@@ -43,6 +43,8 @@ import { CheckInService } from './services/check-in.service';
 import { NpcShiftsComponent } from './npc/npc-shifts/npc-shifts.component';
 import { NpcShiftService } from './services/npc-shift.service';
 import { AllNpcShiftsComponent } from './npc/all-npc-shifts/all-npc-shifts.component';
+import { CheckOutComponent } from './registration/check-out/check-out.component';
+import { CheckOutService } from './services/check-out.service';
 
 
 @NgModule({
@@ -87,7 +89,7 @@ import { AllNpcShiftsComponent } from './npc/all-npc-shifts/all-npc-shifts.compo
     MatToolbarModule,
     MatTooltipModule
   ],
-  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent, AllNpcShiftsComponent],
+  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent, AllNpcShiftsComponent, CheckOutComponent],
   exports:      [ 
     MatAutocompleteModule,
     MatButtonModule,
@@ -121,6 +123,6 @@ import { AllNpcShiftsComponent } from './npc/all-npc-shifts/all-npc-shifts.compo
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService,CharacterEventService,CheckInService, NpcShiftService]
+  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService,CharacterEventService,CheckInService, NpcShiftService, CheckOutService]
 })
 export class DashboardModule { }

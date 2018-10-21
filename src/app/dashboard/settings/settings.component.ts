@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import * as decode from 'jwt-decode';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../../shared/services/user.service';
+import { CheckOutService } from '../services/check-out.service';
+import { Token } from '../models/token.interface';
 
 @Component({
   selector: 'app-settings',
@@ -10,10 +12,16 @@ import { UserService } from '../../shared/services/user.service';
 })
 export class SettingsComponent implements OnInit {
 
+  stripe_key = 'xxxxxxxxxxxxx' // todo: get production key when publishing
+  worked = false;
   email = '';
   ForgotPasswordForm: FormGroup;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private checkOutService: CheckOutService,
+    
+    ) { }
 
   ngOnInit() {
     let token = localStorage.getItem('auth_token');
@@ -34,4 +42,24 @@ export class SettingsComponent implements OnInit {
     this.userService.requestPasswordReset(this.email).subscribe();
   }
 
+  openCheckout() {
+    var handler = (<any>window).StripeCheckout.configure({
+      key: this.stripe_key,
+      billingAddress: true,
+      locale: 'auto',
+      token: token => {
+        var model = new Token();
+        model.id = token.id;
+        this.checkOutService.checkOut(model)
+          .subscribe(() => this.worked = true);
+      }
+    });
+
+    handler.open({
+      name: 'Last Frontier',
+      description: 'Game {#} Checkout', // todo: add actual event number here
+      amount: 2000
+    });
+
+  }
 }
