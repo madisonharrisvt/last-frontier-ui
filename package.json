@@ -33,6 +33,7 @@
     "npm": "^6.4.1",
     "rxjs": "^6.3.0",
     "sshpk": "^1.14.1",
+    "stripe": "^6.12.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
