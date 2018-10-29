@@ -43,8 +43,9 @@ import { CheckInService } from './services/check-in.service';
 import { NpcShiftsComponent } from './npc/npc-shifts/npc-shifts.component';
 import { NpcShiftService } from './services/npc-shift.service';
 import { AllNpcShiftsComponent } from './npc/all-npc-shifts/all-npc-shifts.component';
-import { CheckOutComponent } from './registration/check-out/check-out.component';
 import { CheckOutService } from './services/check-out.service';
+import { PreRegistrationComponent } from './pre-registration/pre-registration.component';
+import { PreRegistrationService } from './services/pre-registration.service';
 
 
 @NgModule({
@@ -89,7 +90,7 @@ import { CheckOutService } from './services/check-out.service';
     MatToolbarModule,
     MatTooltipModule
   ],
-  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent, AllNpcShiftsComponent, CheckOutComponent],
+  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent, AllNpcShiftsComponent, PreRegistrationComponent],
   exports:      [ 
     MatAutocompleteModule,
     MatButtonModule,
@@ -123,6 +124,6 @@ import { CheckOutService } from './services/check-out.service';
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService,CharacterEventService,CheckInService, NpcShiftService, CheckOutService]
+  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService,CharacterEventService,CheckInService, NpcShiftService, CheckOutService, PreRegistrationService]
 })
 export class DashboardModule { }

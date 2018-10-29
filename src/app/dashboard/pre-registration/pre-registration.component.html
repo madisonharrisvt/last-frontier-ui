@@ -1,0 +1,55 @@
+<h1>Pre-registration for {{ event.title }}</h1>
+<p>Available Volunteer Points: {{ availableVolunteerPoints }}</p>
+<button mat-raised-button color="accent" (click)="addCharacter()" [disabled] = "preRegistrationForm.invalid || availableCharacters.length == 0">
+  + Add Character to Register
+</button>
+
+<form [formGroup]="preRegistrationForm" novalidate>
+  <div *ngFor="let dropDown of characterDropDowns">
+    <mat-form-field color="accent">
+      <mat-select placeholder="Character" [formControlName]="dropDown.controlName">
+        <mat-option *ngFor="let character of dropDown.characterList" [value]="character.id" (click)="updateCharacterDropDowns(dropDown, character)">
+          {{ character.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="required(dropDown.controlName)">*Value is required</mat-error>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input 
+      min="0"
+      max="20" 
+      step="1"
+      onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+      matInput 
+      class="form-control" 
+      [formControlName]="dropDown.vpToXpControlName" 
+      (change)="updateVpTotal()" 
+      type="number" 
+      placeholder="VP to XP"/>
+      <mat-hint align="start">Between 0 and 20</mat-hint>
+      <mat-error *ngIf="isXpOver20(dropDown.vpToXpControlName)">*Value must be between 0 and 20</mat-error>
+      <mat-error *ngIf="required(dropDown.vpToXpControlName)">*Value is required</mat-error>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input
+      min="0"
+      max="20" 
+      step="1"
+      onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+      matInput 
+      class="form-control" 
+      [formControlName]="dropDown.paidXpControlName"
+      (change)="updateXpTotal()" 
+      type="number" 
+      placeholder="Purchase to XP"/>
+      <mat-hint align="start">Between 0 and 20</mat-hint>
+      <mat-error *ngIf="isXpOver20(dropDown.paidXpControlName)">*Value must be between 0 and 20</mat-error>
+      <mat-error *ngIf="required(dropDown.paidXpControlName)">*Value is required</mat-error>
+    </mat-form-field>
+    <button mat-button color="warn" (click)="deleteCharacter(dropDown)">Delete</button>
+  </div>
+</form>
+<mat-error *ngIf="availableVolunteerPoints < 0">Exceeded available VP!</mat-error>
+<button mat-raised-button color="primary" type="submit" (click)="checkout()" [disabled] = "preRegistrationForm.invalid || availableVolunteerPoints < 0" >Check out</button>
+<div class="error" *ngIf="requestFailure">Error: {{ errors }}</div>
+<div>Amount: {{ amount | currency }}</div>

@@ -3,26 +3,37 @@ import { BaseService } from '../../shared/services/base.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../../shared/utils/config.service';
 import { Observable } from 'rxjs';
+import { Character } from '../models/character.interface';
+import { PreRegistrationPlayerInfo } from '../models/pre-registration-player-character-info';
+import { Player } from '../models/player.interface';
+import { Cart } from '../models/cart';
 import { catchError } from 'rxjs/operators';
 @Injectable()
-export class CheckOutService extends BaseService {
+export class PreRegistrationService extends BaseService {
 
   baseUrl = '';
-  checkOutUrl = '';
+  preRegistrationUrl = '';
   
   authorizationHeader = { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` };
 
   constructor(private http: HttpClient, private configService: ConfigService) { 
     super();
     this.baseUrl = configService.getApiURI();
-    this.checkOutUrl = `${this.baseUrl}/checkout`;
+    this.preRegistrationUrl = `${this.baseUrl}/PreRegistration`;
   }
 
-  checkOut(token: any): Observable<Object> {
+  getLoggedInPlayer(): Observable<Player> {
+      let httpOptions = {
+        headers: new HttpHeaders(this.authorizationHeader)
+      }
+      return this.http.get<Player>(this.preRegistrationUrl, httpOptions);
+  }
+
+  createCart(cart: Cart): Observable<any> {
     let httpOptions = {
       headers: new HttpHeaders(this.authorizationHeader)
     }
-    return this.http.post<Object>(`${this.checkOutUrl}`, token, httpOptions)
+    return this.http.put<any>(this.preRegistrationUrl, cart, httpOptions)
       .pipe(catchError(this.handleError));
   }
 }

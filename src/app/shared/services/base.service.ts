@@ -17,10 +17,14 @@ export abstract class BaseService {
 
           if(error.status == 400) {
             var errors = error.error;
-            var errorKeys = Object.keys(errors);
-            errorKeys.forEach(key => {
-              errorString = errorString + ' ' + errors[key];
+            if (typeof(errors)  === "string"){
+              errorString = errors;
+            } else {
+              var errorKeys = Object.keys(errors);
+              errorKeys.forEach(key => {
+                errorString = errorString + ' ' + errors[key];
           });
+            }
           } else {
               errorString = `Backend returned code ${error.status}, ` +
               `body was: ${error.error}`;

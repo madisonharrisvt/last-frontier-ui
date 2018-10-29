@@ -1,14 +1,12 @@
+
 .fill-remaining-space {
-    /* This fills the remaining space, by using flexbox. 
-        Every toolbar row uses a flexbox row layout. */
-    flex: 1 1 auto;
+    flex: 0.9 1 auto;
 }
 
 .example-container {
     display: flex;
     flex-direction: column;
-    min-width: 300px;
-    height:100vh;
+    height: 89vh;
 }
 
 
@@ -19,4 +17,8 @@
 
 .full-width {
     width: 100%;
+}
+
+.margin-right-space {
+    margin-right: 3px;
 }

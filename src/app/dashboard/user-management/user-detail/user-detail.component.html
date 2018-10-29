@@ -24,6 +24,10 @@
       <mat-form-field color="accent">
         <input matInput class="form-control" formControlName="emailConfirmed" type="text" placeholder="Email Confirmed">
       </mat-form-field>
+
+      <mat-form-field color="accent">
+        <input matInput class="form-control" formControlName="volunteerPoints" type="number" placeholder="Volunteer Points">
+      </mat-form-field>
     </div>
     <button mat-raised-button color="primary" (click)="save()" [disabled] = "this.userForm.invalid" >Save</button>
   </form>

@@ -12,7 +12,7 @@ import { Token } from '../models/token.interface';
 })
 export class SettingsComponent implements OnInit {
 
-  stripe_key = 'xxxxxxxxxxxxx' // todo: get production key when publishing
+  stripe_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' // todo: get production key when publishing
   worked = false;
   email = '';
   ForgotPasswordForm: FormGroup;
