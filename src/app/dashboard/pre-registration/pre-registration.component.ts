@@ -11,6 +11,7 @@ import { Player } from '../models/player.interface';
 import { CartItem } from '../models/cart-item';
 import { Token } from '../models/token.interface';
 import { CheckOutService } from '../services/check-out.service';
+import { LfeventService } from '../services/lfevent.service';
 
 @Component({
   selector: 'app-pre-registration',
@@ -23,7 +24,7 @@ export class PreRegistrationComponent implements OnInit {
   amount: number = 0;
   xpAmount: number = 0;
   characterAmount: number = 0;
-  stripe_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' // todo: get production key when publishing
+  stripe_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx' // todo: get production key when publishing
   userName = '';
   event: LFEvent;
   preRegistrationForm: FormGroup;
@@ -40,20 +41,30 @@ export class PreRegistrationComponent implements OnInit {
   errors: string = '';
   worked: boolean;
   cartKey: string;
+  isLoading = false;
+  purchaseComplete = false;
+  pageError = false;
+  pageErrors = '';
     
   constructor(
     private preRegistrationService: PreRegistrationService, 
     private characterService: CharacterService,
-    private checkOutService: CheckOutService
+    private checkOutService: CheckOutService,
+    private lfEventService: LfeventService
     ) { }
 
   ngOnInit() {
-    this.event = new LFEvent();
-    this.event.title = 'Some event I\'ll get from the database later';
+
+    this.lfEventService.getActiveEvent()
+      .subscribe(activeEvent => {
+        this.event = activeEvent
+    });
+
     this.preRegistrationForm = new FormGroup({});
 
     this.preRegistrationService.getLoggedInPlayer()
-      .subscribe(player => {
+      .subscribe(
+        player => {
         this.player = player;
         this.availableVolunteerPoints = player.volunteerPoints;
 
@@ -63,7 +74,12 @@ export class PreRegistrationComponent implements OnInit {
             this.availableCharacters = playersCharacters;
             this.addCharacter();
           });
-      });
+      },
+      error => {
+        this.pageError = true;
+        this.pageErrors = error;
+        }
+      );
   }
 
   addCharacter() {
@@ -167,6 +183,7 @@ export class PreRegistrationComponent implements OnInit {
   }
 
   checkout() {
+    this.isLoading = true;
     var cart = new Cart();
     var cartItems: CartItem[] = [];
     cart.eventId = this.eventId;
@@ -186,8 +203,6 @@ export class PreRegistrationComponent implements OnInit {
       cart.cartItems.push(cartItem);
     });
 
-    // TODO: actually move on to checkout when cart is made 
-    var success = false;
     this.requestFailure = false;
     this.preRegistrationService.createCart(cart)
       .subscribe(
@@ -198,6 +213,7 @@ export class PreRegistrationComponent implements OnInit {
         error => {
           this.requestFailure = true;
           this.errors = error;
+          this.isLoading = false;
         });
   }
 
@@ -221,24 +237,26 @@ export class PreRegistrationComponent implements OnInit {
       token: token => {
         var model = new Token();
         model.id = token.id;
+        model.email = token.email;
         model.cartKey = this.cartKey;
         this.checkOutService.checkOut(model)
           .subscribe(
             () =>  {
-              this.worked = true;
+              this.isLoading = false;
+              this.purchaseComplete = true;
             },
             error => {
               this.requestFailure = true;
               this.errors = error;
+              this.isLoading = false;
             });
       }
     });
 
     handler.open({
       name: 'Last Frontier',
-      description: 'Game {#} Checkout', // todo: add actual event number here
+      description: `${this.event.title} Checkout`, // todo: add actual event number here
       amount: this.amount * 100
     });
-
   }
 }

@@ -82,10 +82,10 @@
                     <mat-form-field color="accent">
                         <input matInput [formControlName]="'mastery' + index" type="number" placeholder="Mastery Level" required/>
                     </mat-form-field>
-                    <button mat-button color="warn" (click)="deleteSkill(index)">Delete</button>
+                    <button *ngIf="this.roles.indexOf('Admin') !== -1" mat-button color="warn" (click)="deleteSkill(index)">Delete</button>
                 </div>
 
-                <button mat-raised-button color="accent" (click)="addSkill()" >Add Skill</button>
+                <button *ngIf="this.roles.indexOf('Admin') !== -1" mat-raised-button color="accent" (click)="addSkill()" >Add Skill</button>
 
                 <br />
                 <br />
@@ -114,7 +114,7 @@
                 </mat-form-field>
 
             </div>
-            <button mat-raised-button color="primary" type="submit" (click)="save()" [disabled] = "this.characterForm.invalid" >Save</button>
+            <button *ngIf="this.roles.indexOf('Admin') !== -1" mat-raised-button color="primary" type="submit" (click)="save()" [disabled] = "this.characterForm.invalid" >Save</button>
 
         </form>
     </mat-card>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import * as decode from 'jwt-decode';
+
 
 import { CharacterService }  from '../../services/character.service';
 
@@ -23,6 +25,7 @@ export class CharacterDetailComponent implements OnInit {
   characterIdFromRoute: string;
   playerIdFromRoute: string;
   characterForm: FormGroup;
+  roles: string[];
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +34,10 @@ export class CharacterDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    let token = localStorage.getItem('auth_token');
+    let payload = decode(token);
+    this.roles = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+
     this.characterForm = new FormGroup( {
       name: new FormControl('', {
         validators: [Validators.required]

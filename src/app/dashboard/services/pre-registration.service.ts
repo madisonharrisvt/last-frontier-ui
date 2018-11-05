@@ -26,7 +26,8 @@ export class PreRegistrationService extends BaseService {
       let httpOptions = {
         headers: new HttpHeaders(this.authorizationHeader)
       }
-      return this.http.get<Player>(this.preRegistrationUrl, httpOptions);
+      return this.http.get<Player>(this.preRegistrationUrl, httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
   createCart(cart: Cart): Observable<any> {

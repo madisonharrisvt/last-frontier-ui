@@ -1,14 +1,13 @@
-
-.fill-remaining-space {
-    flex: 0.9 1 auto;
-}
-
 .example-container {
     display: flex;
     flex-direction: column;
-    height: 89vh;
 }
 
+/*
+.toolbar-container {
+    height: 2em;
+    width: 100%;
+}*/
 
 .mat-table {
     overflow: auto;

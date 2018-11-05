@@ -9,6 +9,7 @@ export class CheckOutService extends BaseService {
 
   baseUrl = '';
   checkOutUrl = '';
+  daveUrl = '';
   
   authorizationHeader = { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` };
 
@@ -16,6 +17,7 @@ export class CheckOutService extends BaseService {
     super();
     this.baseUrl = configService.getApiURI();
     this.checkOutUrl = `${this.baseUrl}/checkout`;
+    this.daveUrl = `${this.baseUrl}/dave`;
   }
 
   checkOut(token: any): Observable<Object> {
@@ -23,6 +25,14 @@ export class CheckOutService extends BaseService {
       headers: new HttpHeaders(this.authorizationHeader)
     }
     return this.http.post<Object>(`${this.checkOutUrl}`, token, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  DaveCheckOut(token: any): Observable<Object> {
+    let httpOptions = {
+      headers: new HttpHeaders(this.authorizationHeader)
+    }
+    return this.http.post<Object>(`${this.daveUrl}`, token, httpOptions)
       .pipe(catchError(this.handleError));
   }
 }

@@ -1,9 +1,14 @@
-<mat-toolbar color="primary">
-  <span><mat-icon class="margin-right-space">stars</mat-icon>Last Frontier Database</span>
-  <span class="fill-remaining-space"></span>
-  <button mat-raised-button color="accent" (click)="logout()"><mat-icon class="margin-right-space">power_setting</mat-icon> Logout</button>
+<mat-toolbar color="primary" flex>
+  <div class="toolbar-container">
+    <div style="float: left">
+      <span><mat-icon class="margin-right-space">stars</mat-icon>Last Frontier Database</span>
+    </div>
+    <div style="float: right">
+      <button mat-raised-button color="accent" (click)="logout()"><mat-icon class="margin-right-space">power_setting</mat-icon> Logout</button>
+    </div>
+  </div>
 </mat-toolbar>
-<mat-sidenav-container class="sidenav">
+<mat-sidenav-container layout-fill class="sidenav" flex>
   <mat-sidenav opened mode="side">
       <mat-nav-list role="list">
         <mat-list-item routerLinkActive="active" routerLink="/dashboard/home" role="listitem">
@@ -37,7 +42,7 @@
         </mat-list-item>
       </mat-nav-list>
   </mat-sidenav>
-  <div class="example-container mat-elevation-z8">
+  <div>
     <router-outlet></router-outlet>
   </div>
 </mat-sidenav-container>
