@@ -1,14 +1,7 @@
-<form [formGroup]="ForgotPasswordForm" novalidate>
-  <div class="form-group">
+<p>No settings yet :(</p>
 
-    <mat-form-field color="accent">
-      <input matInput class="form-control" formControlName="email" type="text" placeholder="Email">
-    </mat-form-field>
+<a href="{{pdfUrl}}" download="CharacterSheet.pdf">Download PDF</a>
 
-  </div>
-  <button mat-raised-button color="primary" (click)="resetPassword()" [disabled] = "this.ForgotPasswordForm.invalid" >Save</button>
-</form>
+<!--<object [data]="pdfSrc" type="application/pdf" width="100%" height="100%">
 
-<h1>Default Stripe Form</h1>
-
-<button (click)="openCheckout()">Purchase</button>
+</object><br>-->

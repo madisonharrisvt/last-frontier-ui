@@ -12,6 +12,15 @@ app-characters, app-user-list {
     width: 100%;
 }
 
+.mat-raised-button {
+    margin-top: 0.5em!important;
+    margin-bottom: 0.5em!important;
+}
+
+.mat-button {
+    margin-top: 0.5em!important;
+}
+
 body {
     background-color: #1f1e1e;
 }
@@ -20,3 +29,36 @@ html, body {
     height: 100%;
 }
 body { margin: 0; }
+
+#Content {
+    margin-left: 2em;
+    margin-top: 1em;
+    margin-right: 3em;
+}
+
+.mat-form-field-wrapper, mat-checkbox {
+    margin-right: 1em;
+}
+
+.mat-icon {
+    margin-right: 0.2em;
+    vertical-align: middle;
+}
+
+h1, h2 {
+    margin-bottom: 1em!important;
+}
+
+.field-grouping {
+    border: 1.5px solid #6a6666;
+    border-radius: 5px;
+    padding: 1em;
+    margin: 1em;
+    width: 80%;
+}
+
+.mat-divider {
+    margin-top: 0.5em!important;
+    margin-bottom: 0.5em!important;
+    position: inherit!important;
+}

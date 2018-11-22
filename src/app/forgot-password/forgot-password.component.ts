@@ -13,6 +13,8 @@ export class ForgotPasswordComponent implements OnInit {
   ForgotPasswordForm: FormGroup;
   resetSuccess = false;
   isLoading = false;
+  requestFailure = false;
+  errors = '';
 
   constructor(private userService: UserService) { }
 
@@ -29,10 +31,16 @@ export class ForgotPasswordComponent implements OnInit {
 
     this.isLoading = true;
     this.userService.requestPasswordReset(this.email)
-      .subscribe(() => {
-        this.resetSuccess = true;
-        this.isLoading = false;
-      });
+      .subscribe(
+        () => {
+          this.resetSuccess = true;
+          this.isLoading = false;
+        },
+        error => {
+          this.isLoading = false;
+          this.requestFailure = true;
+          this.errors = error;
+        });
   }
 
 }

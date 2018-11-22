@@ -1,5 +1,6 @@
+import { saveAs } from 'file-saver';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as decode from 'jwt-decode';
 
@@ -26,11 +27,13 @@ export class CharacterDetailComponent implements OnInit {
   playerIdFromRoute: string;
   characterForm: FormGroup;
   roles: string[];
+  pdf = null;
 
   constructor(
     private route: ActivatedRoute,
     private characterService: CharacterService,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -158,7 +161,7 @@ export class CharacterDetailComponent implements OnInit {
     this.character.skills = skills;
 
     this.characterService.updateCharacter(this.character)
-    .subscribe(() => this.goBack());
+    .subscribe(() => this.router.navigate(['dashboard/user-detail', +this.playerIdFromRoute]))
   }
 
   addSkill() {
@@ -258,5 +261,46 @@ export class CharacterDetailComponent implements OnInit {
       .subscribe(sideGigs => {
         this.characterMetadata.sideGigs = sideGigs;
       });
+  }
+
+  printCharacterSheet() {
+     this.characterService.getCharacterSheet(this.character.id)
+      .subscribe(x => {
+        // It is necessary to create a new blob object with mime-type explicitly set
+        // otherwise only Chrome works like it should
+        var newBlob = new Blob([x], { type: "application/pdf" });
+
+        // IE doesn't allow using a blob object directly as link href
+        // instead it is necessary to use msSaveOrOpenBlob
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(newBlob);
+            return;
+        }
+
+        // For other browsers: 
+        // Create a link pointing to the ObjectURL containing the blob.
+        const data = window.URL.createObjectURL(newBlob);
+
+        var link = document.createElement('a');
+        link.href = data;
+        link.download = this.character.name + ".pdf";
+        // this is necessary as link.click() does not work on the latest firefox
+        link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+
+        setTimeout(function () {
+            // For Firefox it is necessary to delay revoking the ObjectURL
+            window.URL.revokeObjectURL(data);
+        }, 100);
+    });
+  }
+  
+  showPdf() {
+    const linkSource = 'data:application/pdf;base64,' + this.pdf;
+    const downloadLink = document.createElement("a");
+    const fileName = "CharacterSheet.pdf";
+
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
   }
 }

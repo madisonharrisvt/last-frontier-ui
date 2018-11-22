@@ -6,4 +6,7 @@ export class CharacterDropDown {
   selectedCharacter: Character;
   paidXpControlName: string;
   vpToXpControlName: string;
+  baseXp: number;
+  totalXp: number;
+  subTotal: number;
 }

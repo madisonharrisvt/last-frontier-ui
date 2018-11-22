@@ -12,6 +12,7 @@ import { CartItem } from '../models/cart-item';
 import { Token } from '../models/token.interface';
 import { CheckOutService } from '../services/check-out.service';
 import { LfeventService } from '../services/lfevent.service';
+import { CharacterDetailComponent } from '../character/character-detail/character-detail.component';
 
 @Component({
   selector: 'app-pre-registration',
@@ -23,10 +24,11 @@ export class PreRegistrationComponent implements OnInit {
   
   amount: number = 0;
   xpAmount: number = 0;
+  totalXp: number = 0;
   characterAmount: number = 0;
-  stripe_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx' // todo: get production key when publishing
+  stripe_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' // todo: get production key when publishing
   userName = '';
-  event: LFEvent;
+  event = new LFEvent();
   preRegistrationForm: FormGroup;
   charactersToRegister = new Array<Character>();
   availableCharacters = new Array<Character>();
@@ -83,8 +85,16 @@ export class PreRegistrationComponent implements OnInit {
   }
 
   addCharacter() {
-    if (this.characterDropDowns.length == 0) this.characterAmount += 40;
-    else this.characterAmount += 10;
+    var amountAdded = 0;
+    if (this.characterDropDowns.length == 0) {
+      amountAdded = 40;
+      this.characterAmount += 40;
+    } 
+    else 
+    {
+      amountAdded = 10;
+      this.characterAmount += 10;
+    }
 
     this.amount = this.characterAmount + this.xpAmount;
 
@@ -97,6 +107,8 @@ export class PreRegistrationComponent implements OnInit {
     characterDropDown.controlName = controlName;
     characterDropDown.paidXpControlName = paidXpControlName;
     characterDropDown.vpToXpControlName = vpToXpControlName;
+    characterDropDown.totalXp = 0;
+    characterDropDown.subTotal = amountAdded;
 
     this.characterDropDowns.push(characterDropDown);
     this.nextIndex++;
@@ -132,10 +144,26 @@ export class PreRegistrationComponent implements OnInit {
         dropDown.characterList = dropDown.characterList.filter(c => c.id !== selectedCharacter.id);
         if (replacedCharacter != null) dropDown.characterList.push(replacedCharacter);
       }
+
+      var characterNumOfEvents = dropDown.selectedCharacter.events.length;
+      var characterBaseXP = 0;
+      if (characterNumOfEvents < 6) {
+        characterBaseXP = 40;
+      }
+      else if (characterNumOfEvents < 12) {
+        characterBaseXP = 20;
+      }
+      else {
+        characterBaseXP = 10;
+      }
+      dropDown.baseXp = characterBaseXP;
     });
 
     this.availableCharacters = this.availableCharacters.filter(a => a.id !== selectedCharacter.id);
     if (replacedCharacter != null) this.availableCharacters.push(replacedCharacter);
+
+    this.updateXpTotal();
+    this.updateCharacterSubTotal()
   }
   
   deleteCharacter(dropDown: CharacterDropDown) {
@@ -160,6 +188,7 @@ export class PreRegistrationComponent implements OnInit {
 
     this.updateVpTotal();
     this.updateXpTotal();
+    this.updateCharacterSubTotal()
 
   }
   updateXpTotal() {
@@ -167,9 +196,11 @@ export class PreRegistrationComponent implements OnInit {
     this.characterDropDowns.forEach(dropDown => {
       var paidXp = this.preRegistrationForm.get(dropDown.paidXpControlName).value;
       xpAmount += paidXp;
+      this.updateCharacterTotalXp(dropDown);
     });
     this.xpAmount = xpAmount;
     this.amount = this.characterAmount + this.xpAmount;
+    this.updateCharacterSubTotal()
   }
 
   updateVpTotal() {
@@ -178,8 +209,26 @@ export class PreRegistrationComponent implements OnInit {
     this.characterDropDowns.forEach(dropDown => {
       var spentVp = this.preRegistrationForm.get(dropDown.vpToXpControlName).value;
       availableVolunteerPoints = availableVolunteerPoints - spentVp;
+      this.updateCharacterTotalXp(dropDown);
     });
     this.availableVolunteerPoints = availableVolunteerPoints;
+  }
+
+  updateCharacterTotalXp(dropDown: CharacterDropDown) {
+    var vpToXp = this.preRegistrationForm.get(dropDown.vpToXpControlName).value;
+    var paidXp = this.preRegistrationForm.get(dropDown.paidXpControlName).value;
+    var baseXp = dropDown.baseXp;
+    dropDown.totalXp = vpToXp + paidXp + baseXp;
+  }
+
+  updateCharacterSubTotal() {
+    this.characterDropDowns.forEach(dropDown => {
+      dropDown.subTotal = 0;
+      if (this.characterDropDowns.indexOf(dropDown) == 0) dropDown.subTotal += 40
+      else dropDown.subTotal += 10
+
+      dropDown.subTotal += this.preRegistrationForm.get(dropDown.paidXpControlName).value;
+    });
   }
 
   checkout() {

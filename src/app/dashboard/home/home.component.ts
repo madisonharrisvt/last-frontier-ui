@@ -106,7 +106,7 @@ export class HomeComponent implements OnInit {
     var species = null; 
     if(this.characterMetadata !== null &&
         character.species !== null) {
-      species = this.characterMetadata.species[character.species].name
+      species = this.characterMetadata.species.filter(s => s.id == character.species)[0].name;
     }
     return species;
   }
@@ -115,7 +115,7 @@ export class HomeComponent implements OnInit {
     var occupation = null; 
     if(this.characterMetadata !== null &&
         character.occupation !== null) {
-      occupation = this.characterMetadata.occupations[character.occupation].name
+      occupation = this.characterMetadata.occupations.filter(o => o.id == character.occupation)[0].name
     }
     return occupation;
   }
