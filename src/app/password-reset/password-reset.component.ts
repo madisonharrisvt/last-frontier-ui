@@ -16,7 +16,8 @@ export class PasswordResetComponent implements OnInit {
   resetSuccess = false;
   isLoading = false;
   hide = true;
-  error = '';
+  requestFailure = false;
+  errors = '';
 
   constructor(
     private userService: UserService,
@@ -45,8 +46,12 @@ export class PasswordResetComponent implements OnInit {
     this.userService.resetPassword(email, this.password, token)
       .subscribe(() => {
         this.resetSuccess = true;
-        this.isLoading = false
-      }, error => this.error = error);
+        this.isLoading = false;
+      }, error => {
+        this.isLoading = false;
+        this.requestFailure = true;
+        this.errors = error
+      });
   }
 
 }

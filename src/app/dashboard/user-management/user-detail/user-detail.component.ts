@@ -57,7 +57,8 @@ export class UserDetailComponent implements OnInit {
       emailConfirmed: new FormControl({
         value: '', 
         disabled: true
-      })
+      }),
+      volunteerPoints: new FormControl()
     });
 
     this.getAndSetUsersAndCharacters();
@@ -74,11 +75,13 @@ export class UserDetailComponent implements OnInit {
           this.role = response["role"];
           this.player.id = response["Id"];
           this.player.identity = response["Identity"];
+          this.player.volunteerPoints = response["VolunteerPoints"];
           this.userForm.get('playerId').setValue(response["Id"]);
           this.userForm.get('firstName').setValue(response["Identity"]["FirstName"]);
           this.userForm.get('lastName').setValue(response["Identity"]["LastName"]);
           this.userForm.get('email').setValue(response["Identity"]["Email"]);
           this.userForm.get('emailConfirmed').setValue(response["Identity"]["EmailConfirmed"]);
+          this.userForm.get('volunteerPoints').setValue(response["VolunteerPoints"]);
 
           this.characterService.getPlayersCharacters(this.player.id)
             .subscribe(characters => {
@@ -97,6 +100,7 @@ export class UserDetailComponent implements OnInit {
     this.player.identity.firstName = this.userForm.value.firstName;
     this.player.identity.lastName = this.userForm.value.lastName;
     this.player.identity.email = this.userForm.value.email;
+    this.player.volunteerPoints = this.userForm.value.volunteerPoints;
 
     this.userManagementService.updatePlayer(this.player)
       .subscribe(() => this.goBack());
@@ -130,7 +134,7 @@ export class UserDetailComponent implements OnInit {
     var species = null; 
     if(this.characterMetadata !== null &&
         character.species !== null) {
-      species = this.characterMetadata.species[character.species].name
+      species = this.characterMetadata.species.filter(s => s.id == character.species)[0].name;
     }
     return species;
   }
@@ -139,7 +143,7 @@ export class UserDetailComponent implements OnInit {
     var occupation = null; 
     if(this.characterMetadata !== null &&
         character.occupation !== null) {
-      occupation = this.characterMetadata.occupations[character.occupation].name
+      occupation = this.characterMetadata.occupations.filter(o => o.id == character.occupation)[0].name;
     }
     return occupation;
   }

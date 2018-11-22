@@ -14,6 +14,7 @@ import { Observable ,  of } from 'rxjs';
 // Add the RxJS Observable operators we need in this app.
 import '../../rxjs-operators';
 import { Metadata } from '../models/metadata.interface';
+import { ResponseType } from '@angular/http';
 
 @Injectable()
 
@@ -24,6 +25,7 @@ export class CharacterService extends BaseService {
   characterUrl = '';
   characterSearchUrl = '';
   characterMetadataUrl = '';
+  characterSheetUrl = '';
   
   httpHeader = { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` };
 
@@ -34,6 +36,7 @@ export class CharacterService extends BaseService {
      this.characterUrl = `${this.baseUrl}/characterdetail`;
      this.characterSearchUrl = `${this.baseUrl}/charactersearch`;
      this.characterMetadataUrl = `${this.baseUrl}/charactermetadata`;
+     this.characterSheetUrl = `${this.baseUrl}/printcharactersheet`
   }
 
   getSideGigs(occupation: number): Observable<Metadata[]> {
@@ -103,5 +106,23 @@ export class CharacterService extends BaseService {
     };
     const url = `${this.characterListUrl}/?playerId=${playerId}`;
     return this.http.get<Character[]>(url, httpOptions);
+  }
+
+  getCharacterSheet(id: number): Observable<Blob> {
+    let httpOptions = {
+      headers: new HttpHeaders(this.httpHeader),
+      ResponseType: 'blob' as 'blob'
+    };
+
+    return this.http.get(`${this.characterSheetUrl}/${id}`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }, responseType: 'blob'});
+  }
+
+  getAllCharacterSheets(): Observable<Blob> {
+    let httpOptions = {
+      headers: new HttpHeaders(this.httpHeader),
+      ResponseType: 'blob' as 'blob'
+    };
+
+    return this.http.get(this.characterSheetUrl, { headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }, responseType: 'blob'});
   }
 }

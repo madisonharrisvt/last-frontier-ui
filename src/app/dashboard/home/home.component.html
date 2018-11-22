@@ -1,8 +1,81 @@
-<mat-list>
-  <mat-list-item>{{homeDetails?.message}}</mat-list-item>
-  <mat-list-item><strong>Name: </strong> {{homeDetails?.firstName}} {{homeDetails?.lastName}}</mat-list-item>
-  <mat-list-item *ngIf="homeDetails?.location"><strong>Location: </strong> {{homeDetails?.location}}</mat-list-item>
-
-  <app-character-search></app-character-search>
-
-</mat-list>
+<div layout="row" layout-align="center center">
+    <br />
+    <h1><mat-icon>list</mat-icon>User Info</h1>
+  
+    <form [formGroup]="userForm" novalidate>
+      <div class="form-group">
+        #
+        <mat-form-field color="accent">
+          <input matInput class="form-control" formControlName="playerId" type="text" placeholder="Player ID">
+        </mat-form-field>
+  
+        <mat-form-field color="accent">
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput class="form-control" formControlName="firstName" type="text" placeholder="First Name">
+        </mat-form-field>
+  
+        <mat-form-field color="accent">
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput class="form-control" formControlName="lastName" type="text" placeholder="Last Name">
+        </mat-form-field>
+  
+        <mat-form-field color="accent">
+          <mat-icon matPrefix>email</mat-icon>
+          <input matInput class="form-control" formControlName="email" type="text" placeholder="Email">
+        </mat-form-field>
+  
+        <mat-form-field color="accent">
+          <mat-icon matPrefix>pan_tool</mat-icon>
+          <input matInput class="form-control" formControlName="volunteerPoints" type="number" placeholder="Volunteer Points">
+        </mat-form-field>
+      </div>
+    </form>
+  
+    <br />
+    <mat-divider class="divider"></mat-divider>
+    <br />
+  
+    <h1><mat-icon>people</mat-icon>Characters</h1>
+  
+    <mat-table #table [dataSource]="characters">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let character">
+          <a class="table-link" (click)="routeToCharacterDetail(character.id)">
+            {{ character.name }}
+          </a>
+        </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="species">
+        <mat-header-cell *matHeaderCellDef> Species </mat-header-cell>
+        <mat-cell *matCellDef="let character">
+          <a class="table-link" (click)="routeToCharacterDetail(character.id)">
+            {{ getSpecies(character) }}
+          </a>
+        </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="occupation">
+        <mat-header-cell *matHeaderCellDef> Occupation </mat-header-cell>
+        <mat-cell *matCellDef="let character">
+          <a class="table-link" (click)="routeToCharacterDetail(character.id)">
+            {{ getOccupation(character) }}
+          </a>
+        </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="accumulatedXP">
+        <mat-header-cell *matHeaderCellDef> Total XP </mat-header-cell>
+        <mat-cell *matCellDef="let character">
+          <a class="table-link" (click)="routeToCharacterDetail(character.id)">
+            {{ character.accumulatedXP }}
+          </a>
+        </mat-cell>
+      </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  
+  </div>

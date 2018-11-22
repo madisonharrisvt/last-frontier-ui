@@ -86,6 +86,9 @@ export class UserService extends BaseService {
         let body = JSON.stringify({ email });
     
         return this.http.put(this.forgotPasswordUrl, body, httpOptions)
+            .pipe(
+                catchError(this.handleError)
+            );
     }
 
     resetPassword (

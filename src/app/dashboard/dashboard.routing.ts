@@ -14,12 +14,14 @@ import { EventDetailComponent } from './events/event-detail/event-detail.compone
 import { EventListComponent } from './events/event-list/event-list.component';
 import { CheckInComponent } from './check-in/check-in.component';
 import { AllNpcShiftsComponent } from './npc/all-npc-shifts/all-npc-shifts.component';
-import { CheckOutComponent } from './registration/check-out/check-out.component';
+import { PreRegistrationComponent } from './pre-registration/pre-registration.component';
+import { DashboardRootComponent } from './dashboard-root/dashboard-root.component';
 
 export const routing: ModuleWithProviders = RouterModule.forChild([
   {
       path: 'dashboard',
-      component: RootComponent, canActivate: [AuthGuard],
+      //component: RootComponent, canActivate: [AuthGuard],
+      component: DashboardRootComponent, canActivate: [AuthGuard],
 
       children: [      
        { path: '', component: HomeComponent },
@@ -36,7 +38,7 @@ export const routing: ModuleWithProviders = RouterModule.forChild([
        { path: 'event-list', component: EventListComponent },
        { path: 'check-in', component: CheckInComponent },
        { path: 'npc-shifts', component: AllNpcShiftsComponent },
-       { path: 'registration/check-out', component: CheckOutComponent}
+       { path: 'pre-registration', component: PreRegistrationComponent },
       ]       
     }  
 ]);

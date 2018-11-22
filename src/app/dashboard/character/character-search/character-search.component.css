@@ -1,7 +1,14 @@
 .example-form {
-    min-width: 150px;
-    max-width: 500px;
+    min-width: 25%;
+    max-width: 30%;
     width: 100%;
+    display: inline-block
+}
+
+.character-search-header {
+    display: inline-block;
+    margin-right: 1em;
+    margin-left: 2em;
 }
 
 .example-full-width {

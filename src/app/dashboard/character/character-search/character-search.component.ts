@@ -8,6 +8,7 @@ import { Character } from '../../models/character.interface';
 import {
   debounceTime, distinctUntilChanged, switchMap
 } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-character-search',
@@ -20,7 +21,7 @@ export class CharacterSearchComponent implements OnInit {
   characters$: Observable<Character[]>;
   private searchTerms = new Subject<string>();
 
-  constructor(private characterService: CharacterService) { }
+  constructor(private characterService: CharacterService, private router: Router) { }
 
   // Push a search term into the observable stream.
   search(term: string): void {
@@ -39,5 +40,9 @@ export class CharacterSearchComponent implements OnInit {
       switchMap((term: string) => this.characterService.searchCharacters(term)),
     );
   }
+
+  routeToCharacterDetail(character: Character) {
+    this.router.navigate(['dashboard/detail', character.playerId, {characterId:character.id}])
+  };
 
 }
