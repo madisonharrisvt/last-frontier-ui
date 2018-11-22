@@ -5,6 +5,8 @@ import { ConfigService } from '../../shared/utils/config.service';
 import { Observable } from 'rxjs';
 import { NpcShift } from '../models/npc-shift.interface';
 import { PlayerNpcShift } from '../models/player-npc-shift.interface';
+import { catchError } from 'rxjs/operators';
+import { Player } from '../models/player.interface';
 @Injectable()
 export class NpcShiftService extends BaseService {
 
@@ -18,6 +20,7 @@ export class NpcShiftService extends BaseService {
     super();
     this.baseUrl = configService.getApiURI();
     this.npcShiftUrl = `${this.baseUrl}/npcshift`;
+    this.playerNpcShiftUrl = `${this.baseUrl}/playernpcshift`;
   }
 
   getNpcShifts(): Observable<NpcShift[]> {
@@ -32,5 +35,13 @@ export class NpcShiftService extends BaseService {
       headers: new HttpHeaders(this.authorizationHeader)
     }
     return this.http.put(`${this.npcShiftUrl}`, playerNpcShift, httpOptions);
+  }
+
+  getPlayersWithoutNpcShiftForActiveEvent(): Observable<Player[]> {
+    let httpOptions = {
+      headers: new HttpHeaders(this.authorizationHeader)
+    }
+    return this.http.get<Player[]>(`${this.playerNpcShiftUrl}`, httpOptions)
+      .pipe(catchError(this.handleError));
   }
 }
