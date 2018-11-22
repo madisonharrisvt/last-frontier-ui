@@ -62,3 +62,8 @@ h1, h2 {
     margin-bottom: 0.5em!important;
     position: inherit!important;
 }
+
+.error {
+    font-size: 12px;
+    color: #ff0e00;
+}

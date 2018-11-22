@@ -3,6 +3,8 @@ import { NpcShift } from '../../models/npc-shift.interface';
 import { NpcShiftService } from '../../services/npc-shift.service';
 import { Player } from '../../models/player.interface';
 import { forEach } from '@angular/router/src/utils/collection';
+import { MatDialog } from '@angular/material';
+import { AddPlayerToNpcShiftComponent } from '../add-player-to-npc-shift/add-player-to-npc-shift.component';
 
 @Component({
   selector: 'app-all-npc-shifts',
@@ -14,9 +16,9 @@ export class AllNpcShiftsComponent implements OnInit {
   npcShiftWithPlayer = <NpcShift> {players: [new Player()]};
   npcShifts: NpcShift[] = [this.npcShiftWithPlayer];
 
-  displayedColumns = ['startDateTime', 'endDateTime', 'npcCount', 'players'];
+  displayedColumns = ['startDateTime', 'endDateTime', 'npcCount', 'players', 'actions'];
 
-  constructor(    private npcShiftService: NpcShiftService  ) { }
+  constructor(private npcShiftService: NpcShiftService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getNpcShifts();
@@ -44,4 +46,10 @@ export class AllNpcShiftsComponent implements OnInit {
     return 'hiya bob';
   }
 
+  addToShift(npcShift){
+    const dialogRef = this.dialog.open(AddPlayerToNpcShiftComponent, {
+      width: '800px',
+      data: npcShift
+    });
+  }
 }
