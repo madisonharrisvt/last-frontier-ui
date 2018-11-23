@@ -32,7 +32,8 @@ import { AddPlayerToNpcShiftComponent } from './dashboard/npc/add-player-to-npc-
 import { NpcShiftsComponent } from './dashboard/npc/npc-shifts/npc-shifts.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
-
+import { AddPlayerToRegisterComponent } from './dashboard/pre-registration/add-player-to-register/add-player-to-register.component';
+import { ConfirmationDialogComponent } from './dashboard/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
     ForgotPasswordComponent,
     PasswordResetComponent
   ],
-  entryComponents: [AddUserDialogComponent, AddCharacterToEventDialogComponent, NpcShiftsComponent, AddPlayerToNpcShiftComponent],
+  entryComponents: [AddUserDialogComponent, AddCharacterToEventDialogComponent, NpcShiftsComponent, AddPlayerToNpcShiftComponent, AddPlayerToRegisterComponent, ConfirmationDialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

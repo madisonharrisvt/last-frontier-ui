@@ -49,6 +49,8 @@ import { PreRegistrationService } from './services/pre-registration.service';
 import { DashboardRootComponent } from './dashboard-root/dashboard-root.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AddPlayerToNpcShiftComponent } from './npc/add-player-to-npc-shift/add-player-to-npc-shift.component';
+import { AddPlayerToRegisterComponent } from './pre-registration/add-player-to-register/add-player-to-register.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
@@ -94,7 +96,7 @@ import { AddPlayerToNpcShiftComponent } from './npc/add-player-to-npc-shift/add-
     MatTooltipModule,
     LayoutModule
   ],
-  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent, AllNpcShiftsComponent, PreRegistrationComponent, DashboardRootComponent, AddPlayerToNpcShiftComponent],
+  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent, AllNpcShiftsComponent, PreRegistrationComponent, DashboardRootComponent, AddPlayerToNpcShiftComponent, AddPlayerToRegisterComponent, ConfirmationDialogComponent],
   exports:      [ 
     MatAutocompleteModule,
     MatButtonModule,

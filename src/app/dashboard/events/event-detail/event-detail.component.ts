@@ -9,6 +9,7 @@ import { CharactersComponent } from '../../character/characters/characters.compo
 import { AddCharacterToEventDialogComponent } from '../add-character-to-event-dialog/add-character-to-event-dialog.component';
 import { CharacterEvent } from '../../models/character-event.interface';
 import { CharacterEventService } from '../../services/character-event.service';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-event-detail',
@@ -19,7 +20,7 @@ export class EventDetailComponent implements OnInit {
 
   event: LFEvent;
   attendingCharacters: MatTableDataSource<CharacterEvent>;
-  displayedColumns = ['playerId', 'name', 'vpToXp', 'vpToItems', 'xpBought']
+  displayedColumns = ['playerId', 'name', 'vpToXp', 'vpToItems', 'xpBought', 'actions']
   eventForm: FormGroup;
   
   constructor(
@@ -104,7 +105,6 @@ export class EventDetailComponent implements OnInit {
   }
 
   saveVpToItems(characterEvent: CharacterEvent) {
-    var pleaseWork = '';
     this.characterEventService.saveCharacterEvent(characterEvent).subscribe();
   }
 
@@ -112,4 +112,14 @@ export class EventDetailComponent implements OnInit {
     this.location.back();
   }
 
+  openConfirmationDialog(characterEvent: CharacterEvent) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '200px'
+    });
+    dialogRef.afterClosed().subscribe(confirmation => {
+      if(confirmation) {
+        this.characterEventService.removeCharacterEvent(characterEvent).subscribe(() => this.goBack());
+      }
+    });
+  }
 }

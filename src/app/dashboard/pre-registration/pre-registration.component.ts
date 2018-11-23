@@ -1,3 +1,4 @@
+import * as decode from 'jwt-decode';
 import { Component, OnInit } from '@angular/core';
 import { LFEvent } from '../models/event.interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -12,7 +13,10 @@ import { CartItem } from '../models/cart-item';
 import { Token } from '../models/token.interface';
 import { CheckOutService } from '../services/check-out.service';
 import { LfeventService } from '../services/lfevent.service';
-import { CharacterDetailComponent } from '../character/character-detail/character-detail.component';
+import { MatDialog } from '@angular/material';
+import { AddPlayerToNpcShiftComponent } from '../npc/add-player-to-npc-shift/add-player-to-npc-shift.component';
+import { AddPlayerToRegisterComponent } from './add-player-to-register/add-player-to-register.component';
+import { Identity } from '../models/identity.interface';
 
 @Component({
   selector: 'app-pre-registration',
@@ -26,7 +30,7 @@ export class PreRegistrationComponent implements OnInit {
   xpAmount: number = 0;
   totalXp: number = 0;
   characterAmount: number = 0;
-  stripe_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' // todo: get production key when publishing
+  stripe_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' // todo: get production key when publishing
   userName = '';
   event = new LFEvent();
   preRegistrationForm: FormGroup;
@@ -47,15 +51,22 @@ export class PreRegistrationComponent implements OnInit {
   purchaseComplete = false;
   pageError = false;
   pageErrors = '';
+  roles: string[];
+  identity: Identity = new Identity();
+
     
   constructor(
     private preRegistrationService: PreRegistrationService, 
     private characterService: CharacterService,
     private checkOutService: CheckOutService,
-    private lfEventService: LfeventService
+    private lfEventService: LfeventService,
+    private dialog: MatDialog
     ) { }
 
   ngOnInit() {
+    let token = localStorage.getItem('auth_token');
+    let payload = decode(token);
+    this.roles = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
     this.lfEventService.getActiveEvent()
       .subscribe(activeEvent => {
@@ -64,7 +75,9 @@ export class PreRegistrationComponent implements OnInit {
 
     this.preRegistrationForm = new FormGroup({});
 
-    this.preRegistrationService.getLoggedInPlayer()
+    if (this.roles.indexOf('Admin') === -1)
+    {
+      this.preRegistrationService.getLoggedInPlayer()
       .subscribe(
         player => {
         this.player = player;
@@ -82,6 +95,25 @@ export class PreRegistrationComponent implements OnInit {
         this.pageErrors = error;
         }
       );
+    }
+  }
+
+  selectPlayer() {
+    const dialogRef = this.dialog.open(AddPlayerToRegisterComponent, {
+      width: '800px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.player = result[0];
+      this.availableVolunteerPoints = result[0].volunteerPoints;
+      this.identity = result[0].identity;
+      this.characterService.getPlayersCharacters(result[0].id)
+        .subscribe(playersCharacters => {
+          this.availableCharacters = playersCharacters;
+          this.availableCharacters = playersCharacters;
+          this.addCharacter();
+        });
+    });
   }
 
   addCharacter() {

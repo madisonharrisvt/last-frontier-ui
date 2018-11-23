@@ -1,5 +1,8 @@
 <div *ngIf="!purchaseComplete && !pageError">
   <h1>Pre-registration for {{ event.title }}</h1>
+  <button *ngIf="this.roles.indexOf('Admin') !== -1" mat-raised-button color="primary" (click)="selectPlayer()"><mat-icon>person_add</mat-icon>Select Player to Register</button>
+  <div>Player to register: {{ identity.firstName }} {{ identity.lastName }}</div>
+
   <mat-chip-list>
     Available Volunteer Points:<mat-chip color="accent" selected>{{ availableVolunteerPoints }}</mat-chip>
   </mat-chip-list>
