@@ -5,6 +5,8 @@ import { Player } from '../../models/player.interface';
 import { forEach } from '@angular/router/src/utils/collection';
 import { MatDialog } from '@angular/material';
 import { AddPlayerToNpcShiftComponent } from '../add-player-to-npc-shift/add-player-to-npc-shift.component';
+import { PlayerNpcShift } from '../../models/player-npc-shift.interface';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-all-npc-shifts',
