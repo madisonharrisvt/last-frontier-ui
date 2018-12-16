@@ -7,6 +7,7 @@ import { CharacterEvent } from '../models/character-event.interface';
 import { Observable } from 'rxjs';
 import { PlayerCharacter } from '../models/player-character.interface';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { CharacterEventWithPlayer } from '../models/character-event-with-player';
 
 @Injectable()
 export class CharacterEventService extends BaseService {
@@ -53,12 +54,12 @@ export class CharacterEventService extends BaseService {
     return this.http.put(`${this.characterEventUrl}`, body, httpOptions);
   }
 
-  getEventsCharacters(id: number): Observable<CharacterEvent[]> {
+  getEventsCharacters(id: number): Observable<CharacterEventWithPlayer[]> {
     let httpOptions = {
       headers: new HttpHeaders(this.httpHeader)
     };
 
-    return this.http.get<CharacterEvent[]>(`${this.eventCharactersUrl}/${id}`, httpOptions);
+    return this.http.get<CharacterEventWithPlayer[]>(`${this.eventCharactersUrl}/${id}`, httpOptions);
   }
 
   saveCharacterEvent(characterEvent: CharacterEvent) {
