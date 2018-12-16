@@ -10,6 +10,7 @@ import { AddCharacterToEventDialogComponent } from '../add-character-to-event-di
 import { CharacterEvent } from '../../models/character-event.interface';
 import { CharacterEventService } from '../../services/character-event.service';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
+import { CharacterEventWithPlayer } from '../../models/character-event-with-player';
 
 @Component({
   selector: 'app-event-detail',
@@ -19,9 +20,10 @@ import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmat
 export class EventDetailComponent implements OnInit {
 
   event: LFEvent;
-  attendingCharacters: MatTableDataSource<CharacterEvent>;
-  displayedColumns = ['playerId', 'name', 'vpToXp', 'vpToItems', 'xpBought', 'actions']
+  attendingCharacters: MatTableDataSource<CharacterEventWithPlayer> = null;
+  displayedColumns = ['playerName', 'characterName', 'vpToXp', 'vpToItems', 'xpBought', 'actions']
   eventForm: FormGroup;
+  dataIsLoaded = false;
   
   constructor(
     private route: ActivatedRoute,
@@ -72,8 +74,10 @@ export class EventDetailComponent implements OnInit {
           this.eventForm.get('isActiveEvent').setValue(event.isActiveEvent);
 
           this.characterEventService.getEventsCharacters(event.id)
-            .subscribe(characterEvents => {
-              this.attendingCharacters = new MatTableDataSource(characterEvents);
+            .subscribe(characterEventsWithPlayers => {
+              var matTable = new MatTableDataSource(characterEventsWithPlayers);
+              this.attendingCharacters = matTable;
+              this.dataIsLoaded = true;
             });
         });
     }

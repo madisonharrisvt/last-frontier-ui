@@ -50,47 +50,47 @@
 <br />
 <br />
 <mat-table #table [dataSource]="attendingCharacters">
-    <ng-container matColumnDef="playerId" >
-        <mat-header-cell *matHeaderCellDef> Player ID </mat-header-cell>
-        <mat-cell *matCellDef="let characterEvent" > {{characterEvent.character.playerId}} </mat-cell>
+    <ng-container matColumnDef="playerName" >
+        <mat-header-cell *matHeaderCellDef> Player Name </mat-header-cell>
+        <mat-cell *matCellDef="let characterEventWithPlayer" > {{characterEventWithPlayer?.player.identity.firstName + " " + characterEventWithPlayer?.player.identity.lastName}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="name" >
-        <mat-header-cell *matHeaderCellDef> Player ID </mat-header-cell>
-        <mat-cell *matCellDef="let characterEvent" > {{characterEvent.character.name}} </mat-cell>
+    <ng-container matColumnDef="characterName" >
+        <mat-header-cell *matHeaderCellDef> Character Name </mat-header-cell>
+        <mat-cell *matCellDef="let characterEventWithPlayer" > {{characterEventWithPlayer.characterEvent.character.name}} </mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="vpToXp">
         <mat-header-cell *matHeaderCellDef> VP -> XP </mat-header-cell>
-        <mat-cell *matCellDef="let characterEvent" > 
+        <mat-cell *matCellDef="let characterEventWithPlayer" > 
           <mat-form-field floatLabel="never">
-            <input matInput placeholder="vpToItems" (blur)="saveVpToItems(characterEvent)"[value]="characterEvent.vpToXp" [(ngModel)]="characterEvent.vpToXp">
+            <input matInput placeholder="vpToItems" (blur)="saveVpToItems(characterEventWithPlayer.characterEvent)"[value]="characterEventWithPlayer.characterEvent.vpToXp" [(ngModel)]="characterEventWithPlayer.characterEvent.vpToXp">
           </mat-form-field>
         </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="vpToItems">
         <mat-header-cell *matHeaderCellDef> VP -> Items </mat-header-cell>
-        <mat-cell *matCellDef="let characterEvent" > 
+        <mat-cell *matCellDef="let characterEventWithPlayer" > 
             <mat-form-field floatLabel="never">
-              <input matInput placeholder="vpToItems" (blur)="saveVpToItems(characterEvent)"[value]="characterEvent.vpToItems" [(ngModel)]="characterEvent.vpToItems">
+              <input matInput placeholder="vpToItems" (blur)="saveVpToItems(characterEventWithPlayer.characterEvent)"[value]="characterEventWithPlayer.characterEvent.vpToItems" [(ngModel)]="characterEventWithPlayer.characterEvent.vpToItems">
             </mat-form-field>
         </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="xpBought">
         <mat-header-cell *matHeaderCellDef> XP Bought </mat-header-cell>
-        <mat-cell *matCellDef="let characterEvent" > 
+        <mat-cell *matCellDef="let characterEventWithPlayer" > 
             <mat-form-field floatLabel="never">
-              <input matInput placeholder="xpBought" (blur)="saveVpToItems(characterEvent)"[value]="characterEvent.xpBought" [(ngModel)]="characterEvent.xpBought">
+              <input matInput placeholder="xpBought" (blur)="saveVpToItems(characterEventWithPlayer.characterEvent)"[value]="characterEventWithPlayer.characterEvent.xpBought" [(ngModel)]="characterEventWithPlayer.characterEvent.xpBought">
             </mat-form-field>
         </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-        <mat-cell *matCellDef="let characterEvent" >
-             <button mat-raised-button color="warn" (click)="openConfirmationDialog(characterEvent)" ><mat-icon>delete</mat-icon></button> 
+        <mat-cell *matCellDef="let characterEventWithPlayer" >
+             <button mat-raised-button color="warn" (click)="openConfirmationDialog(characterEventWithPlayer.characterEvent)" ><mat-icon>delete</mat-icon></button> 
         </mat-cell>
     </ng-container>
     

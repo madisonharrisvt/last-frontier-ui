@@ -1,5 +1,6 @@
 import { Character } from "./character.interface";
 import { LFEvent } from "./event.interface";
+import { Player } from "./player.interface";
 
 export class CharacterEvent {
     id: number;
