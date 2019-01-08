@@ -59,7 +59,7 @@
 
                 <mat-form-field color="accent">
                     <mat-icon matPrefix>account_circle</mat-icon>
-                    <mat-select class="form-control" formControlName="occupation" placeholder="Occupation" (change)="updateAvailableSideGigs()">
+                    <mat-select class="form-control" formControlName="occupation" placeholder="Occupation" (selectionChange)="updateAvailableSideGigs()">
                         <mat-option *ngFor="let occupation of characterMetadata.occupations" [value]="occupation.id" >
                         {{ occupation.name }}
                         </mat-option>
@@ -71,6 +71,15 @@
                     <mat-select class="form-control" formControlName="sideGig" placeholder="Side Gig" [disabled] = "this.characterForm.value.occupation == null">
                         <mat-option *ngFor="let sideGig of characterMetadata.sideGigs" [value]="sideGig.id">
                         {{ sideGig.name }}
+                        </mat-option>
+                    </mat-select> 
+                </mat-form-field>
+
+                <mat-form-field class="wide-width" color="accent">
+                    <mat-icon matPrefix>brightness_5</mat-icon>
+                    <mat-select class="form-control" formControlName="culture" placeholder="Culture">
+                        <mat-option *ngFor="let culture of characterMetadata.cultures" [value]="culture.id">
+                        {{ culture.name }}
                         </mat-option>
                     </mat-select> 
                 </mat-form-field>

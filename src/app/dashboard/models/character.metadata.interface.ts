@@ -6,4 +6,5 @@ export class CharacterMetadata {
     species: Array<Metadata>;
     statuses: Array<Metadata>;
     stressResponses: Array<Metadata>;
+    cultures: Array<Metadata>;
 }

@@ -5,6 +5,11 @@
             <mat-header-cell *matHeaderCellDef> Event ID </mat-header-cell>
             <mat-cell *matCellDef="let lfevent" > {{lfevent.eventId}} </mat-cell>
         </ng-container>
+
+        <ng-container matColumnDef="xpBought">
+            <mat-header-cell *matHeaderCellDef> XP Bought </mat-header-cell>
+            <mat-cell *matCellDef="let lfevent" > {{lfevent.xpBought }} </mat-cell>
+        </ng-container>
         
         <ng-container matColumnDef="vpToXp">
             <mat-header-cell *matHeaderCellDef> VP -> XP </mat-header-cell>
