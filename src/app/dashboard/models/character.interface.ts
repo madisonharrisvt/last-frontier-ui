@@ -21,4 +21,5 @@ export class Character {
     leftArmHealth: number;
     rightLegHealth: number;
     leftLegHealth: number;
+    culture: number;
 }

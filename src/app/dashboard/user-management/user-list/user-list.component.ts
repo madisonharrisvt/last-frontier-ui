@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UserManagementService }  from '../../services/user.management.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
 import { Player } from '../../models/player.interface';
 import { CharacterService } from '../../services/character.service';
@@ -17,6 +17,7 @@ export class UserListComponent implements OnInit {
   players: Player[]
   displayedColumns = ['userName', 'firstName', 'lastName', 'actions'];
   email: string; 
+  filterDataSource = null;
 
   constructor(private userManagementService: UserManagementService, public dialog: MatDialog, private characterService: CharacterService) { }
 
@@ -26,7 +27,30 @@ export class UserListComponent implements OnInit {
 
   getUsers() {
     this.userManagementService.getPlayers()
-      .subscribe(players => this.players = players);
+      .subscribe(players => {
+        this.players = players;
+        this.filterDataSource = new MatTableDataSource(players);
+
+        this.filterDataSource.filterPredicate = (player: Player, filter: string) => {
+          const transformedFilter = filter.trim().toLowerCase();
+        
+          const listAsFlatString = (obj): string => {
+            let returnVal = '';
+        
+            Object.values(obj).forEach((val) => {
+              if (typeof val !== 'object') {
+                returnVal = returnVal + ' ' + val;
+              } else if (val !== null) {
+                returnVal = returnVal + ' ' + listAsFlatString(val);
+              }
+            });
+        
+            return returnVal.trim().toLowerCase();
+          };
+        
+          return listAsFlatString(player).includes(transformedFilter);
+        };
+      });
   }
 
   openDialog() {
@@ -73,5 +97,9 @@ export class UserListComponent implements OnInit {
 
         this.isLoading = false;
     });
+  }
+
+  applyFilter(filterValue: string) {
+    this.filterDataSource.filter = filterValue.trim().toLowerCase();
   }
 }

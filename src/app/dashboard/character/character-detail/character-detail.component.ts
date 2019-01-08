@@ -51,6 +51,7 @@ export class CharacterDetailComponent implements OnInit {
       cloneStatus: new FormControl(),
       occupation: new FormControl(),
       sideGig: new FormControl(),
+      culture: new FormControl(),
       accumulatedXP: new FormControl(),
       availableXP: new FormControl(),
       status: new FormControl(),
@@ -83,6 +84,7 @@ export class CharacterDetailComponent implements OnInit {
           this.characterForm.get('cloneStatus').setValue(character.cloneStatus);
           this.characterForm.get('occupation').setValue(character.occupation);
           this.characterForm.get('sideGig').setValue(character.sideGig);
+          this.characterForm.get('culture').setValue(character.culture);
           this.characterForm.get('status').setValue(character.status);
           this.characterForm.get('torso').setValue(character.torsoHealth);
           this.characterForm.get('rightArm').setValue(character.rightArmHealth);
@@ -138,6 +140,7 @@ export class CharacterDetailComponent implements OnInit {
     this.character.cloneStatus = this.characterForm.value.cloneStatus;
     this.character.occupation = this.characterForm.value.occupation;
     this.character.sideGig = this.characterForm.value.sideGig;
+    this.character.culture = this.characterForm.value.culture;
     this.character.status = this.characterForm.value.status;
     this.character.torsoHealth = this.characterForm.value.torso;
     this.character.rightArmHealth = this.characterForm.value.rightArm;

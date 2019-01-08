@@ -14,7 +14,7 @@ export class CharacterEventListComponent implements OnInit {
 
   characterIdFromRoute: number;
   characterEventDataSource: CharacterEventDataSource;
-  displayedColumnsForEvents = ['eventId', 'vpToXp', 'vpToItems'];
+  displayedColumnsForEvents = ['eventId', 'xpBought', 'vpToXp', 'vpToItems'];
 
   constructor(
     private route: ActivatedRoute,
