@@ -51,6 +51,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { AddPlayerToNpcShiftComponent } from './npc/add-player-to-npc-shift/add-player-to-npc-shift.component';
 import { AddPlayerToRegisterComponent } from './pre-registration/add-player-to-register/add-player-to-register.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { HackingSetupComponent } from './hacking-setup/hacking-setup.component';
+import { HackingSetupService } from './services/hacking-setup.service';
 
 
 @NgModule({
@@ -96,7 +98,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     MatTooltipModule,
     LayoutModule
   ],
-  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent, AllNpcShiftsComponent, PreRegistrationComponent, DashboardRootComponent, AddPlayerToNpcShiftComponent, AddPlayerToRegisterComponent, ConfirmationDialogComponent],
+  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent, AllNpcShiftsComponent, PreRegistrationComponent, DashboardRootComponent, AddPlayerToNpcShiftComponent, AddPlayerToRegisterComponent, ConfirmationDialogComponent, HackingSetupComponent],
   exports:      [ 
     MatAutocompleteModule,
     MatButtonModule,
@@ -130,6 +132,6 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService,CharacterEventService,CheckInService, NpcShiftService, CheckOutService, PreRegistrationService]
+  providers:    [AuthGuard,DashboardService,CharacterService,UserManagementService,CharacterEventService,CheckInService, NpcShiftService, CheckOutService, PreRegistrationService, HackingSetupService]
 })
 export class DashboardModule { }

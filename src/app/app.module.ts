@@ -34,6 +34,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { AddPlayerToRegisterComponent } from './dashboard/pre-registration/add-player-to-register/add-player-to-register.component';
 import { ConfirmationDialogComponent } from './dashboard/confirmation-dialog/confirmation-dialog.component';
+import { HackingPuzzleComponent } from './hacking/hacking-puzzle/hacking-puzzle.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { ConfirmationDialogComponent } from './dashboard/confirmation-dialog/con
     RegistrationFormComponent,
     EmailValidator,
     ForgotPasswordComponent,
-    PasswordResetComponent
+    PasswordResetComponent,
+    HackingPuzzleComponent
   ],
   entryComponents: [AddUserDialogComponent, AddCharacterToEventDialogComponent, NpcShiftsComponent, AddPlayerToNpcShiftComponent, AddPlayerToRegisterComponent, ConfirmationDialogComponent],
   imports: [

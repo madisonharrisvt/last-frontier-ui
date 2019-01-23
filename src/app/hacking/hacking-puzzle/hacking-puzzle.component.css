@@ -1,0 +1,40 @@
+.code {
+    color: #56c456!important;
+    font-family: monospace;
+    font-weight: 600;
+    margin-left: 87%;
+}
+
+h1 {
+    text-align: center;
+}
+
+.codes {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+}
+
+.result {
+    width: 49%;
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    padding-left: 1em;
+}
+.code-format {
+    color: #56c456!important;
+    font-family: monospace;
+    font-weight: 600;
+}
+
+.code:hover {
+    cursor: pointer;
+    color: #000!important;
+    background-color: #56c456;
+}
+
+.puzzle {
+    margin-left: 3em;
+}

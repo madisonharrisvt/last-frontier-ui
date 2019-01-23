@@ -1,0 +1,58 @@
+#setup-card {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3em;
+}
+
+#setup-form {
+    width: 50%;
+    display: inline-block;
+}
+
+#setup-preview {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.answer {
+    font-family: monospace;
+    font-style: italic;
+    font-weight: 600;
+    color: #7cdb7c;
+}
+
+.option {
+    font-family: monospace;
+}
+
+.remove-option {
+    font-weight: 700;
+    color: red;
+}
+
+.remove-option:hover {
+    cursor: pointer;
+}
+.numberCircle {
+    background: #918c8c;
+    border-radius: 0.8em;
+    -moz-border-radius: 0.8em;
+    -webkit-border-radius: 0.8em;
+    color: #ffffff;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 1.6em;
+    margin-right: 5px;
+    text-align: center;
+    width: 1.6em; 
+}
+
+.hacking-input {
+    margin-top: 0.5em;
+}
+
+#one {
+    background: #7cdb7c;
+}

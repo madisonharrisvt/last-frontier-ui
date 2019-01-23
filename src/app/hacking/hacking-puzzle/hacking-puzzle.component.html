@@ -1,0 +1,14 @@
+<div class="puzzle">
+  <h1 class="code-format">HACKING PUZZLE TITLE</h1>
+  <div class="codes">
+    <div class="code" *ngFor="let code of codes" (click)="select(code)">
+      {{ code }}
+    </div>
+  </div>
+  
+  <div class="code-format result">
+    Results go here
+  </div>
+  
+  <div class="error" *ngIf="requestFailure">Error: {{ errors }}</div>
+</div>
