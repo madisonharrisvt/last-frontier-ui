@@ -1,0 +1,55 @@
+<mat-card id="setup-card">
+  <h1><mat-icon>widgets</mat-icon>Hacking Puzzle Setup</h1>
+  <div *ngIf="!success" id="setup-form">
+    <form [formGroup]="setupForm">
+
+      <span class="numberCircle">1</span>
+      <mat-form-field class="hacking-input" color="accent">
+        <mat-icon matPrefix>lock_open</mat-icon>
+        <input matInput class="form-control" formControlName="flag" value="" placeholder="Puzzle Code"/>
+        <mat-hint>Code after puzzle has been hacked!</mat-hint>
+        <mat-error *ngIf="this.setupForm.controls.answer.hasError">Code is required</mat-error>
+      </mat-form-field>
+
+      <br />
+      <span id="one" class="numberCircle">2</span>
+      <mat-form-field class="hacking-input" color="accent">
+        <mat-icon matPrefix>vpn_key</mat-icon>
+        <input matInput class="form-control" formControlName="answer" value="" placeholder="Puzzle Answer"/>
+        <mat-hint>Answer for hacking puzzle</mat-hint>
+        <mat-error *ngIf="this.setupForm.controls.answer.hasError">Answer is required</mat-error>
+      </mat-form-field>
+
+      <br />
+
+      <span class="numberCircle">3</span>
+      <mat-form-field class="hacking-input" color="accent">
+        <mat-icon matPrefix>library_add</mat-icon>
+        <input #option matInput class="form-control" formControlName="option" (keyup.enter)="add()" value="" placeholder="Filler Word"/>
+        <mat-hint>Press 'Enter' to add</mat-hint>
+      </mat-form-field>
+
+      <br />
+
+      <span class="numberCircle">4</span><button type="button" mat-raised-button class="hacking-input" color="primary" (click)="generatePuzzle()">Generate Puzzle</button>
+  
+    </form>
+  </div>
+  <div *ngIf="!success" id="setup-preview">
+    <h3>Chosen Words: {{setupForm.value.answer != '' ? this.options.length + 1 : this.options.length}}</h3>
+    <div class="answer" *ngIf="setupForm.value.answer != ''">{{ setupForm.value.answer | lowercase }}</div>
+    <div class="option" *ngIf="setupForm.value.answer == '' && options.length == 0"> [ Words will load here ] </div>
+    <div class="option" *ngFor="let option of options">
+        {{ option }} <span class="remove-option" (click)="remove(option)">[ x ]</span>
+    </div>
+  </div>
+  <div class="error" *ngIf="requestFailure">Error: {{ errors }}</div>
+  <mat-spinner *ngIf="isLoading" style="margin:0 auto; opacity: 0.5;"></mat-spinner>
+
+  <div *ngIf="success">
+    <h2>Your Hacking Puzzle has been successfully generated!</h2>
+    <button type="button" mat-raised-button color="primary" routerLink="/hacking-puzzle/">
+      View live hacking puzzle
+    </button>
+  </div>
+</mat-card>

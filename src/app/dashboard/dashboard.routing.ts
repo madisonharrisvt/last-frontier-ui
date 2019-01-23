@@ -16,6 +16,7 @@ import { CheckInComponent } from './check-in/check-in.component';
 import { AllNpcShiftsComponent } from './npc/all-npc-shifts/all-npc-shifts.component';
 import { PreRegistrationComponent } from './pre-registration/pre-registration.component';
 import { DashboardRootComponent } from './dashboard-root/dashboard-root.component';
+import { HackingSetupComponent } from './hacking-setup/hacking-setup.component';
 
 export const routing: ModuleWithProviders = RouterModule.forChild([
   {
@@ -39,6 +40,7 @@ export const routing: ModuleWithProviders = RouterModule.forChild([
        { path: 'check-in', component: CheckInComponent },
        { path: 'npc-shifts', component: AllNpcShiftsComponent },
        { path: 'pre-registration', component: PreRegistrationComponent },
+       { path: 'hacking-setup', component: HackingSetupComponent }
       ]       
     }  
 ]);
