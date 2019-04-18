@@ -1,0 +1,11 @@
+.player-names {
+    display: grid;
+}
+
+.delete {
+    color: red;
+}
+
+.delete:hover {
+    cursor: pointer;
+}

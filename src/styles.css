@@ -67,3 +67,14 @@ h1, h2 {
     font-size: 12px;
     color: #ff0e00;
 }
+
+.success-snackbar {
+    background-color: #69F0AE;
+    font-weight: 600;
+}
+
+.failure-snackbar {
+    background-color: #f44141;
+    font-weight: 600;
+    color: #FFF;
+}

@@ -21,9 +21,9 @@ import { HackingSetupComponent } from './hacking-setup/hacking-setup.component';
 export const routing: ModuleWithProviders = RouterModule.forChild([
   {
       path: 'dashboard',
-      //component: RootComponent, canActivate: [AuthGuard],
-      component: DashboardRootComponent, canActivate: [AuthGuard],
-
+      component: DashboardRootComponent, 
+      canActivate: [AuthGuard], 
+      runGuardsAndResolvers: 'always',
       children: [      
        { path: '', component: HomeComponent },
        { path: 'home',  component: HomeComponent },
@@ -38,7 +38,7 @@ export const routing: ModuleWithProviders = RouterModule.forChild([
        { path: 'event-detail/new', component: EventDetailComponent },
        { path: 'event-list', component: EventListComponent },
        { path: 'check-in', component: CheckInComponent },
-       { path: 'npc-shifts', component: AllNpcShiftsComponent },
+       { path: 'npc-shifts', component: AllNpcShiftsComponent},
        { path: 'pre-registration', component: PreRegistrationComponent },
        { path: 'hacking-setup', component: HackingSetupComponent }
       ]       

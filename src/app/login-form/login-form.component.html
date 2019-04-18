@@ -18,4 +18,5 @@
     </form>
     <div class="error" *ngIf="requestFailure">Error: {{ errors }}</div>
     <a class="white-link" routerLink="/forgot-password" >Forgot Password?</a>
+    <mat-spinner *ngIf="this.isLoading" style="margin:0 auto; opacity: 0.5;"></mat-spinner>
 </mat-card>

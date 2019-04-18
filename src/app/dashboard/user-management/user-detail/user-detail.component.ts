@@ -4,14 +4,15 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserManagementService } from '../../services/user.management.service';
 import { Player } from '../../models/player.interface';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { CharacterDetailComponent } from '../../character/character-detail/character-detail.component';
 import { Character } from '../../models/character.interface';
 import { CharacterService } from '../../services/character.service';
 import { CharacterMetadata } from '../../models/character.metadata.interface';
 import { AddCharacterDialogData } from '../../models/add-character.interface';
 import * as decode from 'jwt-decode';
-
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
+import { LoadingService } from '../../services/loading.service';
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -34,7 +35,9 @@ export class UserDetailComponent implements OnInit {
     private location: Location,
     private userManagementService: UserManagementService,
     private characterService: CharacterService,
-    public dialog: MatDialog
+    private loadingService: LoadingService,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -96,6 +99,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   save() {
+    this.loadingService.startLoading();
     this.player.id = this.playerId;
     this.player.identity.firstName = this.userForm.value.firstName;
     this.player.identity.lastName = this.userForm.value.lastName;
@@ -103,7 +107,13 @@ export class UserDetailComponent implements OnInit {
     this.player.volunteerPoints = this.userForm.value.volunteerPoints;
 
     this.userManagementService.updatePlayer(this.player)
-      .subscribe(() => this.goBack());
+      .subscribe(() => {
+        this.snackBar.open("Player data updated!", "Done", {
+          duration: 2000,
+          panelClass: ['success-snackbar']
+        });
+        this.loadingService.endLoading();
+      });
   }
 
   goBack() {
@@ -116,8 +126,17 @@ export class UserDetailComponent implements OnInit {
   }
 
   delete(character: Character): void {
-    this.characters = this.characters.filter(c => c !== character);
-    this.characterService.deleteCharacter(character).subscribe();
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '300px',
+      data: `This will delete character ${character.name}`
+    });
+
+    dialogRef.afterClosed().subscribe(confirmation => {
+      if(confirmation) {
+        this.characters = this.characters.filter(c => c !== character);
+        this.characterService.deleteCharacter(character).subscribe();
+      }
+    });
   }
 
   openNewCharacterDialog() {

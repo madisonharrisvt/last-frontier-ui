@@ -17,6 +17,7 @@ export class LoginFormComponent implements OnInit {
   loginForm: FormGroup;
   hide = true;
   requestFailure = false;
+  isLoading = false;
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -36,14 +37,17 @@ export class LoginFormComponent implements OnInit {
   login() {
     this.errors='';
     this.requestFailure = false;
+    this.isLoading = true;
     this.userService.login(this.loginForm.value.email, this.loginForm.value.password)
       .subscribe(
         result => {
           if(result) {
             this.router.navigate(['/dashboard/home']);
+            this.isLoading = false;
           }
         },
         error => {
+          this.isLoading = false;
           this.requestFailure = true;
           this.errors = error;
         }
