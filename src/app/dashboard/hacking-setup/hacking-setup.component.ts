@@ -23,6 +23,12 @@ export class HackingSetupComponent implements OnInit {
 
   ngOnInit() {
     this.setupForm = new FormGroup( {
+      password: new FormControl('', {
+        validators: [Validators.required]
+      }),
+      attempts: new FormControl('', {
+        validators: [Validators.required]
+      }),
       flag: new FormControl('', {
         validators: [Validators.required]
       }),
@@ -56,6 +62,8 @@ export class HackingSetupComponent implements OnInit {
 
     var hackingPuzzle = new HackingPuzzle();
     hackingPuzzle.flag = this.setupForm.value.flag;
+    hackingPuzzle.password = this.setupForm.value.password;
+    hackingPuzzle.attempts = this.setupForm.value.attempts;
     hackingPuzzle.rows = new Array<HackingPuzzleRow>();
     
     this.options.forEach(option => {

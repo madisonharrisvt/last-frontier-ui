@@ -1,15 +1,76 @@
-<h2 mat-dialog-title>Check-In for "{{ this.activeEvent.title }}"</h2>
-<form [formGroup]="checkInForm" novalidate> 
-    <mat-form-field>
-      <input matInput class="form-control" formControlName="email" placeholder="Email Address" required>
-    </mat-form-field>
+<div *ngIf="!purchaseComplete && !pageError">
+  <h1>Check in for {{ event.title }}</h1>
+  <button mat-raised-button color="primary" (click)="selectPlayer()"><mat-icon>person_add</mat-icon>Select Player to Check In</button>
+  <div>Player to check in: {{ identity.firstName }} {{ identity.lastName }}</div>
 
-    <mat-form-field>
-      <input matInput class="form-control" formControlName="characterName" placeholder="Character Name" required>
-    </mat-form-field>
-
-    <br />
-    <br />
-    <button mat-raised-button color="primary" type="submit" (click)="checkIn()" [disabled] = "this.checkInForm.invalid" >Check In</button>
-    <mat-spinner *ngIf="this.isLoading" style="margin:0 auto; opacity: 0.5;"></mat-spinner>
-</form>
+  <mat-chip-list>
+    Available Volunteer Points:<mat-chip color="accent" selected>{{ availableVolunteerPoints }}</mat-chip>
+  </mat-chip-list>
+  <button mat-button color="accent" (click)="addCharacter()" [disabled] = "preRegistrationForm.invalid || availableCharacters.length == 0">
+    + Add another character
+  </button>
+  <form [formGroup]="preRegistrationForm" novalidate>
+    <div class="field-grouping" *ngFor="let dropDown of characterDropDowns">
+      <mat-icon class="margin-right-space">person</mat-icon>
+      <mat-form-field color="accent">
+        <mat-select placeholder="Select a Character" [formControlName]="dropDown.controlName">
+          <mat-option *ngFor="let character of dropDown.characterList" [value]="character.id" (click)="updateCharacterDropDowns(dropDown, character)">
+            {{ character.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="required(dropDown.controlName)">*Value is required</mat-error>
+      </mat-form-field>
+      <mat-form-field color="accent">
+        <input 
+        min="0"
+        max="20" 
+        step="1"
+        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+        matInput 
+        class="form-control" 
+        [formControlName]="dropDown.vpToXpControlName" 
+        (change)="updateVpTotal()" 
+        type="number" 
+        placeholder="VP to XP"/>
+        <mat-hint align="start">Between 0 and 20</mat-hint>
+        <mat-error *ngIf="isXpOver20(dropDown.vpToXpControlName)">*Value must be between 0 and 20</mat-error>
+        <mat-error *ngIf="required(dropDown.vpToXpControlName)">*Value is required</mat-error>
+      </mat-form-field>
+      <mat-form-field color="accent">
+        <input
+        min="0"
+        max="20" 
+        step="1"
+        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+        matInput 
+        class="form-control" 
+        [formControlName]="dropDown.paidXpControlName"
+        (change)="updateXpTotal()" 
+        type="number" 
+        placeholder="Purchase to XP"/>
+        <mat-hint align="start">Between 0 and 20</mat-hint>
+        <mat-error *ngIf="isXpOver20(dropDown.paidXpControlName)">*Value must be between 0 and 20</mat-error>
+        <mat-error *ngIf="required(dropDown.paidXpControlName)">*Value is required</mat-error>
+      </mat-form-field>
+      <mat-chip-list class="help">
+        <mat-chip selected>{{ dropDown.totalXp }}XP</mat-chip>
+        <mat-chip color="accent" selected>${{ dropDown.subTotal }}</mat-chip>
+      </mat-chip-list>
+      <button mat-button color="warn" (click)="deleteCharacter(dropDown)"><mat-icon>delete</mat-icon>Delete</button>
+    </div>
+  </form>
+  <mat-error *ngIf="availableVolunteerPoints < 0">Exceeded available VP!</mat-error>
+  <button mat-raised-button color="primary" type="submit" (click)="checkin()" [disabled] = "preRegistrationForm.invalid || availableVolunteerPoints < 0 || characterDropDowns.length == 0" >
+    Check in
+  </button>
+  <div class="error" *ngIf="requestFailure">Error: {{ errors }}</div>
+  <div>Amount: {{ amount | currency }}</div>
+  <mat-spinner *ngIf="isLoading" style="margin:0 auto; opacity: 0.5;"></mat-spinner>
+</div>
+<div *ngIf="pageError">
+  {{ pageErrors }}
+</div>
+<div *ngIf="purchaseComplete">
+  <h1>Your purchase has been completed!</h1>
+  <p>You'll receive a conformation email shortly with your order details.</p>
+</div>

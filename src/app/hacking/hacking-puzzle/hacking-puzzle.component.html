@@ -1,5 +1,9 @@
-<div class="puzzle">
-  <h1 class="code-format">HACKING PUZZLE TITLE</h1>
+<h1 class="code-format">HACKING PUZZLE TITLE</h1>
+<div *ngIf="isSolved" class="code-format" style="text-align:center;">
+  <h1>SUCCESS</h1>
+  <p>ACCESS CODE: {{flag}}</p>
+</div>
+<div *ngIf="passwordSuccess && !isSolved && !outOfAttempts" class="puzzle">
   <div class="codes">
     <div class="code" *ngFor="let code of codes" (click)="select(code)">
       {{ code }}
@@ -7,8 +11,30 @@
   </div>
   
   <div class="code-format result">
-    Results go here
+    Attempts Remaining: {{ attemptsRemaining }} / {{ attempts }}
+    <div class="code-format" *ngFor="let hint of hints">
+        Letters correct: {{hint}}
+    </div>
   </div>
-  
-  <div class="error" *ngIf="requestFailure">Error: {{ errors }}</div>
+</div>
+<div *ngIf="!passwordSuccess && !isSolved && !outOfAttempts" class="password-form">
+  <mat-card id="Password">
+    <form [formGroup]="passwordForm" novalidate>
+      <mat-form-field color="accent">
+        <input matInput class="form-control" formControlName="password" type="text" placeholder="Password">
+        <mat-error>Invalid password!</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="submit()" [disabled] = "this.passwordForm.invalid" >
+        Submit
+      </button>
+    </form>
+  </mat-card>
+</div>
+
+<div *ngIf="outOfAttempts" class="code-format" style="text-align: center">
+  <p>YOU ARE OUT OF ATTEMPTS</p>
+  <p>EXPEND ONE COMPLEX ACTION TO RESET ATTEMPTS</p>
+  <button mat-raised-button color="primary" (click)="resetAttempts()">
+    I've EXPENDED my complex action
+  </button>
 </div>

@@ -41,6 +41,9 @@ export class NpcShiftsComponent implements OnInit {
     playerNpcShift.npcShift = npcShift;
 
     this.npcShiftService.addPlayerToNpcShift(playerNpcShift)
-      .subscribe(() => this.dialogRef.close());
+      .subscribe(() => {
+        this.dialogRef.close();
+        this.router.navigate(['dashboard/npc-shifts']);
+      });
   }
 }

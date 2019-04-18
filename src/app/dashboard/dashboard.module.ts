@@ -53,7 +53,7 @@ import { AddPlayerToRegisterComponent } from './pre-registration/add-player-to-r
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { HackingSetupComponent } from './hacking-setup/hacking-setup.component';
 import { HackingSetupService } from './services/hacking-setup.service';
-
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   imports: [
@@ -98,7 +98,7 @@ import { HackingSetupService } from './services/hacking-setup.service';
     MatTooltipModule,
     LayoutModule
   ],
-  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent, AllNpcShiftsComponent, PreRegistrationComponent, DashboardRootComponent, AddPlayerToNpcShiftComponent, AddPlayerToRegisterComponent, ConfirmationDialogComponent, HackingSetupComponent],
+  declarations: [RootComponent,HomeComponent, SettingsComponent, CharactersComponent, CharacterDetailComponent, CharacterSearchComponent, UserListComponent, UserDetailComponent, AddUserDialogComponent, EventDetailComponent, EventListComponent, CharacterEventListComponent, AddCharacterToEventDialogComponent, CheckInComponent, NpcShiftsComponent, AllNpcShiftsComponent, PreRegistrationComponent, DashboardRootComponent, AddPlayerToNpcShiftComponent, AddPlayerToRegisterComponent, ConfirmationDialogComponent, HackingSetupComponent, LoadingComponent],
   exports:      [ 
     MatAutocompleteModule,
     MatButtonModule,

@@ -9,5 +9,5 @@ export class NpcShift {
     event: LFEvent;
     npcCount: number;
     players: Player[];
-    playerEmails: string;
+    playerNames: string;
 }

@@ -1,3 +1,5 @@
+<div class="error" *ngIf="requestFailure">Error: {{ errors }}</div>
+<mat-spinner *ngIf="isLoading" style="margin:0 auto; opacity: 0.5;"></mat-spinner>
 <mat-table class="full-width" #table [dataSource]="npcShifts">
   <ng-container matColumnDef="startDateTime" >
     <mat-header-cell *matHeaderCellDef > Shift Start </mat-header-cell>
@@ -16,7 +18,12 @@
 
   <ng-container matColumnDef="players">
     <mat-header-cell *matHeaderCellDef> Players </mat-header-cell>
-    <mat-cell *matCellDef="let shift" > {{shift.playerEmails}} </mat-cell>
+    <mat-cell *matCellDef="let shift" class="player-names"> 
+      <div *ngFor="let player of shift.players">
+        {{ player.identity.firstName }} {{ player.identity.lastName}} <a class="delete" (click)="removeFromNpcShift(shift, player)"><mat-icon>clear</mat-icon></a>
+      </div>
+    </mat-cell>
+    <!--{{shift.playerNames}}-->
   </ng-container>
 
   <ng-container matColumnDef="actions">

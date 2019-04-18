@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../../shared/utils/config.service';
 import { Observable } from 'rxjs';
 import { CheckInData } from '../models/check-in-data.interface';
+import { Cart } from '../models/cart';
+import { catchError } from 'rxjs/operators';
 @Injectable()
 export class CheckInService extends BaseService {
 
@@ -18,11 +20,12 @@ export class CheckInService extends BaseService {
     this.checkInUrl = `${this.baseUrl}/CheckIn`;
   }
 
-  checkIn(checkInData: CheckInData): Observable<number> {
+  checkIn(cart: Cart): Observable<number> {
     let httpOptions = {
       headers: new HttpHeaders(this.authorizationHeader)
     }
-    return this.http.put<number>(`${this.checkInUrl}`, checkInData, httpOptions);
+    return this.http.put<number>(`${this.checkInUrl}`, cart, httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
 }

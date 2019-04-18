@@ -5,6 +5,7 @@ import { MatDialog, MatTableDataSource } from '@angular/material';
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
 import { Player } from '../../models/player.interface';
 import { CharacterService } from '../../services/character.service';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-user-list',
@@ -61,8 +62,16 @@ export class UserListComponent implements OnInit {
   }
 
   delete(player: Player): void {
-    this.players = this.players.filter(p => p !== player);
-    this.userManagementService.deletePlayer(player).subscribe();
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '300px',
+      data: `This will delete Player ${player.identity.firstName} ${player.identity.lastName}`
+    });
+    dialogRef.afterClosed().subscribe(confirmation => {
+      if(confirmation) {
+        this.players = this.players.filter(p => p.id != player.id);
+        this.userManagementService.deletePlayer(player).subscribe();
+      }
+    });
   }
 
   getAllCharacterSheets() {

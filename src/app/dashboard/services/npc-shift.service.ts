@@ -49,6 +49,15 @@ export class NpcShiftService extends BaseService {
     let httpOptions = {
       headers: new HttpHeaders(this.authorizationHeader)
     }
-    return this.http.delete(`${this.playerNpcShiftUrl}/${playerNpcShift.id}`, httpOptions); 
+    return this.http.delete(`${this.playerNpcShiftUrl}/${playerNpcShift.id}`, httpOptions)
+      .pipe(catchError(this.handleError)); 
+  }
+
+  removePlayerNpcShiftNoId(playerNpcShift: PlayerNpcShift) {
+    let httpOptions = {
+      headers: new HttpHeaders(this.authorizationHeader)
+    }
+    return this.http.delete(`${this.npcShiftUrl}/${playerNpcShift.npcShiftId}_${playerNpcShift.playerId}`, httpOptions)
+      .pipe(catchError(this.handleError)); 
   }
 }
