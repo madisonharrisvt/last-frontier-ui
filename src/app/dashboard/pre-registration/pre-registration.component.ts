@@ -176,18 +176,7 @@ export class PreRegistrationComponent implements OnInit {
         dropDown.characterList = dropDown.characterList.filter(c => c.id !== selectedCharacter.id);
         if (replacedCharacter != null) dropDown.characterList.push(replacedCharacter);
       }
-
-      var characterNumOfEvents = dropDown.selectedCharacter.events.length;
-      var characterBaseXP = 0;
-      if (characterNumOfEvents < 6) {
-        characterBaseXP = 40;
-      }
-      else if (characterNumOfEvents < 12) {
-        characterBaseXP = 20;
-      }
-      else {
-        characterBaseXP = 10;
-      }
+      var characterBaseXP = 40;
       dropDown.baseXp = characterBaseXP;
     });
 
